@@ -106,8 +106,8 @@ h1, h2, h3, h4 { font-weight: 500; line-height: 1.04; letter-spacing: -0.03em; }
   height: 100%;
 }
 
-/* ---------- scroll-reveal ---------- */
-.reveal { opacity: 0; transform: translateY(22px); filter: blur(6px);
+/* ---------- scroll-reveal (hidden only when JS is on — no-JS shows everything) ---------- */
+.js .reveal { opacity: 0; transform: translateY(22px); filter: blur(6px);
   transition: opacity var(--t-slow) var(--ease-out), transform var(--t-slow) var(--ease-out), filter var(--t-slow) var(--ease-out); }
 .reveal.in { opacity: 1; transform: none; filter: none; }
 [data-reveal-stagger] > * { transition-delay: calc(var(--i, 0) * 80ms); }
