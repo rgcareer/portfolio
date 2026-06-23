@@ -1,4 +1,7 @@
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -31,4 +34,20 @@ if (!reduce) {
     });
     el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' }));
   });
+}
+
+// Scroll-driven parallax: background layers drift at different rates; the hero lifts away.
+if (!reduce) {
+  gsap.to('.bg-grid', { yPercent: 16, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
+  gsap.to('.bg-field', { yPercent: -10, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
+
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    gsap.to(hero, {
+      yPercent: -6,
+      opacity: 0.55,
+      ease: 'none',
+      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.4 },
+    });
+  }
 }

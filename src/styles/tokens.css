@@ -34,6 +34,7 @@
   /* background glow orbs */
   --orb-emerald: rgba(16, 185, 129, 0.18);
   --orb-indigo:  rgba(99, 102, 241, 0.15);
+  --orb-teal:    rgba(45, 212, 191, 0.13);
 
   /* typography */
   --font-sans: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
