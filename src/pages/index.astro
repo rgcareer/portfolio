@@ -6,9 +6,9 @@ const panel = [
   { k: 'role', v: site.role },
   { k: 'status', v: 'open to work', accent: true },
   { k: 'location', v: site.location },
-  { k: 'focus', v: 'AI tooling · automation · ops' },
+  { k: 'focus', v: 'AI adoption · automation · enablement' },
 ];
-const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Node', 'Docker', 'WebGL'];
+const stack = ['Claude', 'Prompt engineering', 'MCP', 'Workflow automation', 'Zapier / Make', 'Python', 'Change management', 'Enablement'];
 ---
 
 <BaseLayout active="home">
@@ -18,7 +18,7 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
 
       <h1 class="hero__title" data-anim>
         <span class="hero__hi">{site.firstName}</span>
-        <span class="hero__last">Lastname</span>
+        <span class="hero__last">Garver</span>
       </h1>
 
       <p class="hero__tag" data-anim>{site.tagline}</p>
@@ -78,7 +78,7 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
     (() => {
       const el = document.getElementById('cli');
       if (!el) return;
-      const txt = 'whoami → ryan · ai/ops · open to work';
+      const txt = 'whoami → ryan garver · ai enablement · open to work';
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = txt; return; }
       let i = 0;
       const tick = () => { el.textContent = txt.slice(0, i); if (i++ <= txt.length) setTimeout(tick, 45); };

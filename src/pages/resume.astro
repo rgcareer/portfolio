@@ -1,10 +1,202 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const summary =
+  'AI enablement and adoption leader with 20+ years driving technology adoption and organizational change across SaaS, enterprise technology, and retail operations. I translate complex AI capabilities into practical workflows that non-technical teams actually use — and I build the products to prove it. Deep people leadership (teams of 15–35) paired with hands-on AI implementation: prompt engineering, workflow automation, and change management.';
+
+const competencies = [
+  'AI Workflow Design & Implementation', 'Prompt Engineering (Claude, ChatGPT)', 'AI Adoption Strategy',
+  'Technology Enablement & Training', 'Change Management', 'Workflow Automation (Zapier / Make)',
+  'Cross-Functional Leadership', 'People Management (15–35 reports)', 'Onboarding & Activation',
+  'CRM Optimization', 'Stakeholder Management', 'Digital Transformation',
+];
+
+const experience = [
+  {
+    role: 'AI Product Builder & Implementation Consultant', org: 'Smart Business AI LLC',
+    where: 'Remote', when: 'Current',
+    bullets: [
+      'Builds AI-powered operational products for home-service businesses using Claude, ChatGPT, and Perplexity — translating complex AI into workflows non-technical owners can run.',
+      'Owns the end-to-end product lifecycle: customer research, planning, development, positioning, marketing, delivery, and support.',
+      'Applies prompt engineering, AI workflow design, and automation (Zapier / Make) to turn business needs into implementation-ready solutions and SOPs.',
+    ],
+  },
+  {
+    role: 'Social Media Manager — Digital Marketing & Analytics', org: "Pablo's Trap Sauce",
+    where: 'Remote', when: '12/2023 – Present',
+    bullets: [
+      'Improved online conversion 18% through A/B testing, audience analysis, and campaign optimization.',
+      'Grew online revenue 23% in 6 months and social following 140% in 12 months via a repeatable, data-driven content system.',
+    ],
+  },
+  {
+    role: 'Sales Executive — Enablement & Process Optimization', org: 'Vacasa',
+    where: 'Boise, ID', when: '11/2021 – 12/2022',
+    bullets: [
+      'Implemented a CRM optimization strategy that increased lead conversion 20% and retention 10%.',
+      'Built a property onboarding process that cut activation time 25%; co-led a 15-member training program that raised productivity 15%.',
+      'Revitalized underperforming territories, improving sales performance 40% across consecutive quarters.',
+    ],
+  },
+  {
+    role: 'Account Executive', org: 'Intuit', where: 'Eagle, ID', when: '12/2019 – 02/2021',
+    bullets: [
+      'Guided SMB transitions to cloud and SaaS with consultative needs analysis and structured implementation.',
+      'Used Salesforce and HubSpot segmentation to sharpen targeting; contributed to a 15% revenue increase.',
+    ],
+  },
+  {
+    role: 'Inside Sales Executive', org: 'Cradlepoint Inc.', where: 'Boise, ID', when: '04/2019 – 12/2019',
+    bullets: [
+      'Used Tableau trend analysis to improve conversion 22%; drove 119% territory growth through data-informed targeting.',
+      'Expanded into IL and MN markets at 96% quota attainment in Q1; lifted qualified pipeline 35% via webinar programs.',
+    ],
+  },
+  {
+    role: 'Sales Expert — Enterprise Technology Adoption', org: 'Apple', where: 'Boise, ID', when: '02/2015 – 05/2019',
+    bullets: [
+      'Led enterprise technology adoption and training for organizations including St. Luke’s Health Services and Dutch Bros Coffee.',
+      'Generated $1M+ in annual personal sales (40% of store revenue); mentored 22+ team members, lifting NPS from 83 to 92.',
+    ],
+  },
+  {
+    role: 'Store Manager — Operations & Team Development', org: 'Zumiez / Vans / Mainland Skate & Surf',
+    where: 'Northern California', when: '2004 – 2015',
+    bullets: [
+      'Managed teams of 15–35 with full P&L ownership (payroll, inventory, operations) across multiple locations.',
+      'Built repeatable hiring, onboarding, training, and performance-review processes that drove consistent revenue growth.',
+    ],
+  },
+];
+
+const certs = [
+  { name: 'Anthropic Certified Architect', org: 'Anthropic', status: 'In progress · target 2026' },
+  { name: 'Salesforce Agentforce Specialist', org: 'Salesforce', status: 'Planned' },
+];
+const education = [
+  { name: 'Bachelor of Arts, History', org: 'Boise State University', when: '2019' },
+  { name: 'Business Leadership Program', org: 'Boise State University', when: '2019' },
+];
 ---
-<BaseLayout title="Résumé" active="resume" description="Résumé — AI / Operations Engineer.">
-  <section class="container section">
-    <span class="eyebrow eyebrow--pill">// résumé</span>
-    <h1 style="font-size: var(--fs-3xl); margin-top: 1.2rem; max-width: 16ch;">Résumé, on the way.</h1>
-    <p style="color: var(--text-dim); margin-top: 1rem; max-width: 46ch;">A clean HTML résumé plus a downloadable PDF — in progress.</p>
+<BaseLayout title="Résumé" active="resume" description={`Résumé — ${site.name}, ${site.role}.`}>
+  <section class="container rs">
+    <header class="rs__head" data-anim>
+      <div class="rs__id">
+        <span class="eyebrow">// résumé</span>
+        <h1 class="rs__name">{site.name}</h1>
+        <p class="rs__role">{site.role}</p>
+        <p class="rs__contact">
+          <span>{site.location}</span>
+          <a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">LinkedIn</a>
+        </p>
+      </div>
+      <div class="rs__actions">
+        <button class="btn btn--accent magnetic" id="rs-print" type="button">
+          Download PDF
+          <span class="btn__ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M3.5 6.5 7 10l3.5-3.5M2.5 12h9"/></svg>
+          </span>
+        </button>
+        <a class="btn btn--ghost magnetic" href="/work">See the work</a>
+      </div>
+    </header>
+
+    <p class="rs__summary reveal">{summary}</p>
+
+    <div class="rs__grid">
+      <div class="rs__main">
+        <h2 class="rs__h reveal">Experience</h2>
+        <ol class="rs__exp">
+          {experience.map((e) => (
+            <li class="rs__role-item reveal">
+              <div class="rs__role-top">
+                <span class="rs__role-name">{e.role}</span>
+                <span class="rs__role-when">{e.when}</span>
+              </div>
+              <div class="rs__role-org">{e.org} · {e.where}</div>
+              <ul class="rs__bullets">{e.bullets.map((b) => <li>{b}</li>)}</ul>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <aside class="rs__side">
+        <div class="rs__block reveal">
+          <h2 class="rs__h">Core competencies</h2>
+          <ul class="rs__chips">{competencies.map((c) => <li>{c}</li>)}</ul>
+        </div>
+        <div class="rs__block reveal">
+          <h2 class="rs__h">Certifications</h2>
+          {certs.map((c) => (
+            <div class="rs__line"><span class="rs__line-t">{c.name}</span><span class="rs__line-s">{c.org} · {c.status}</span></div>
+          ))}
+        </div>
+        <div class="rs__block reveal">
+          <h2 class="rs__h">Education</h2>
+          {education.map((c) => (
+            <div class="rs__line"><span class="rs__line-t">{c.name}</span><span class="rs__line-s">{c.org} · {c.when}</span></div>
+          ))}
+        </div>
+      </aside>
+    </div>
   </section>
+
+  <script is:inline>
+    document.getElementById('rs-print')?.addEventListener('click', () => window.print());
+  </script>
 </BaseLayout>
+
+<style>
+  .rs { padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: 2rem; }
+  .rs__head { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; justify-content: space-between; }
+  .rs__name { font-size: var(--fs-3xl); margin-top: 0.9rem; }
+  .rs__role { color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-base); margin-top: 0.5rem; }
+  .rs__contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.8rem; font-size: var(--fs-sm); color: var(--text-dim); }
+  .rs__actions { display: flex; gap: 0.75rem; }
+
+  .rs__summary { max-width: 70ch; color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75;
+    margin-top: 2rem; padding-top: 2rem; border-top: 0.5px solid var(--line); }
+
+  .rs__grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+  @media (min-width: 880px) { .rs__grid { grid-template-columns: 1.7fr 1fr; } }
+
+  .rs__h { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--text-faint); margin-bottom: 1.3rem; }
+
+  .rs__exp { list-style: none; display: grid; gap: 1.8rem; }
+  .rs__role-item { padding-bottom: 1.8rem; border-bottom: 0.5px solid var(--line); }
+  .rs__role-item:last-child { border-bottom: 0; }
+  .rs__role-top { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; justify-content: space-between; }
+  .rs__role-name { font-size: var(--fs-lg); font-weight: 500; color: var(--text); }
+  .rs__role-when { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
+  .rs__role-org { color: var(--accent); font-size: var(--fs-sm); margin-top: 0.3rem; }
+  .rs__bullets { list-style: none; display: grid; gap: 0.6rem; margin-top: 0.9rem; }
+  .rs__bullets li { position: relative; padding-left: 1.3rem; color: var(--text-dim); font-size: var(--fs-base); line-height: 1.65; }
+  .rs__bullets li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  .rs__side { display: grid; gap: 2.2rem; align-content: start; }
+  .rs__block { }
+  .rs__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .rs__chips li { font-size: var(--fs-sm); color: var(--text-dim); border: 0.5px solid var(--line-2); border-radius: 999px; padding: 0.3rem 0.7rem; }
+  .rs__line { padding: 0.6rem 0; border-bottom: 0.5px solid var(--line); }
+  .rs__line:last-child { border-bottom: 0; }
+  .rs__line-t { display: block; color: var(--text); font-size: var(--fs-sm); }
+  .rs__line-s { display: block; color: var(--text-faint); font-family: var(--font-mono); font-size: var(--fs-eyebrow); margin-top: 0.2rem; }
+</style>
+
+<style is:global>
+  @media print {
+    .nav-wrap, .foot, .bg-field, .bg-grid, .bgfx, #cmdk, .rs__actions, .skip { display: none !important; }
+    html, body { background: #fff !important; }
+    body, .rs__name, .rs__role-name, .rs__line-t { color: #111 !important; }
+    .rs__summary, .rs__bullets li, .rs__chips li, .rs__contact, .rs__role-org, .rs__role-when, .rs__line-s, .rs__h { color: #333 !important; }
+    .rs__role { color: #111 !important; }
+    .rs { padding: 0 !important; }
+    .rs__grid { grid-template-columns: 1.7fr 1fr !important; }
+    .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .rs__chips li, .rs__role-item, .rs__summary, .rs__line { border-color: #ccc !important; }
+    a { color: #111 !important; }
+  }
+</style>

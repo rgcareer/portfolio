@@ -6,19 +6,19 @@
 
 export const site = {
   // identity (fully named — this is the named portfolio)
-  name: 'Ryan Lastname', // TODO: real full name
+  name: 'Ryan Garver',
   firstName: 'Ryan',
-  initials: 'RL', // TODO: monogram for the liquid-metal mark
-  role: 'AI / Operations Engineer', // TODO: confirm title
-  tagline: 'I build AI systems and operations that ship.',
+  initials: 'RG',
+  role: 'AI Enablement & Adoption',
+  tagline: 'I help organizations actually adopt AI — and I build the tools that make it stick.',
   blurb:
-    'I close the gap between a clever prototype and something that runs — AI tooling, automation, and the operational glue in between.',
+    'Twenty years leading teams and change management, now all-in on AI: I turn complex capabilities into workflows non-technical people actually use — and I build the products that prove it.',
 
   // contact / availability
-  email: 'smartbusinessaillc@gmail.com', // TODO: confirm personal vs LLC address
+  email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé)
   availability: 'Open to work',
   year: '2026',
-  location: 'United States',
+  location: 'Boise, ID · Remote',
 
   // domain (short-term)
   domain: 'getsmartai.ai',
@@ -26,7 +26,7 @@ export const site = {
 
   // links
   links: {
-    linkedin: 'https://www.linkedin.com/in/REPLACE', // TODO: real LinkedIn
+    linkedin: 'https://www.linkedin.com/in/-rgarver', // CONFIRM: leading dash per current résumé (unusual)
     github: '', // optional — gated (publishing)
   },
 } as const;
