@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fully-named AI/Operations engineer portfolio. Astro, portable (getsmartai.ai short-term).",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "astro": "^6.4.8"
+  }
+}

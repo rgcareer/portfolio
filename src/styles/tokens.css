@@ -1,0 +1,74 @@
+/* ============================================================
+   Design tokens — "Ethereal Glass / Console" system
+   OLED-near black, single spring-green signal, emerald+indigo
+   glow orbs, Geist + Geist Mono. One file re-skins the whole site.
+   ============================================================ */
+:root {
+  color-scheme: dark;
+
+  /* surfaces — cool near-black */
+  --bg:       #07080B;
+  --bg-1:     #0A0C11;
+  --bg-2:     #0F121A;
+  --card:     #0D1016;
+  --card-2:   #12161F;
+
+  /* hairlines (machined-metal edges) */
+  --line:        rgba(255, 255, 255, 0.07);
+  --line-2:      rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --inset-hi:    rgba(255, 255, 255, 0.10);
+
+  /* text */
+  --text:       #E9ECF1;
+  --text-dim:   #99A1AE;
+  --text-faint: #5E6772;
+
+  /* accent — single signal */
+  --accent:       #4ADE80;
+  --accent-press: #36C46B;
+  --accent-soft:  rgba(74, 222, 128, 0.10);
+  --accent-line:  rgba(74, 222, 128, 0.42);
+  --accent-text:  #062b16;
+
+  /* background glow orbs */
+  --orb-emerald: rgba(16, 185, 129, 0.18);
+  --orb-indigo:  rgba(99, 102, 241, 0.15);
+
+  /* typography */
+  --font-sans: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'JetBrains Mono', monospace;
+
+  /* fluid type scale */
+  --fs-eyebrow: 0.72rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.0625rem;
+  --fs-xl:   clamp(1.2rem, 1.6vw, 1.5rem);
+  --fs-2xl:  clamp(1.6rem, 2.8vw, 2.25rem);
+  --fs-3xl:  clamp(2.1rem, 4.4vw, 3.25rem);
+  --fs-hero: clamp(2.9rem, 8vw, 6.25rem);
+
+  /* spatial rhythm — heavy whitespace */
+  --container: 1180px;
+  --gutter:    clamp(1.25rem, 4vw, 2.5rem);
+  --section-y: clamp(5rem, 12vw, 11rem);
+
+  /* radii — exaggerated squircles + concentric bezel */
+  --r-sm: 0.625rem;
+  --r-md: 1rem;
+  --r-lg: 1.5rem;
+  --r-xl: 2rem;
+  --bezel: 0.375rem;
+
+  /* motion — real mass, custom curves */
+  --ease:     cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 0.18s;
+  --t:      0.4s;
+  --t-slow: 0.8s;
+
+  /* layers */
+  --z-nav: 100;
+  --z-overlay: 200;
+}

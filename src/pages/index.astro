@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const panel = [
+  { k: 'role', v: site.role },
+  { k: 'status', v: 'open to work', accent: true },
+  { k: 'location', v: site.location },
+  { k: 'focus', v: 'AI tooling · automation · ops' },
+];
+const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Node', 'Docker', 'WebGL'];
+---
+
+<BaseLayout active="home">
+  <section class="hero container">
+    <div class="hero__lead">
+      <span class="eyebrow eyebrow--pill reveal in"><span class="dot" aria-hidden="true"></span> {site.role}</span>
+
+      <h1 class="hero__title reveal in" style="--i:1">
+        <span class="hero__hi">{site.firstName}</span>
+        <span class="hero__last">Lastname</span>
+      </h1>
+
+      <p class="hero__tag reveal in" style="--i:2">{site.tagline}</p>
+      <p class="hero__blurb reveal in" style="--i:3">{site.blurb}</p>
+
+      <div class="hero__cta reveal in" style="--i:4">
+        <a href="/work" class="btn btn--accent">
+          View work
+          <span class="btn__ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3M5 3h6v6"/></svg>
+          </span>
+        </a>
+        <a href="/resume" class="btn btn--ghost">
+          Résumé
+          <span class="btn__ic" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M3.5 6.5 7 10l3.5-3.5M2.5 12h9"/></svg>
+          </span>
+        </a>
+        <a href={`mailto:${site.email}`} class="link-quiet hero__email">Get in touch</a>
+      </div>
+
+      <p class="hero__hint reveal in" style="--i:5"><kbd>⌘</kbd><kbd>K</kbd> command menu — coming online</p>
+    </div>
+
+    <aside class="hero__panel reveal in" style="--i:3" aria-label="Status">
+      <div class="bezel">
+        <div class="bezel__core panel">
+          <div class="panel__bar">
+            <span class="panel__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="panel__file">~/{site.firstName.toLowerCase()} · status</span>
+          </div>
+          <dl class="panel__rows">
+            {panel.map((r) => (
+              <div class="panel__row">
+                <dt>{r.k}</dt>
+                <dd class:list={[{ 'is-accent': r.accent }]}>{r.accent && <span class="dot" aria-hidden="true"></span>}{r.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="container strip" aria-label="Stack">
+    <span class="eyebrow">// stack</span>
+    <ul class="strip__list">
+      {stack.map((s) => <li class="strip__item">{s}</li>)}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid; gap: clamp(2rem, 6vw, 4rem);
+    align-items: center;
+    padding-top: clamp(3.5rem, 9vw, 6.5rem);
+    padding-bottom: clamp(2rem, 6vw, 4rem);
+  }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.25fr 0.9fr; } }
+
+  .hero__title { font-size: var(--fs-hero); margin: 1.4rem 0 0; }
+  .hero__hi { display: block; color: var(--text); }
+  .hero__last { display: block; color: var(--text-dim); }
+  .hero__tag { font-size: var(--fs-2xl); margin-top: 1.4rem; max-width: 18ch; color: var(--text); letter-spacing: -0.02em; }
+  .hero__blurb { margin-top: 1.1rem; max-width: 46ch; color: var(--text-dim); font-size: var(--fs-lg); }
+
+  .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem; margin-top: 2rem; }
+  .hero__email { margin-left: 0.4rem; font-size: var(--fs-sm); }
+  .hero__hint { margin-top: 1.6rem; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
+  .hero__hint kbd { font-family: var(--font-mono); border: 0.5px solid var(--line-2); border-radius: 5px;
+    padding: 0.1em 0.45em; margin-right: 0.25em; color: var(--text-dim); background: rgba(255,255,255,0.03); }
+
+  .panel { padding: 0; overflow: hidden; }
+  .panel__bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.95rem;
+    border-bottom: 0.5px solid var(--line); }
+  .panel__dots { display: inline-flex; gap: 5px; }
+  .panel__dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); display: block; }
+  .panel__file { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
+  .panel__rows { padding: 0.4rem 0.3rem; }
+  .panel__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0.7rem 0.95rem; border-bottom: 0.5px solid var(--line); }
+  .panel__row:last-child { border-bottom: 0; }
+  .panel__row dt { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+    letter-spacing: 0.16em; color: var(--text-faint); }
+  .panel__row dd { font-size: var(--fs-sm); color: var(--text); text-align: right; }
+  .panel__row dd.is-accent { color: var(--accent); display: inline-flex; align-items: center; gap: 0.5em; }
+
+  .strip { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem;
+    padding-top: clamp(2rem, 5vw, 3.5rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
+  .strip__list { display: flex; flex-wrap: wrap; gap: 0.55rem; list-style: none; }
+  .strip__item { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-dim);
+    border: 0.5px solid var(--line-2); border-radius: 999px; padding: 0.35rem 0.85rem;
+    transition: border-color var(--t) var(--ease), color var(--t) var(--ease); }
+  .strip__item:hover { color: var(--text); border-color: var(--accent-line); }
+</style>
