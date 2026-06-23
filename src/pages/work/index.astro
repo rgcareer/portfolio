@@ -1,10 +1,68 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { work } from '../../config/work';
 ---
-<BaseLayout title="Work" active="work" description="Selected engineering work — AI tooling, automation, and operations.">
-  <section class="container section">
-    <span class="eyebrow eyebrow--pill"><span class="dot" aria-hidden="true"></span> Selected work</span>
-    <h1 style="font-size: var(--fs-3xl); margin-top: 1.2rem; max-width: 18ch;">Case studies, shipping soon.</h1>
-    <p style="color: var(--text-dim); margin-top: 1rem; max-width: 46ch;">Competitor-Intel MCP, an automated product-generation pipeline, and an AI-ops workflow system — written up in full.</p>
+<BaseLayout title="Work" active="work" description="Selected engineering work — AI tooling, automation, data pipelines, and agent systems.">
+  <section class="container wk">
+    <header class="wk__head">
+      <span class="eyebrow eyebrow--pill" data-anim><span class="dot" aria-hidden="true"></span> Selected work</span>
+      <h1 class="wk__title" data-anim>Things I've designed, built, and shipped.</h1>
+      <p class="wk__sub" data-anim>AI tooling, automation, data pipelines, and agent systems — each one a real artifact, not a slide.</p>
+    </header>
+
+    <ul class="wk__grid">
+      {work.map((c, i) => (
+        <li class:list={['wk__cell', { 'wk__cell--feature': c.accent }]} style={`--i:${i}`}>
+          <a href={`/work/${c.slug}`} class="bezel wk__card reveal">
+            <span class="bezel__core wk__core">
+              <span class="wk__top">
+                <span class="wk__tags">{c.tags.map((t) => <span class="wk__tag">{t}</span>)}</span>
+                <span class="wk__arr" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 12 4M6 4h6v6"/></svg>
+                </span>
+              </span>
+              <span class="wk__name">{c.title}</span>
+              <span class="wk__tag-line">{c.tagline}</span>
+              <span class="wk__foot">
+                <span class="wk__status"><span class="dot" aria-hidden="true"></span>{c.status}</span>
+                <span class="wk__lead-metric">{c.metrics[0].value} {c.metrics[0].label}</span>
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </section>
 </BaseLayout>
+
+<style>
+  .wk { padding-top: clamp(3rem, 7vw, 5.5rem); }
+  .wk__head { max-width: 720px; }
+  .wk__title { font-size: var(--fs-3xl); margin-top: 1.2rem; }
+  .wk__sub { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.1rem; max-width: 48ch; }
+
+  .wk__grid { list-style: none; display: grid; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 4rem); }
+  @media (min-width: 760px) { .wk__grid { grid-template-columns: 1fr 1fr; } .wk__cell--feature { grid-column: 1 / -1; } }
+
+  .wk__card { display: block; height: 100%; }
+  .wk__core { display: flex; flex-direction: column; min-height: 220px; padding: 1.4rem 1.5rem;
+    transition: transform var(--t) var(--ease), border-color var(--t) var(--ease); }
+  .wk__card:hover .wk__core { transform: translateY(-4px); border-color: var(--accent-line); }
+  .wk__cell--feature .wk__core { min-height: 200px; }
+
+  .wk__top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .wk__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .wk__tag { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-dim); border: 0.5px solid var(--line-2); border-radius: 999px; padding: 0.2em 0.6em; }
+  .wk__arr { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 50%;
+    color: var(--text-dim); background: rgba(255,255,255,0.04); transition: all var(--t) var(--ease); }
+  .wk__card:hover .wk__arr { background: var(--accent); color: var(--accent-text); transform: translate(2px,-2px); }
+
+  .wk__name { font-size: var(--fs-2xl); margin-top: auto; padding-top: 1.5rem; letter-spacing: -0.02em; }
+  .wk__tag-line { color: var(--text-dim); font-size: var(--fs-base); margin-top: 0.6rem; max-width: 52ch; }
+  .wk__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem;
+    margin-top: 1.3rem; padding-top: 1rem; border-top: 0.5px solid var(--line); }
+  .wk__status { display: inline-flex; align-items: center; gap: 0.5em; font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow); color: var(--text-dim); }
+  .wk__lead-metric { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--accent); }
+</style>

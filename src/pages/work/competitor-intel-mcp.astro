@@ -1,0 +1,31 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="competitor-intel-mcp">
+  <p class="lead reveal">In 2026 the agent economy created a distribution channel that didn't exist before: AI agents discover and call tools programmatically over the Model Context Protocol. A tool's success depends on capability, not reviews or promotion — which inverts the usual solo-founder problem. Of roughly 13,000 public MCP servers, under 5% are monetized. This is a focused bet on that gap.</p>
+
+  <h2 class="reveal">What it does</h2>
+  <p class="reveal">One tool — <code>get_competitor_intel(business_name, location)</code> — returns a normalized report on a local business's public reputation and advertising signal, pulled from <strong>official APIs only</strong>: Yelp Fusion, Google Places, and a best-effort Meta Ad Library check. Every response carries a <code>_provenance</code> block naming its sources and flagging whether live keys or mock fallbacks were used. It's built for research and marketing agents doing competitive analysis and lead qualification.</p>
+
+  <h2 class="reveal">Architecture</h2>
+  <p class="reveal">A clean separation between the protocol surface and the data clients, written in <strong>dependency-free Python</strong> so it has no supply chain and starts instantly.</p>
+  <pre class="reveal"><code>AI agent ──MCP/JSON-RPC(stdio)──▶ server.py ──▶ intel.py ──▶ Yelp Fusion API
+                                     │                     ├─▶ Google Places API
+                                     │                     └─▶ Meta Ad Library API
+                                     └─ _charge() ─▶ Apify pay-per-event billing</code></pre>
+  <ul class="reveal">
+    <li><strong>server.py</strong> — the MCP server: correct JSON-RPC 2.0 over stdio, implementing <code>initialize</code>, <code>tools/list</code>, <code>tools/call</code>, <code>ping</code>, and the <code>notifications/initialized</code> no-response case.</li>
+    <li><strong>intel.py</strong> — three official-API clients, each normalizing to a common shape with graceful fallback when a key is absent.</li>
+    <li><strong>test_local.py</strong> — drives the handler with real protocol messages and asserts behavior, so it's <strong>testable without any API keys</strong>.</li>
+  </ul>
+
+  <h2 class="reveal">Engineering decisions that matter</h2>
+  <ul class="reveal">
+    <li><strong>Official APIs only.</strong> No scraping — it stays inside each provider's terms, which is what makes it sellable rather than fragile.</li>
+    <li><strong>Mock fallbacks.</strong> The server self-tests and demos with zero credentials, then upgrades to live data the moment keys are set.</li>
+    <li><strong>Packaged to earn.</strong> Shipped as an Apify pay-per-event Actor (Dockerfile + <code>.actor</code> manifest), where the developer keeps 80% of each billed call.</li>
+  </ul>
+
+  <h2 class="reveal">Honest results</h2>
+  <p class="reveal">Market demand is deliberately <strong>unproven</strong> — this is funded as a sub-$50 instrumented probe, not a revenue projection. The engineering claim is the real one: a correct, testable, dependency-free MCP server that returns live data on a key-set and is packaged to monetize per call. The next step is distribution, not more code.</p>
+</CaseStudy>

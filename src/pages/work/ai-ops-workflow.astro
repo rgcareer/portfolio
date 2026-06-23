@@ -1,0 +1,20 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="ai-ops-workflow">
+  <p class="lead reveal">Coding agents are powerful and unreliable in the same breath — they'll confidently ship broken work, skip verification, and lose the thread across sessions. So I built an operating layer around one: a set of rules, hooks, and multi-agent routines that make an AI agent's output trustworthy enough to act on.</p>
+
+  <h2 class="reveal">The system</h2>
+  <p class="reveal">It's a governance layer for an AI coding agent — tiered process, safety hooks, persistent memory, and structured multi-agent review — that turns "the model did something" into "the work is verified and within scope." It runs in production on my own day-to-day builds, including this site.</p>
+
+  <h2 class="reveal">Key mechanisms</h2>
+  <ul class="reveal">
+    <li><strong>Catastrophic-action guard hooks.</strong> A deny layer intercepts irreversible operations (secret reads, force-push, destructive deletes) before they execute — policy enforced by code, not by prompt.</li>
+    <li><strong>Adversarial fan-out review.</strong> For higher-stakes changes, independent reviewer agents are spawned to refute the work; a finding only survives if it holds up. A serial baseline pass catches what the structured pass misses.</li>
+    <li><strong>Evidence-gated completion.</strong> "Done" is not a claim — a stop-gate requires real evidence (test output, a build exit code, a screenshot) in the transcript before work can be called complete.</li>
+    <li><strong>Tiered process + persistent memory.</strong> Effort scales to stakes, and durable, typed memory keeps goals and decisions intact across sessions so context doesn't drift.</li>
+  </ul>
+
+  <h2 class="reveal">Why it matters for AI ops</h2>
+  <p class="reveal">The hard problem with agents in production isn't capability — it's reliability, safety, and verification. This is a working demonstration of all three: bounded autonomy, enforced guardrails, and a definition of done backed by evidence. It's the same discipline I'd bring to operating agents inside a team.</p>
+</CaseStudy>
