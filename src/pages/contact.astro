@@ -29,12 +29,12 @@ const linkedinText = site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '');
     </div>
 
     <aside class="ct__card" data-anim>
-      <div class="bezel"><div class="bezel__core ct__core">
+      <div class="bezel"><dl class="bezel__core ct__core">
         <div class="ct__row"><dt>Email</dt><dd><a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
         <div class="ct__row"><dt>LinkedIn</dt><dd><a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">{linkedinText}</a></dd></div>
         <div class="ct__row"><dt>Location</dt><dd>{site.location}</dd></div>
         <div class="ct__row"><dt>Response</dt><dd class="ct__ok"><span class="dot" aria-hidden="true"></span>usually within a day</dd></div>
-      </div></div>
+      </dl></div>
     </aside>
   </section>
 </BaseLayout>
