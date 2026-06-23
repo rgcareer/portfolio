@@ -19,7 +19,7 @@ export const work: CaseStudy[] = [
   {
     slug: 'competitor-intel-mcp',
     title: 'Competitor-Intel MCP',
-    tagline: 'A monetizable MCP server that sells competitive intelligence to AI agents — not humans.',
+    tagline: 'An MCP server that sells competitor data to AI agents instead of people.',
     role: 'Design + build',
     year: '2026',
     status: 'v1 · self-test passing',
@@ -35,7 +35,7 @@ export const work: CaseStudy[] = [
   {
     slug: 'operation-hired',
     title: 'Operation Hired',
-    tagline: 'A job-intelligence engine that scores thousands of postings and flags fraud, geo-mismatch, and tier inflation.',
+    tagline: 'A tool I built to score thousands of job postings and weed out the fakes.',
     role: 'Design + build',
     year: '2026',
     status: '95 tests passing',
@@ -50,7 +50,7 @@ export const work: CaseStudy[] = [
   {
     slug: 'product-generation-pipeline',
     title: 'AI product-generation pipeline',
-    tagline: 'One parametric engine that generates an entire catalog of digital products from a single spec.',
+    tagline: 'One script that turns a short spec into a whole catalog of finished products.',
     role: 'Design + build',
     year: '2026',
     status: 'shipping',
@@ -65,7 +65,7 @@ export const work: CaseStudy[] = [
   {
     slug: 'ai-ops-workflow',
     title: 'AI-ops workflow system',
-    tagline: 'A multi-agent operating layer for an AI coding agent — guard hooks, fan-out reviews, evidence-gated completion.',
+    tagline: 'A set of rules and review agents that keep an AI coding assistant honest.',
     role: 'Design + build',
     year: '2026',
     status: 'in production use',

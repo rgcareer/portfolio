@@ -2,26 +2,26 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="operation-hired">
-  <p class="lead reveal">A modern job search drowns in volume: thousands of postings, most irrelevant, many low-quality or outright fraudulent. Operation Hired is the engine I built to cut through it — a pipeline that ingests, scores, and ranks postings so attention goes to the few that are worth it.</p>
+  <p class="lead reveal">Job searching now means wading through thousands of postings, most of them irrelevant and a fair number fake. I built Operation Hired to deal with that. It pulls postings in, scores them, and ranks them, so I only spend time on the ones worth a look.</p>
 
   <h2 class="reveal">What it does</h2>
-  <p class="reveal">It pulls job postings into a local <code>SQLite</code> store, runs each through a scoring model, and surfaces a ranked shortlist. Across the live pool it has scored <strong>5,905 postings</strong>, with every score reproducible and re-runnable from source. The interesting part isn't the ranking — it's everything built to make the ranking <em>trustworthy</em>.</p>
+  <p class="reveal">Postings land in a local <code>SQLite</code> database, each one runs through a scoring model, and the result is a ranked shortlist. So far it has scored <strong>5,905</strong> of them, and every score can be reproduced from the source data. The ranking is the easy part. The real work went into making that ranking something I could trust.</p>
 
-  <h2 class="reveal">How scoring works</h2>
+  <h2 class="reveal">How the scoring works</h2>
   <ul class="reveal">
-    <li><strong>Tiering.</strong> Postings are bucketed by fit (role, seniority, comp signal). An early version over-inflated the top tier; I de-inflated it so "tier 1" actually means tier 1 — the count dropped from thousands to ~100.</li>
-    <li><strong>Geo-matching.</strong> Location is checked against the target region so remote-mislabeled and wrong-metro postings don't pollute the shortlist.</li>
-    <li><strong>Fraud signals.</strong> Heuristics flag the patterns of ghost and scam listings, cutting flagged-fraud noise by ~80%.</li>
+    <li><strong>Tiering.</strong> Postings get bucketed by fit (role, seniority, pay signal). An early version was too generous with the top bucket, so I tightened it. The "tier 1" count dropped from a few thousand to about a hundred, which is what real fit should look like.</li>
+    <li><strong>Geo-matching.</strong> Location gets checked against where I can actually work, so remote-mislabeled and wrong-city postings stop polluting the list.</li>
+    <li><strong>Fraud signals.</strong> A set of heuristics flags the patterns ghost and scam listings tend to share. That cut the flagged-fraud noise by about 80%.</li>
   </ul>
 
-  <h2 class="reveal">Built to be trusted, not just to run</h2>
-  <p class="reveal">The system treats its own data as a liability to be audited, not a result to be assumed:</p>
+  <h2 class="reveal">Built so I can trust it</h2>
+  <p class="reveal">The system treats its own data as something to audit, not something to assume:</p>
   <ul class="reveal">
-    <li><strong>A re-score pipeline</strong> re-evaluated all 5,905 rows against the corrected model in one pass with <strong>zero errors</strong>, backed up before it ran.</li>
-    <li><strong>A 95-case test suite</strong> covers the scoring edges, geo logic, and fraud heuristics — green before any change ships.</li>
-    <li><strong>Data-hygiene guards</strong> purge orphaned stress-test rows and block half-formed records from advancing through the pipeline.</li>
+    <li>A <strong>re-score pipeline</strong> re-ran all 5,905 rows against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
+    <li>A <strong>95-case test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics. It's green before anything ships.</li>
+    <li><strong>Data-hygiene guards</strong> clear out orphaned stress-test rows and stop half-formed records from moving down the pipeline.</li>
   </ul>
 
-  <h2 class="reveal">Why it's the artifact I point to</h2>
-  <p class="reveal">It's a small, honest example of operations engineering: a data pipeline that makes decisions at scale, knows where it can be wrong, and proves its own correctness with tests and reproducible re-runs. That posture — <strong>evidence over assertion</strong> — is how I build everything.</p>
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">It's a small but real example of how I work: a pipeline that makes a lot of decisions, knows where it might be wrong, and checks itself with tests and repeatable re-runs. I'd rather show evidence than make claims, and that holds for everything I build.</p>
 </CaseStudy>

@@ -2,24 +2,24 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="product-generation-pipeline">
-  <p class="lead reveal">Manually producing a catalog of digital products — laying out interiors, designing covers, writing listings — doesn't scale. So I didn't make products; I made the machine that makes them. One spec in, a complete, print-ready product out.</p>
+  <p class="lead reveal">Making digital products by hand, laying out interiors, designing covers, writing listings, doesn't scale. So instead of making products, I built the thing that makes them. You give it a short spec and it hands back a finished, print-ready product.</p>
 
   <h2 class="reveal">The engine</h2>
-  <p class="reveal">A small set of parametric <code>Python</code> generators turns a single configuration into an entire product. Change a few parameters — region, theme, difficulty — and the same code produces a different, fully-formed SKU. From one script the pipeline scales to <strong>50+ variants</strong> without touching the layout logic again.</p>
+  <p class="reveal">A few parametric <code>Python</code> generators turn one config file into a whole product. Change a couple of values, like region, theme, or difficulty, and the same code produces a different finished SKU. One script covers <strong>50+ variants</strong>, and I never have to touch the layout logic again.</p>
 
   <h2 class="reveal">What it generates, per product</h2>
   <ul class="reveal">
-    <li><strong>Interiors</strong> — multi-page, print-spec PDFs generated programmatically, with front-matter and consistent typography.</li>
-    <li><strong>Covers</strong> — parametric full-wrap cover PDFs computed to exact spine width and bleed, so they upload in one file with no manual design step.</li>
-    <li><strong>Listings</strong> — formula-driven spreadsheets and ready-to-paste listing copy, generated alongside the assets.</li>
+    <li><strong>Interiors.</strong> Multi-page, print-spec PDFs built in code, with front-matter and consistent typography.</li>
+    <li><strong>Covers.</strong> Full-wrap cover PDFs computed to the exact spine width and bleed, so they upload as one file with no manual design step.</li>
+    <li><strong>Listings.</strong> Formula-driven spreadsheets and ready-to-paste listing copy, generated alongside the assets.</li>
   </ul>
 
-  <h2 class="reveal">Why it's interesting engineering</h2>
+  <h2 class="reveal">What makes it work</h2>
   <ul class="reveal">
-    <li><strong>Determinism.</strong> The same spec always produces the same output — covers and interiors are computed, not hand-placed, so a 102-page book and its 0.230" spine line up every time.</li>
-    <li><strong>Leverage.</strong> Build cost per additional variant is effectively <strong>$0</strong>; the work was front-loaded into the generator.</li>
-    <li><strong>Separation.</strong> Content spec, layout engine, and output format are decoupled, so a new product line is a new config — not a rewrite.</li>
+    <li><strong>It's deterministic.</strong> The same spec always produces the same files. Covers and interiors are computed rather than placed by hand, so a 102-page book and its 0.230-inch spine line up every time.</li>
+    <li><strong>The work is up front.</strong> One more variant costs basically nothing, because it all went into the generator.</li>
+    <li><strong>The pieces are separate.</strong> The content spec, the layout engine, and the output format don't depend on each other, so a new product line is a new config file instead of a rewrite.</li>
   </ul>
 
-  <p class="reveal"><em>This case study shows the generation system and its engineering. The specific products and storefronts it feeds are run as a separate, deliberately low-profile venture.</em></p>
+  <p class="reveal"><em>This write-up is about the system, not the products. The storefronts it feeds are a separate venture I keep low-profile on purpose.</em></p>
 </CaseStudy>

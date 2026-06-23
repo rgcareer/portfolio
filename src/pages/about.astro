@@ -4,30 +4,30 @@ import { site } from '../config/site';
 
 const throughline = [
   { when: '2004–2015', role: 'Retail management', org: 'Zumiez · Vans · Mainland',
-    work: 'Led teams of 15–35 and built the hiring, onboarding, and training systems that made new people productive.' },
+    work: 'Ran teams of 15 to 35 and set up the hiring, onboarding, and training that got new people up to speed.' },
   { when: '2015–2019', role: 'Enterprise technology adoption', org: 'Apple',
-    work: 'Got organizations like St. Luke’s and Dutch Bros onto new tools, trained 22+ teammates, and lifted NPS from 83 to 92.' },
+    work: 'Helped organizations like St. Luke’s and Dutch Bros move onto new tools, trained more than 22 teammates, and brought NPS from 83 to 92.' },
   { when: '2019–2022', role: 'SaaS sales & enablement', org: 'Cradlepoint · Intuit · Vacasa',
-    work: 'Moved SMBs onto cloud and SaaS — CRM optimization, onboarding processes, and training programs that stuck.' },
+    work: 'Moved small businesses onto cloud and SaaS tools, with work on CRM cleanup, onboarding, and training that held up.' },
   { when: 'Current', role: 'AI product builder', org: 'Smart Business AI',
-    work: 'Build AI products for non-technical business owners end to end: research, design, build, deliver, support.' },
+    work: 'Build AI products for non-technical business owners, and handle the whole thing myself from research to support.' },
 ];
 ---
-<BaseLayout title="About" active="about" description="Ryan Garver — twenty years helping people adopt new technology, now focused on AI.">
+<BaseLayout title="About" active="about" description="Ryan Garver. Twenty years helping people adopt new technology, now focused on AI.">
   <section class="container ab">
     <header class="ab__head">
       <span class="eyebrow eyebrow--pill" data-anim>// about</span>
-      <h1 class="ab__title" data-anim>I help people adopt what's new. For twenty years — now it's AI.</h1>
+      <h1 class="ab__title" data-anim>I help people adopt new technology. I've done it for twenty years. Now it's AI.</h1>
       <p class="ab__lead" data-anim>
-        I'm {site.firstName}. Across retail, enterprise tech, and SaaS, I've spent two decades doing one thing in
-        different forms: helping non-technical people actually adopt new technology and new ways of working.
-        AI is the same job — higher stakes, faster clock.
+        I'm {site.firstName}. For about twenty years, across retail, enterprise tech, and SaaS, my work has come down
+        to the same thing: helping people who aren't technical get comfortable with new tools. AI is that job again,
+        and the stakes are higher this time.
       </p>
     </header>
 
     <section class="ab__sec">
       <h2 class="ab__h reveal">The throughline</h2>
-      <p class="ab__p reveal">Every role I've held was an adoption problem wearing a different costume.</p>
+      <p class="ab__p reveal">Looking back, every job I've had was really the same problem: getting people to adopt something new.</p>
       <ol class="ab__time">
         {throughline.map((t) => (
           <li class="ab__item reveal">
@@ -46,22 +46,22 @@ const throughline = [
       <div class="ab__combo">
         <div class="bezel reveal"><div class="bezel__core ab__card">
           <span class="ab__card-k">I lead change</span>
-          <p class="ab__card-p">Twenty years moving people and teams through new tools and processes — training, onboarding, enablement, stakeholder buy-in. The human side of adoption, where most rollouts actually succeed or fail.</p>
+          <p class="ab__card-p">Twenty years getting people and teams through new tools and processes: the training, the onboarding, the buy-in conversations. This is the human side of adoption, and it's usually where a rollout lives or dies.</p>
         </div></div>
         <div class="bezel reveal"><div class="bezel__core ab__card">
           <span class="ab__card-k">And I build</span>
-          <p class="ab__card-p">I don't just talk about AI — I ship it. Prompt engineering, workflow automation, an MCP server, a job-intelligence engine, a multi-agent workflow system. <a class="ab__link" href="/work">See the work →</a></p>
+          <p class="ab__card-p">I build the AI I talk about. Prompt engineering, workflow automation, an MCP server, a job-search engine, a multi-agent review system. <a class="ab__link" href="/work">See the work →</a></p>
         </div></div>
       </div>
-      <p class="ab__pull reveal">Most AI-enablement people can't build. Most builders can't lead adoption. I do both.</p>
+      <p class="ab__pull reveal">The useful part is the combination. I can run the adoption side and build the tools, and most people only do one.</p>
     </section>
 
     <section class="ab__sec">
       <h2 class="ab__h reveal">Where I'm headed</h2>
       <p class="ab__p reveal">
-        I'm targeting roles where that combination matters: <strong>AI Enablement and Adoption</strong>, plus Customer
-        Success, onboarding, and workforce AI training at companies doing AI well. I'm early in AI by title — deliberately
-        so. I'd rather prove it with shipped work than a job description.
+        I'm looking for roles where that combination matters: <strong>AI enablement and adoption</strong>, customer
+        success, onboarding, or AI training, at companies that take AI seriously. My AI title is new, and I'm fine with
+        that. I'd rather show the work than pad a résumé.
       </p>
       <div class="ab__cta reveal">
         <a href="/resume" class="btn btn--accent magnetic">Read the résumé

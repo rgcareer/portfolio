@@ -10,9 +10,9 @@ export const site = {
   firstName: 'Ryan',
   initials: 'RG',
   role: 'AI Enablement & Adoption',
-  tagline: 'I help organizations actually adopt AI — and I build the tools that make it stick.',
+  tagline: 'I help teams adopt AI, and I build a lot of it myself.',
   blurb:
-    'Twenty years leading teams and change management, now all-in on AI: I turn complex capabilities into workflows non-technical people actually use — and I build the products that prove it.',
+    "I've spent about twenty years helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
 
   // contact / availability
   email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé)
