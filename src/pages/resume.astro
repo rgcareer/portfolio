@@ -94,6 +94,7 @@ const education = [
           <a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a>
           <a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">LinkedIn</a>
         </p>
+        <p class="rs__print-contact">{site.location} · {site.email} · {site.phone} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}</p>
       </div>
       <div class="rs__actions">
         <button class="btn btn--accent magnetic" id="rs-print" type="button">
@@ -155,6 +156,7 @@ const education = [
   .rs__name { font-size: var(--fs-3xl); margin-top: 0.9rem; }
   .rs__role { color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-base); margin-top: 0.5rem; }
   .rs__contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.8rem; font-size: var(--fs-sm); color: var(--text-dim); }
+  .rs__print-contact { display: none; }
   .rs__actions { display: flex; gap: 0.75rem; }
 
   .rs__summary { max-width: 70ch; color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75;
@@ -189,15 +191,21 @@ const education = [
 
 <style is:global>
   @media print {
-    .nav-wrap, .foot, .bg-field, .bg-grid, .bgfx, #cmdk, .rs__actions, .skip { display: none !important; }
+    /* ATS-clean: single column, plain text, full contact, real selectable text. */
+    .nav-wrap, .foot, .bg-field, .bg-grid, .bgfx, #cmdk, .rs__actions, .skip, .rs__contact { display: none !important; }
     html, body { background: #fff !important; }
-    body, .rs__name, .rs__role-name, .rs__line-t { color: #111 !important; }
-    .rs__summary, .rs__bullets li, .rs__chips li, .rs__contact, .rs__role-org, .rs__role-when, .rs__line-s, .rs__h { color: #333 !important; }
-    .rs__role { color: #111 !important; }
+    body, .rs__name, .rs__role-name, .rs__line-t { color: #000 !important; }
+    .rs__summary, .rs__bullets li, .rs__role-org, .rs__role-when, .rs__line-s, .rs__h, .rs__print-contact { color: #222 !important; }
+    .rs__role { color: #000 !important; }
     .rs { padding: 0 !important; }
-    .rs__grid { grid-template-columns: 1.7fr 1fr !important; }
+    .rs__grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+    .rs__side { gap: 1.3rem !important; }
     .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
-    .rs__chips li, .rs__role-item, .rs__summary, .rs__line { border-color: #ccc !important; }
-    a { color: #111 !important; }
+    .rs__role-item, .rs__summary, .rs__line { border-color: #ccc !important; }
+    .rs__print-contact { display: block !important; font-size: 12px; margin-top: 6px; }
+    .rs__chips { gap: 0 !important; }
+    .rs__chips li { border: 0 !important; padding: 0 !important; color: #222 !important; font-size: 12px; }
+    .rs__chips li:not(:last-child)::after { content: " · "; color: #999; }
+    a { color: #000 !important; text-decoration: none; }
   }
 </style>
