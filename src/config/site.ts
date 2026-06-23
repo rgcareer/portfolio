@@ -26,7 +26,7 @@ export const site = {
 
   // links
   links: {
-    linkedin: 'https://www.linkedin.com/in/-rgarver', // CONFIRM: leading dash per current résumé (unusual)
+    linkedin: 'https://www.linkedin.com/in/-rgarver', // leading dash is intentional (confirmed)
     github: '', // optional — gated (publishing)
   },
 } as const;

@@ -70,9 +70,12 @@ const experience = [
   },
 ];
 
-const certs = [
-  { name: 'Anthropic Certified Architect', org: 'Anthropic', status: 'In progress · target 2026' },
-  { name: 'Salesforce Agentforce Specialist', org: 'Salesforce', status: 'Planned' },
+// Honest framing: these are active focus areas, NOT earned credentials.
+const developing = [
+  'Anthropic Certified Architect',
+  'AI workflow automation',
+  'Enterprise AI adoption frameworks',
+  'Enablement program design',
 ];
 const education = [
   { name: 'Bachelor of Arts, History', org: 'Boise State University', when: '2019' },
@@ -128,10 +131,8 @@ const education = [
           <ul class="rs__chips">{competencies.map((c) => <li>{c}</li>)}</ul>
         </div>
         <div class="rs__block reveal">
-          <h2 class="rs__h">Certifications</h2>
-          {certs.map((c) => (
-            <div class="rs__line"><span class="rs__line-t">{c.name}</span><span class="rs__line-s">{c.org} · {c.status}</span></div>
-          ))}
+          <h2 class="rs__h">Currently developing</h2>
+          <ul class="rs__chips">{developing.map((d) => <li>{d}</li>)}</ul>
         </div>
         <div class="rs__block reveal">
           <h2 class="rs__h">Education</h2>
