@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Monogram from '../components/Monogram.astro';
 import { site } from '../config/site';
 
 const panel = [
@@ -44,6 +45,7 @@ const stack = ['Claude', 'Prompt engineering', 'MCP', 'Workflow automation', 'Za
     </div>
 
     <aside class="hero__panel" data-anim aria-label="Status">
+      <Monogram />
       <div class="bezel">
         <div class="bezel__core panel">
           <div class="panel__bar">
@@ -113,6 +115,8 @@ const stack = ['Claude', 'Prompt engineering', 'MCP', 'Workflow automation', 'Za
     transition: border-color var(--t-fast) var(--ease); }
   .hero__hint:hover kbd { border-color: var(--accent-line); }
 
+  .hero__panel { display: flex; flex-direction: column; align-items: center; gap: clamp(1.4rem, 3vw, 2rem); }
+  .hero__panel > .bezel { width: 100%; }
   .panel { padding: 0; overflow: hidden; }
   .panel__bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.95rem;
     border-bottom: 0.5px solid var(--line); }
