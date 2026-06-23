@@ -1,0 +1,151 @@
+---
+import { site } from '../config/site';
+
+const items = [
+  { label: 'Home', href: '/', ext: false, icon: 'M3 9.4 10 4l7 5.4M5 8.3V16h10V8.3' },
+  { label: 'Work', href: '/work', ext: false, icon: 'M3 6.5h14V16H3zM7 6.5V4.5h6v2' },
+  { label: 'About', href: '/about', ext: false, icon: 'M10 9.5a2.6 2.6 0 100-5.2 2.6 2.6 0 000 5.2zM4.5 16a5.5 5.5 0 0111 0' },
+  { label: 'Résumé', href: '/resume', ext: false, icon: 'M6 3.5h5l3 3V16.5H6zM11 3.5v3h3' },
+  { label: 'Contact', href: '/contact', ext: false, icon: 'M4 5.5h12v9H4zM4 6.3l6 4 6-4' },
+  { label: 'Email me', href: `mailto:${site.email}`, ext: true, icon: 'M4 5.5h12v9H4zM4 6.3l6 4 6-4' },
+  { label: 'LinkedIn', href: site.links.linkedin, ext: true, icon: 'M8 4.5H5V16h11v-3M12 4.5h4v4M16 4.5l-7 7' },
+];
+---
+<div class="cmdk" id="cmdk" hidden>
+  <div class="cmdk__scrim" data-close></div>
+  <div class="cmdk__panel" role="dialog" aria-modal="true" aria-label="Command menu">
+    <div class="cmdk__search">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="5.2"/><path d="m13 13 3 3"/></svg>
+      <input id="cmdk-input" type="text" placeholder="Search or jump to…" autocomplete="off" spellcheck="false" aria-label="Search commands" />
+      <kbd>esc</kbd>
+    </div>
+    <ul class="cmdk__list" id="cmdk-list" role="listbox" aria-label="Results">
+      {items.map((it, i) => (
+        <li role="presentation">
+          <a
+            class="cmdk__item"
+            role="option"
+            href={it.href}
+            data-label={it.label.toLowerCase()}
+            data-i={i}
+            target={it.ext ? '_blank' : undefined}
+            rel={it.ext ? 'noopener' : undefined}
+          >
+            <span class="cmdk__ic" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={it.icon} /></svg>
+            </span>
+            <span class="cmdk__lab">{it.label}</span>
+            {it.ext && <span class="cmdk__tag">external</span>}
+            <svg class="cmdk__arr" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h6M7 4l3 3-3 3" /></svg>
+          </a>
+        </li>
+      ))}
+      <li class="cmdk__empty" id="cmdk-empty" hidden>No matches.</li>
+    </ul>
+    <div class="cmdk__foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cmdk { position: fixed; inset: 0; z-index: var(--z-overlay);
+    display: grid; place-items: start center; padding-top: 14vh;
+    opacity: 0; transition: opacity var(--t) var(--ease); }
+  .cmdk[hidden] { display: none; }
+  .cmdk.on { opacity: 1; }
+  .cmdk__scrim { position: absolute; inset: 0; background: rgba(4,5,8,0.6);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .cmdk__panel { position: relative; width: min(100% - 2rem, 560px);
+    background: rgba(15,18,26,0.86); border: 0.5px solid var(--line-2);
+    border-radius: var(--r-lg); box-shadow: inset 0 1px 0 0 var(--inset-hi), 0 40px 80px -40px #000;
+    backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+    overflow: hidden; transform: translateY(-10px) scale(0.985); transition: transform var(--t) var(--ease); }
+  .cmdk.on .cmdk__panel { transform: none; }
+  .cmdk__search { display: flex; align-items: center; gap: 0.7rem; padding: 0.95rem 1.1rem;
+    border-bottom: 0.5px solid var(--line); color: var(--text-faint); }
+  .cmdk__search input { flex: 1; background: none; border: 0; outline: none; color: var(--text);
+    font-family: var(--font-sans); font-size: var(--fs-lg); }
+  .cmdk__search input::placeholder { color: var(--text-faint); }
+  .cmdk__search kbd, .cmdk__foot kbd { font-family: var(--font-mono); font-size: 0.66rem;
+    border: 0.5px solid var(--line-2); border-radius: 5px; padding: 0.1em 0.4em; color: var(--text-dim);
+    background: rgba(255,255,255,0.03); }
+  .cmdk__list { list-style: none; padding: 0.45rem; max-height: 52vh; overflow-y: auto; }
+  .cmdk__item { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 0.8rem;
+    border-radius: var(--r-sm); color: var(--text-dim); transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+  .cmdk__item[hidden] { display: none; }
+  .cmdk__ic { width: 32px; height: 32px; flex: none; display: grid; place-items: center;
+    border: 0.5px solid var(--line); border-radius: 8px; color: var(--text-dim); background: rgba(255,255,255,0.02); }
+  .cmdk__lab { flex: 1; font-size: var(--fs-base); color: var(--text); }
+  .cmdk__tag { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--text-faint); border: 0.5px solid var(--line); border-radius: 999px; padding: 0.15em 0.55em; }
+  .cmdk__arr { color: var(--text-faint); opacity: 0; transform: translateX(-4px); transition: all var(--t-fast) var(--ease); }
+  .cmdk__item.is-active, .cmdk__item:hover { background: var(--accent-soft); color: var(--text); }
+  .cmdk__item.is-active .cmdk__ic { border-color: var(--accent-line); color: var(--accent); }
+  .cmdk__item.is-active .cmdk__arr { opacity: 1; transform: none; color: var(--accent); }
+  .cmdk__empty { padding: 1.4rem; text-align: center; color: var(--text-faint); font-size: var(--fs-sm); }
+  .cmdk__foot { display: flex; gap: 1.2rem; padding: 0.65rem 1.1rem; border-top: 0.5px solid var(--line);
+    color: var(--text-faint); font-size: 0.72rem; }
+  .cmdk__foot span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  @media (prefers-reduced-motion: reduce) { .cmdk, .cmdk__panel { transition: none; } }
+</style>
+
+<script>
+  const root = document.getElementById('cmdk') as HTMLElement | null;
+  if (root) {
+    const input = document.getElementById('cmdk-input') as HTMLInputElement;
+    const empty = document.getElementById('cmdk-empty') as HTMLElement;
+    const items = Array.from(root.querySelectorAll('.cmdk__item')) as HTMLAnchorElement[];
+    let active = 0, lastTrigger: HTMLElement | null = null, open = false;
+
+    const visible = () => items.filter((el) => !el.hidden);
+    function setActive(i: number) {
+      const vis = visible();
+      if (!vis.length) return;
+      active = (i + vis.length) % vis.length;
+      items.forEach((el) => el.classList.remove('is-active'));
+      vis[active].classList.add('is-active');
+      vis[active].scrollIntoView({ block: 'nearest' });
+    }
+    function filter() {
+      const q = input.value.trim().toLowerCase();
+      items.forEach((el) => { el.hidden = q ? !(el.dataset.label || '').includes(q) : false; });
+      empty.hidden = visible().length > 0;
+      active = 0; setActive(0);
+    }
+    function openPalette(trigger?: HTMLElement) {
+      lastTrigger = trigger || null;
+      root!.hidden = false;
+      requestAnimationFrame(() => root!.classList.add('on'));
+      input.value = ''; filter();
+      setTimeout(() => input.focus(), 30);
+      open = true;
+    }
+    function closePalette() {
+      root!.classList.remove('on');
+      open = false;
+      const done = () => { root!.hidden = true; root!.removeEventListener('transitionend', done); };
+      root!.addEventListener('transitionend', done);
+      setTimeout(() => { if (!open) root!.hidden = true; }, 280);
+      lastTrigger?.focus();
+    }
+
+    input.addEventListener('input', filter);
+    root.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closePalette));
+    document.querySelectorAll('[data-cmdk]').forEach((el) =>
+      el.addEventListener('click', (e) => { e.preventDefault(); openPalette(el as HTMLElement); }));
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); open ? closePalette() : openPalette(); return; }
+      if (!open) {
+        if (e.key === '/' && !/input|textarea/i.test((e.target as HTMLElement).tagName)) { e.preventDefault(); openPalette(); }
+        return;
+      }
+      if (e.key === 'Escape') { e.preventDefault(); closePalette(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === 'Enter') { const vis = visible(); if (vis[active]) vis[active].click(); }
+    });
+  }
+</script>

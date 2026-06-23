@@ -1,0 +1,72 @@
+---
+// Mouse-reactive particle field. Vanilla canvas, no deps.
+// Lazy fade-in, DPR-capped, pauses when hidden, off under reduced-motion.
+---
+<canvas id="bgfx" class="bgfx" aria-hidden="true"></canvas>
+
+<style>
+  .bgfx { position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: 0; transition: opacity 1.4s var(--ease-out); }
+  .bgfx.on { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .bgfx { display: none; } }
+</style>
+
+<script>
+  const c = document.getElementById('bgfx') as HTMLCanvasElement | null;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (c && c.getContext && !reduce) {
+    const x = c.getContext('2d')!;
+    let W = 0, H = 0, DPR = 1, parts: any[] = [], raf = 0, running = true;
+    const mouse = { x: -9999, y: -9999 };
+    const COL = ['74,222,128', '99,102,241'];
+
+    function resize() {
+      DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = window.innerWidth; H = window.innerHeight;
+      c!.style.width = W + 'px'; c!.style.height = H + 'px';
+      c!.width = Math.floor(W * DPR); c!.height = Math.floor(H * DPR);
+      x.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const n = Math.min(92, Math.floor(W / 16));
+      parts = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+        c: COL[Math.random() < 0.8 ? 0 : 1], r: Math.random() * 0.8 + 0.7,
+      }));
+    }
+    function frame() {
+      x.clearRect(0, 0, W, H);
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy) || 1;
+        if (d < 150) { p.vx += (dx / d) * 0.22; p.vy += (dy / d) * 0.22; }
+        p.vx *= 0.97; p.vy *= 0.97;
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; else if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; else if (p.y > H) p.y = 0;
+        x.beginPath(); x.arc(p.x, p.y, p.r, 0, 6.283);
+        x.fillStyle = 'rgba(' + p.c + ',0.5)'; x.fill();
+        for (let j = i + 1; j < parts.length; j++) {
+          const q = parts[j], ex = p.x - q.x, ey = p.y - q.y, ed = Math.hypot(ex, ey);
+          if (ed < 118) {
+            const near = d < 150 || Math.hypot(q.x - mouse.x, q.y - mouse.y) < 150;
+            x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(q.x, q.y);
+            x.strokeStyle = 'rgba(74,222,128,' + ((near ? 0.22 : 0.1) * (1 - ed / 118)) + ')';
+            x.lineWidth = 0.6; x.stroke();
+          }
+        }
+      }
+      if (running) raf = requestAnimationFrame(frame);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    window.addEventListener('mouseout', () => { mouse.x = -9999; mouse.y = -9999; });
+    document.addEventListener('visibilitychange', () => {
+      running = !document.hidden;
+      cancelAnimationFrame(raf);
+      if (running) raf = requestAnimationFrame(frame);
+    });
+    resize();
+    raf = requestAnimationFrame(frame);
+    requestAnimationFrame(() => c.classList.add('on'));
+  }
+</script>

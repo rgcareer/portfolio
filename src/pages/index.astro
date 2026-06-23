@@ -14,24 +14,24 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
 <BaseLayout active="home">
   <section class="hero container">
     <div class="hero__lead">
-      <span class="eyebrow eyebrow--pill reveal in"><span class="dot" aria-hidden="true"></span> {site.role}</span>
+      <span class="eyebrow eyebrow--pill" data-anim><span class="dot" aria-hidden="true"></span> {site.role}</span>
 
-      <h1 class="hero__title reveal in" style="--i:1">
+      <h1 class="hero__title" data-anim>
         <span class="hero__hi">{site.firstName}</span>
         <span class="hero__last">Lastname</span>
       </h1>
 
-      <p class="hero__tag reveal in" style="--i:2">{site.tagline}</p>
-      <p class="hero__blurb reveal in" style="--i:3">{site.blurb}</p>
+      <p class="hero__tag" data-anim>{site.tagline}</p>
+      <p class="hero__blurb" data-anim>{site.blurb}</p>
 
-      <div class="hero__cta reveal in" style="--i:4">
-        <a href="/work" class="btn btn--accent">
+      <div class="hero__cta" data-anim>
+        <a href="/work" class="btn btn--accent magnetic">
           View work
           <span class="btn__ic" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3M5 3h6v6"/></svg>
           </span>
         </a>
-        <a href="/resume" class="btn btn--ghost">
+        <a href="/resume" class="btn btn--ghost magnetic">
           Résumé
           <span class="btn__ic" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M3.5 6.5 7 10l3.5-3.5M2.5 12h9"/></svg>
@@ -40,10 +40,10 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
         <a href={`mailto:${site.email}`} class="link-quiet hero__email">Get in touch</a>
       </div>
 
-      <p class="hero__hint reveal in" style="--i:5"><kbd>⌘</kbd><kbd>K</kbd> command menu — coming online</p>
+      <button class="hero__hint" data-anim data-cmdk type="button"><kbd>⌘</kbd><kbd>K</kbd> open command menu</button>
     </div>
 
-    <aside class="hero__panel reveal in" style="--i:3" aria-label="Status">
+    <aside class="hero__panel" data-anim aria-label="Status">
       <div class="bezel">
         <div class="bezel__core panel">
           <div class="panel__bar">
@@ -58,17 +58,33 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
               </div>
             ))}
           </dl>
+          <div class="panel__cli">
+            <span class="panel__prompt">$</span>
+            <span id="cli" class="panel__typed"></span><span class="cli-caret" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
     </aside>
   </section>
 
-  <section class="container strip" aria-label="Stack">
+  <section class="container strip reveal" aria-label="Stack">
     <span class="eyebrow">// stack</span>
     <ul class="strip__list">
       {stack.map((s) => <li class="strip__item">{s}</li>)}
     </ul>
   </section>
+
+  <script is:inline>
+    (() => {
+      const el = document.getElementById('cli');
+      if (!el) return;
+      const txt = 'whoami → ryan · ai/ops · open to work';
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = txt; return; }
+      let i = 0;
+      const tick = () => { el.textContent = txt.slice(0, i); if (i++ <= txt.length) setTimeout(tick, 45); };
+      setTimeout(tick, 800);
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -88,9 +104,14 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
 
   .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem; margin-top: 2rem; }
   .hero__email { margin-left: 0.4rem; font-size: var(--fs-sm); }
-  .hero__hint { margin-top: 1.6rem; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
+  .hero__hint { display: inline-flex; align-items: center; gap: 0.15rem; margin-top: 1.6rem;
+    font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); cursor: pointer;
+    transition: color var(--t-fast) var(--ease); }
+  .hero__hint:hover { color: var(--text-dim); }
   .hero__hint kbd { font-family: var(--font-mono); border: 0.5px solid var(--line-2); border-radius: 5px;
-    padding: 0.1em 0.45em; margin-right: 0.25em; color: var(--text-dim); background: rgba(255,255,255,0.03); }
+    padding: 0.1em 0.45em; margin-right: 0.25em; color: var(--text-dim); background: rgba(255,255,255,0.03);
+    transition: border-color var(--t-fast) var(--ease); }
+  .hero__hint:hover kbd { border-color: var(--accent-line); }
 
   .panel { padding: 0; overflow: hidden; }
   .panel__bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.95rem;
@@ -106,6 +127,14 @@ const stack = ['Python', 'TypeScript', 'MCP', 'LLM orchestration', 'Astro', 'Nod
     letter-spacing: 0.16em; color: var(--text-faint); }
   .panel__row dd { font-size: var(--fs-sm); color: var(--text); text-align: right; }
   .panel__row dd.is-accent { color: var(--accent); display: inline-flex; align-items: center; gap: 0.5em; }
+  .panel__cli { display: flex; align-items: center; gap: 0.5ch; padding: 0.7rem 0.95rem;
+    border-top: 0.5px solid var(--line); font-family: var(--font-mono); font-size: var(--fs-eyebrow); }
+  .panel__prompt { color: var(--accent); }
+  .panel__typed { color: var(--text-dim); }
+  .cli-caret { width: 7px; height: 13px; background: var(--accent); display: inline-block; vertical-align: middle;
+    animation: blink 1.05s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cli-caret { animation: none; } }
 
   .strip { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem;
     padding-top: clamp(2rem, 5vw, 3.5rem); padding-bottom: clamp(3rem, 8vw, 6rem); }

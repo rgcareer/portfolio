@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import LivingBackground from '../components/LivingBackground.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import { site } from '../config/site';
 
 interface Props {
@@ -36,6 +38,7 @@ const personLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{pageTitle}</title>
     <meta name="description" content={desc} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -58,6 +61,7 @@ const personLd = {
   <body>
     <div class="bg-field" aria-hidden="true"></div>
     <div class="bg-grid" aria-hidden="true"></div>
+    <LivingBackground />
 
     <a href="#main" class="skip">Skip to content</a>
 
@@ -72,6 +76,10 @@ const personLd = {
             <li><a href={n.href} class:list={['nav__link', { 'is-active': active === n.key }]}>{n.label}</a></li>
           ))}
         </ul>
+        <button class="nav__cmd" data-cmdk type="button" aria-label="Open command menu" aria-keyshortcuts="Meta+K">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="5.2"/><path d="m13 13 3 3"/></svg>
+          <span class="nav__cmd-keys"><kbd>⌘</kbd><kbd>K</kbd></span>
+        </button>
       </nav>
     </header>
 
@@ -96,6 +104,12 @@ const personLd = {
         <p class="foot__meta">© {site.year} · {site.location}</p>
       </div>
     </footer>
+
+    <CommandPalette />
+
+    <script>
+      import '../scripts/motion.ts';
+    </script>
 
     <script is:inline>
       (() => {
@@ -139,6 +153,14 @@ const personLd = {
       .nav__link { font-size: var(--fs-sm); color: var(--text-dim); transition: color var(--t-fast) var(--ease); }
       .nav__link:hover, .nav__link.is-active { color: var(--text); }
       @media (min-width: 720px) { .nav__links { display: flex; } .nav__name { font-size: var(--fs-base); } }
+      .nav__cmd { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.42rem 0.55rem;
+        border: 0.5px solid var(--line-2); border-radius: 999px; color: var(--text-dim);
+        background: rgba(255,255,255,0.02); transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); }
+      .nav__cmd:hover { color: var(--text); border-color: var(--line-strong); }
+      .nav__cmd-keys { display: none; gap: 2px; }
+      .nav__cmd kbd { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint);
+        border: 0.5px solid var(--line); border-radius: 4px; padding: 0.05em 0.3em; }
+      @media (min-width: 720px) { .nav__cmd { padding: 0.42rem 0.45rem 0.42rem 0.7rem; } .nav__cmd-keys { display: inline-flex; } }
 
       .foot { border-top: 0.5px solid var(--line); margin-top: var(--section-y); padding-block: 3rem; }
       .foot__in { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2.5rem; }
