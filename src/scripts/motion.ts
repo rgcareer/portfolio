@@ -36,18 +36,23 @@ if (!reduce) {
   });
 }
 
-// Scroll-driven parallax: background layers drift at different rates; the hero lifts away.
+// Scroll-driven parallax — DESKTOP (mouse) ONLY. On touch devices (iOS Safari especially),
+// scroll-position-tied transforms update in discrete jumps during momentum scrolling and
+// look like a flipbook, so we only enable them on hover-capable, fine-pointer devices.
 if (!reduce) {
-  gsap.to('.bg-grid', { yPercent: 16, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
-  gsap.to('.bg-field', { yPercent: -10, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
+  const mm = gsap.matchMedia();
+  mm.add('(hover: hover) and (pointer: fine)', () => {
+    gsap.to('.bg-grid', { yPercent: 16, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
+    gsap.to('.bg-field', { yPercent: -10, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.6 } });
 
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    gsap.to(hero, {
-      yPercent: -6,
-      opacity: 0.55,
-      ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.4 },
-    });
-  }
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      gsap.to(hero, {
+        yPercent: -6,
+        opacity: 0.55,
+        ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.4 },
+      });
+    }
+  });
 }
