@@ -16,7 +16,6 @@ export const site = {
 
   // contact / availability
   email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé)
-  phone: '909.855.9854', // print/PDF résumé ONLY — never rendered on the public web page
   availability: 'Open to work',
   year: '2026',
   location: 'Boise, ID · Remote',
