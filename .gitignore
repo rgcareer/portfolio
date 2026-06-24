@@ -13,3 +13,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# internal planning + local tooling — keep OUT of the public repo
+tasks/
+.claude/
