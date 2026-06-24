@@ -9,12 +9,15 @@
     opacity: 0; transition: opacity 1.4s var(--ease-out); }
   .bgfx.on { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .bgfx { display: none; } }
+  /* Touch devices (iOS Safari especially) jerk when scrolling over a fixed, redrawing canvas. */
+  @media (pointer: coarse) { .bgfx { display: none; } }
 </style>
 
 <script>
   const c = document.getElementById('bgfx') as HTMLCanvasElement | null;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (c && c.getContext && !reduce) {
+  const coarse = matchMedia('(pointer: coarse)').matches; // touch device → skip the canvas
+  if (c && c.getContext && !reduce && !coarse) {
     const x = c.getContext('2d')!;
     let W = 0, H = 0, DPR = 1, parts: any[] = [], raf = 0, running = true;
     const mouse = { x: -9999, y: -9999 };
