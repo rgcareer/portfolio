@@ -1,0 +1,6 @@
+name = "portfolio"
+compatibility_date = "2025-06-01"
+
+# Static site: serve the Astro build output as assets (no server-side Worker code).
+[assets]
+directory = "./dist"
