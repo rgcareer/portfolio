@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import CommandPalette from '../components/CommandPalette.astro';
+import InkTrail from '../components/InkTrail.astro';
+import Readout from '../components/Readout.astro';
 import { site } from '../config/site';
 
 interface Props {
@@ -66,6 +68,8 @@ const personLd = {
   </head>
   <body>
     <div class="paper-grain" aria-hidden="true"></div>
+    <InkTrail />
+    <Readout />
 
     <a href="#main" class="skip">Skip to content</a>
 

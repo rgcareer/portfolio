@@ -55,7 +55,10 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   .wk__name { font-size: var(--fs-2xl); font-weight: 600; letter-spacing: -0.02em; white-space: nowrap;
     overflow: hidden; text-overflow: ellipsis; transition: color var(--t-fast) var(--ease); }
   .wk__entry:hover .wk__name { color: var(--accent); }
-  .wk__leader { flex: 1; min-width: 2rem; border-bottom: 2px dotted var(--line-2); transform: translateY(-0.35em); }
+  .wk__leader { flex: 1; min-width: 2rem; border-bottom: 2px dotted var(--line-2);
+    transform: translateY(-0.35em) scaleX(0.45); transform-origin: left; opacity: 0.55;
+    transition: transform 0.55s var(--ease-out), opacity 0.55s var(--ease-out), border-color 0.55s var(--ease-out); }
+  .wk__entry:hover .wk__leader { transform: translateY(-0.35em) scaleX(1); opacity: 1; border-color: var(--accent-line); }
   .wk__metric { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-dim); white-space: nowrap; }
   .wk__line { color: var(--text-dim); font-size: var(--fs-lg); max-width: 56ch; }
   .wk__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.6rem; margin-top: 0.5rem;

@@ -1,0 +1,28 @@
+---
+// Drafting-machine layer: two hairline straightedges that track the pointer,
+// plus a live coordinate readout (X · Y · current section). Desktop fine-pointer
+// only; motion.ts drives it. Native cursor is never replaced.
+---
+<div class="draft" aria-hidden="true">
+  <span class="draft__x" id="draft-x"></span>
+  <span class="draft__y" id="draft-y"></span>
+</div>
+<p class="readout" id="readout" aria-hidden="true">
+  <span id="readout-xy">X 0000 · Y 0000</span> · §<span id="readout-sec">COVER</span>
+</p>
+
+<style>
+  .draft, .readout { display: none; }
+  @media (hover: hover) and (pointer: fine) and (min-width: 980px) {
+    .draft { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 90; }
+    .draft__x { position: absolute; left: 0; right: 0; top: 0; height: 1px;
+      background: var(--line-2); opacity: 0.4; will-change: transform; }
+    .draft__y { position: absolute; top: 0; bottom: 0; left: 0; width: 1px;
+      background: var(--line-2); opacity: 0.4; will-change: transform; }
+    .readout { display: block; position: fixed; left: 1.1rem; bottom: 0.9rem; z-index: 90;
+      pointer-events: none; font-family: var(--font-mono); font-size: 0.66rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+    .readout #readout-sec { color: var(--accent); }
+  }
+  @media (prefers-reduced-motion: reduce) { .draft, .readout { display: none !important; } }
+</style>

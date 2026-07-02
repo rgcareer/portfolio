@@ -23,15 +23,16 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
 <BaseLayout active="home">
   <!-- ============ COVER ============ -->
-  <section class="cover container">
+  <section class="cover container" data-sec="Cover">
+    <span class="marks" id="cover-marks" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <div class="cover__folio" data-anim>
-      <span>Field manual</span>
+      <span id="folio-type" data-type="Field manual">Field manual</span>
       <span>Fig. 00 · Cover</span>
     </div>
 
     <h1 class="cover__name" aria-label={site.name}>
       <span class="mask"><span class="mask__in">{site.firstName}</span></span>
-      <span class="mask"><span class="mask__in cover__last">Garver</span></span>
+      <span class="mask"><span class="mask__in cover__last ink-sweep">Garver</span></span>
     </h1>
 
     <div class="cover__stamp" data-stamp aria-hidden="true">
@@ -62,20 +63,26 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <button class="cover__hint" data-anim data-cmdk type="button"><kbd>⌘</kbd><kbd>K</kbd> open the index</button>
     </div>
 
-    <dl class="cover__spec" data-anim>
+    <dl class="cover__spec">
       {spec.map((r) => (
-        <div class="cover__row">
+        <div class="cover__row" data-specrow>
           <dt>{r.k}</dt>
           <dd class:list={[{ 'is-accent': r.accent }]}>{r.accent && <span class="dot" aria-hidden="true"></span>}{r.v}</dd>
         </div>
       ))}
     </dl>
+
+    <p class="cover__note" data-anim>
+      <span class="cover__note-pen" aria-hidden="true">✎</span>
+      <span id="fieldnote" data-type="field note: adoption is a number, not a vibe.">field note: adoption is a number, not a vibe.</span><span class="type-caret" id="fieldnote-caret" aria-hidden="true" hidden></span>
+    </p>
   </section>
 
   <!-- ============ THE PLATES ============ -->
-  <section class="plates container" aria-label="Selected work">
+  <section class="plates container" aria-label="Selected work" data-sec="Plates">
     <header class="plates__head">
       <h2 class="plates__title">The plates.</h2>
+      <hr class="rule-draw reveal" aria-hidden="true" />
       <p class="plates__sub">Selected work, documented the way it shipped: figures, real numbers, method.</p>
     </header>
 
@@ -83,6 +90,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       {work.map((c, i) => (
         <article class="plate" style={`--i:${i}`}>
           <div class="plate__in">
+            <span class="filed" aria-hidden="true">Filed · {site.year}</span>
             <div class="plate__meta">
               <span class="plate__no">Plate {pad(i)}</span>
               <span class="plate__tags">{c.tags.join(' · ')}</span>
@@ -104,11 +112,13 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
                 </a>
               </div>
               <figure class="plate__fig">
-                {c.figure.src ? (
-                  <img src={c.figure.src} alt={c.figure.alt ?? ''} loading="lazy" decoding="async" />
-                ) : (
-                  <pre class="plate__specimen" aria-hidden="true">{c.figure.specimen?.join('\n')}</pre>
-                )}
+                <span class="plate__fig-frame">
+                  {c.figure.src ? (
+                    <img src={c.figure.src} alt={c.figure.alt ?? ''} loading="lazy" decoding="async" data-parallax />
+                  ) : (
+                    <pre class="plate__specimen" aria-hidden="true">{c.figure.specimen?.join('\n')}</pre>
+                  )}
+                </span>
                 <figcaption>Fig. {pad(i)} · {c.figure.caption}</figcaption>
               </figure>
             </div>
@@ -119,8 +129,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   </section>
 
   <!-- ============ THE METHOD ============ -->
-  <section class="method container" aria-label="Method">
+  <section class="method container" aria-label="Method" data-sec="Method">
     <h2 class="method__title">The method.</h2>
+    <hr class="rule-draw reveal" aria-hidden="true" />
     <ol class="method__list">
       {method.map((m) => (
         <li class="method__row">
@@ -133,7 +144,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   </section>
 
   <!-- ============ CUT LINE ============ -->
-  <section class="cut container" aria-label="Contact">
+  <section class="cut container" aria-label="Contact" data-sec="Contact">
     <hr class="rule rule--dashed cut__rule" />
     <div class="cut__in">
       <h2 class="cut__title">Need a rollout run, or a tool built?</h2>
@@ -188,6 +199,10 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   .cover__hint kbd { border: 1px solid var(--line-2); border-radius: 3px; padding: 0.1em 0.45em;
     margin-right: 0.25em; color: var(--text-dim); background: var(--card); }
 
+  .cover__note { margin-top: 1.4rem; font-family: var(--font-mono); font-size: var(--fs-sm);
+    color: var(--text-dim); letter-spacing: 0.01em; }
+  .cover__note-pen { color: var(--accent); margin-right: 0.4em; }
+
   .cover__spec { margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line-strong); }
   .cover__row { display: grid; grid-template-columns: 110px 1fr; gap: 1rem; align-items: baseline;
     padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
@@ -205,9 +220,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
   .plates__stack { display: grid; gap: clamp(1.2rem, 3vw, 2rem); }
   .plate { position: sticky; top: calc(64px + var(--i) * 14px); }
-  .plate__in { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-md);
+  .plate__in { position: relative; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-md);
     padding: clamp(1.2rem, 3vw, 2rem); box-shadow: 0 -8px 24px -20px rgba(32, 29, 26, 0.5);
-    transform-origin: center top; }
+    transform-origin: center top; will-change: transform; }
   .plate__meta { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
     border-bottom: 1px solid var(--line); padding-bottom: 0.85rem; }
   .plate__no { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 600;
@@ -232,7 +247,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
   .plate__fig { border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg-1);
     padding: var(--bezel); }
-  .plate__fig img { width: 100%; border-radius: 2px; border: 1px solid var(--line); }
+  .plate__fig-frame { display: block; overflow: hidden; border-radius: 2px; }
+  .plate__fig img { width: 100%; border-radius: 2px; border: 1px solid var(--line);
+    will-change: transform; }
   .plate__specimen { font-family: var(--font-mono); font-size: var(--fs-sm); line-height: 1.9;
     color: var(--text-dim); background: var(--card-2); border: 1px solid var(--line);
     border-radius: 2px; padding: 1.2rem 1.3rem; overflow-x: auto; }

@@ -113,6 +113,45 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; }
 .js .mask__in { display: block; transform: translateY(112%); }
 .mask__in { display: block; }
 
+/* ink-sweep reveal (outlined display type "inked on" left to right) */
+.js .ink-sweep { clip-path: inset(-2% 102% -2% -2%); }
+.ink-sweep { will-change: clip-path; }
+
+/* ---------- registration crop marks (decorative; draw on intersection) ---------- */
+.marks { position: absolute; inset: 0; pointer-events: none; }
+.marks i { position: absolute; width: 15px; height: 15px;
+  border-left: 1.5px solid var(--line-strong); border-top: 1.5px solid var(--line-strong);
+  transform-origin: top left;
+  transition: transform 0.5s var(--ease-out); }
+.js .marks i { transform: scale(0); }
+.marks i:nth-child(1) { top: 0; left: 0; }
+.marks i:nth-child(2) { top: 0; right: 0; rotate: 90deg; }
+.marks i:nth-child(3) { bottom: 0; right: 0; rotate: 180deg; }
+.marks i:nth-child(4) { bottom: 0; left: 0; rotate: 270deg; }
+.js .marks.in i { transform: scale(1); }
+.marks i:nth-child(2) { transition-delay: 0.08s; }
+.marks i:nth-child(3) { transition-delay: 0.16s; }
+.marks i:nth-child(4) { transition-delay: 0.24s; }
+
+/* section rule that draws in under headings (never hides content) */
+.js .rule-draw:not(.in) { transform: scaleX(0); }
+.rule-draw { transform-origin: left; transition: transform 0.9s var(--ease-out); }
+.rule-draw { display: block; height: 2px; background: var(--accent); border: 0;
+  width: 3.5rem; margin-top: 0.9rem; }
+.rule-draw.in { transform: scaleX(1); }
+
+/* typewriter caret */
+.type-caret { display: inline-block; width: 0.55em; height: 2px; background: var(--accent);
+  vertical-align: baseline; margin-left: 2px; animation: caret-blink 1s steps(1) infinite; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+/* mini filing stamp (thunked onto an outgoing plate by motion.ts) */
+.filed { position: absolute; top: 1rem; right: 1.2rem; z-index: 2; pointer-events: none;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  border: 2px solid var(--accent); border-radius: var(--r-sm); padding: 0.3em 0.6em;
+  rotate: -6deg; opacity: 0; }
+
 /* ---------- focus ---------- */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
@@ -123,4 +162,8 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; }
   .reveal { opacity: 1; transform: none; }
   .js [data-anim] { opacity: 1; }
   .js .mask__in { transform: none; }
+  .js .ink-sweep { clip-path: none; }
+  .marks i { transform: scale(1); }
+  .js .rule-draw { transform: scaleX(1); }
+  .type-caret { display: none; }
 }
