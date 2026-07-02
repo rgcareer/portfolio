@@ -2,26 +2,93 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="operation-hired">
-  <p class="lead reveal">Job searching now means wading through thousands of postings, most of them irrelevant and a fair number fake. I built Operation Hired to deal with that. It pulls postings in, scores them, and ranks them, so I only spend time on the ones worth a look.</p>
+  <p class="lead reveal">I needed to run a serious job search, so I built the system I'd roll out to a team. Not a spreadsheet and not a folder of bookmarks: a pipeline that pulls postings in, scores them, drafts the application, and keeps a record of every send. The point was never the software. The point was to make one person move like a staffed function, without losing the judgment that makes the work any good.</p>
 
-  <h2 class="reveal">What it does</h2>
-  <p class="reveal">Postings land in a local <code>SQLite</code> database, each one runs through a scoring model, and the result is a ranked shortlist. So far it has scored <strong>9,644</strong> of them, and every score can be reproduced from the source data. The ranking is the easy part. The real work went into making that ranking something I could trust.</p>
+  <!--
+    ============================================================
+    VIDEO EMBED SLOT — 90-second Loom walkthrough
+    ============================================================
+    HOW TO DROP IN THE LOOM:
+    1. Record the walkthrough (cue sheet: docs/t1-outputs/loom-cue-sheet.md).
+    2. In Loom, click "Share" -> "Embed" -> copy the <iframe ...> code.
+    3. Paste ONLY the <iframe> tag between the two >>> markers below,
+       replacing the placeholder <div class="cs-video__ph">...</div>.
+    4. Add  loading="lazy"  and  title="Operation Hired — 90-second walkthrough"
+       to the pasted iframe if Loom's snippet omits them.
+    5. Delete this comment block and the placeholder div. Keep the
+       surrounding <figure class="cs-video"> ... </figure> wrapper —
+       its CSS holds the 16:9 frame and the Field Manual bezel.
+    Do NOT hardcode width/height on the iframe; the wrapper is responsive.
+    ============================================================
+  -->
+  <figure class="cs-video reveal">
+    <div class="cs-video__frame">
+      <!-- >>> PASTE LOOM <iframe> HERE >>> -->
+      <div class="cs-video__ph" role="img" aria-label="Loom walkthrough of Operation Hired — embed pending">
+        <span class="cs-video__ph-mark">▶</span>
+        <span class="cs-video__ph-t">90-second walkthrough</span>
+        <span class="cs-video__ph-s">Video embed pending</span>
+      </div>
+      <!-- <<< END LOOM EMBED <<< -->
+    </div>
+    <figcaption>Reel · A pass through the pipeline, from discovery board to the send record.</figcaption>
+  </figure>
 
-  <h2 class="reveal">How the scoring works</h2>
+  <h2 class="reveal">A discovery board, not a job board</h2>
+  <p class="reveal">Postings land in a local <code>SQLite</code> database and every one runs through a scoring model before I ever see it. So far it has scored <strong>9,600+</strong> of them, and each score can be reproduced from the source data. What surfaces is a ranked board carrying the signals I actually decide on:</p>
   <ul class="reveal">
-    <li><strong>Tiering.</strong> Postings get bucketed by fit (role, seniority, pay signal). An early version was too generous with the top bucket, so I tightened it. The "tier 1" count dropped from a few thousand to about a hundred, which is what real fit should look like.</li>
-    <li><strong>Geo-matching.</strong> Location gets checked against where I can actually work, so remote-mislabeled and wrong-city postings stop polluting the list.</li>
-    <li><strong>Fraud signals.</strong> A set of heuristics flags the patterns ghost and scam listings tend to share. That cut the flagged-fraud noise by about 80%.</li>
+    <li><strong>Tier.</strong> Postings get bucketed by fit: role, seniority, pay signal. An early version was too generous with the top bucket, so I tightened it. Tier 1 dropped from a few thousand to about a hundred, which is what real fit should look like.</li>
+    <li><strong>Fraud.</strong> A set of heuristics flags the patterns ghost and scam listings share. That cut the flagged-fraud noise by about 80%, so the board stays honest.</li>
+    <li><strong>Freshness.</strong> Every posting is re-verified against its source before it surfaces, so I never spend a morning chasing a role that closed last week.</li>
   </ul>
 
-  <h2 class="reveal">Built so I can trust it</h2>
-  <p class="reveal">The system treats its own data as something to audit, not something to assume:</p>
+  <h2 class="reveal">A fit report that surfaces gaps instead of faking them</h2>
+  <p class="reveal">Pick a job and the system writes a fit report, then drafts a tailored package off it. The report grades every requirement into three honest tiers, and the third one is the whole point:</p>
+  <ul class="reveal">
+    <li><strong>Matched.</strong> Direct, provable overlap between the requirement and my record.</li>
+    <li><strong>Equivalent.</strong> Different words, same capability, named explicitly so the mapping is a claim I can stand behind, not a stretch.</li>
+    <li><strong>Gap.</strong> Where I don't line up, it says so. A tool that scored everyone a perfect fit would be worthless. This one surfaces gaps instead of faking them, which is the only version I'd let near a real decision.</li>
+  </ul>
+
+  <h2 class="reveal">A human approves every send</h2>
+  <p class="reveal">Nothing goes out on its own. Drafted packages sit in a submission ledger behind a funnel view, and every send is a deliberate human action: I read it, I approve it, it logs. The automation makes the human faster; it never replaces the human. That line, drawn on purpose, is what keeps the whole thing trustworthy:</p>
   <ul class="reveal">
     <li>A <strong>re-score pipeline</strong> re-ran every row (5,905 at the time) against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
-    <li>A <strong>95-case test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics. It's green before anything ships.</li>
-    <li><strong>Data-hygiene guards</strong> clear out orphaned stress-test rows and stop half-formed records from moving down the pipeline.</li>
+    <li>A <strong>test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics, and it's green before anything ships.</li>
+    <li><strong>Data-hygiene guards</strong> clear out orphaned rows and stop half-formed records from moving down the pipeline.</li>
   </ul>
 
   <h2 class="reveal">Why I point to this one</h2>
-  <p class="reveal">It's a small but real example of how I work: a pipeline that makes a lot of decisions, knows where it might be wrong, and checks itself with tests and repeatable re-runs. I'd rather show evidence than make claims, and that holds for everything I build.</p>
+  <p class="reveal">That's what AI enablement means to me: real workflows, honest guardrails, and adoption you can trust. It's a system that makes a lot of decisions, knows where it might be wrong, and keeps a person in the loop on the ones that matter. I'd rather show evidence than make claims, and that holds for everything I build.</p>
 </CaseStudy>
+
+<style>
+  /* Video embed slot — Field Manual bezel + 16:9 frame.
+     Reuses the same tokens/idiom as .cs__fig in CaseStudy.astro so the
+     reel reads as another plate in the manual. */
+  .cs-video { margin-top: clamp(1.8rem, 4vw, 2.6rem);
+    border: 1px solid var(--line-2); border-radius: var(--r-sm);
+    background: var(--bg-1); padding: var(--bezel); }
+  .cs-video__frame { position: relative; aspect-ratio: 16 / 9;
+    border: 1px solid var(--line); border-radius: 2px; overflow: hidden;
+    background: var(--card-2); }
+  .cs-video__frame :global(iframe) { position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0; display: block; }
+  .cs-video figcaption { font-family: var(--font-mono); font-size: 0.68rem;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 0.65rem 0.35rem 0.3rem; }
+
+  /* Placeholder — removed once the Loom iframe is pasted in. */
+  .cs-video__ph { position: absolute; inset: 0; display: grid; place-content: center;
+    justify-items: center; gap: 0.4rem; text-align: center;
+    background:
+      repeating-linear-gradient(-45deg, transparent 0 11px, var(--accent-soft) 11px 12px),
+      var(--card-2); }
+  .cs-video__ph-mark { display: grid; place-items: center; width: 3rem; height: 3rem;
+    border: 1.5px solid var(--accent); border-radius: 50%; color: var(--accent);
+    font-size: 1rem; margin-bottom: 0.35rem; }
+  .cs-video__ph-t { font-family: var(--font-mono); font-size: var(--fs-sm);
+    color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; }
+  .cs-video__ph-s { font-family: var(--font-mono); font-size: 0.68rem;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.16em; }
+</style>
