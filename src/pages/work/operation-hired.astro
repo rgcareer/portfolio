@@ -5,7 +5,7 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
   <p class="lead reveal">Job searching now means wading through thousands of postings, most of them irrelevant and a fair number fake. I built Operation Hired to deal with that. It pulls postings in, scores them, and ranks them, so I only spend time on the ones worth a look.</p>
 
   <h2 class="reveal">What it does</h2>
-  <p class="reveal">Postings land in a local <code>SQLite</code> database, each one runs through a scoring model, and the result is a ranked shortlist. So far it has scored <strong>5,905</strong> of them, and every score can be reproduced from the source data. The ranking is the easy part. The real work went into making that ranking something I could trust.</p>
+  <p class="reveal">Postings land in a local <code>SQLite</code> database, each one runs through a scoring model, and the result is a ranked shortlist. So far it has scored <strong>9,644</strong> of them, and every score can be reproduced from the source data. The ranking is the easy part. The real work went into making that ranking something I could trust.</p>
 
   <h2 class="reveal">How the scoring works</h2>
   <ul class="reveal">
@@ -17,7 +17,7 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
   <h2 class="reveal">Built so I can trust it</h2>
   <p class="reveal">The system treats its own data as something to audit, not something to assume:</p>
   <ul class="reveal">
-    <li>A <strong>re-score pipeline</strong> re-ran all 5,905 rows against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
+    <li>A <strong>re-score pipeline</strong> re-ran every row (5,905 at the time) against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
     <li>A <strong>95-case test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics. It's green before anything ships.</li>
     <li><strong>Data-hygiene guards</strong> clear out orphaned stress-test rows and stop half-formed records from moving down the pipeline.</li>
   </ul>

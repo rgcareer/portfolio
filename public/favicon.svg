@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Terminal prompt mark">
-  <rect width="32" height="32" rx="8" fill="#0D1016"/>
-  <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="7.25" fill="none" stroke="#4ADE80" stroke-opacity="0.4"/>
-  <path d="M9 10.5l5.2 5.5-5.2 5.5" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="16.4" y="19.6" width="8" height="2.6" rx="1.3" fill="#4ADE80"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RG monogram stamp">
+  <rect width="32" height="32" rx="4" fill="#F5F1E8"/>
+  <rect x="1.5" y="1.5" width="29" height="29" rx="3" fill="none" stroke="#C23A14" stroke-width="2"/>
+  <text x="16" y="21.5" text-anchor="middle" font-family="ui-monospace, 'IBM Plex Mono', monospace" font-size="12.5" font-weight="600" letter-spacing="0.5" fill="#C23A14">RG</text>
 </svg>
