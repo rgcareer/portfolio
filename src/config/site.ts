@@ -26,7 +26,7 @@ export const site = {
 
   // links
   links: {
-    linkedin: 'https://www.linkedin.com/in/-rgarver', // leading dash is intentional (confirmed)
+    linkedin: 'https://www.linkedin.com/in/ryan-garver-ai', // custom URL changed 2026-06-19; old /in/-rgarver is dead (no redirect)
     github: '', // optional — gated (publishing)
   },
 } as const;
