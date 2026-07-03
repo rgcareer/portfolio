@@ -4,29 +4,25 @@ import { work } from '../../config/work';
 const pad = (n: number) => String(n + 1).padStart(2, '0');
 ---
 <BaseLayout title="Work" active="work" description="A few working projects with real code behind them: AI tools, automation, and systems I built to solve my own problems.">
-  <section class="container wk">
-    <header class="wk__head">
-      <p class="wk__folio" data-anim>Table of contents</p>
-      <h1 class="wk__title" data-anim>A few things I've built.</h1>
-      <p class="wk__sub" data-anim>Working projects with code behind them. Mostly AI tools and automation, plus a couple of systems I built to fix my own problems.</p>
+  <section class="container wkx">
+    <header class="wkx__head">
+      <p class="section-kicker reveal">Selected work</p>
+      <h1 class="wkx__title display reveal" data-stretch>A few things I've built</h1>
+      <p class="wkx__sub reveal">Working projects with code behind them. Mostly AI tools and automation, plus a couple of systems I built to fix my own problems.</p>
     </header>
 
-    <ol class="wk__toc">
+    <ol class="wkx__list">
       {work.map((c, i) => (
-        <li class="wk__row" style={`--i:${i}`}>
-          <a href={`/work/${c.slug}`} class="wk__entry">
-            <span class="wk__no">Plate {pad(i)}</span>
-            <span class="wk__main">
-              <span class="wk__name">{c.title}</span>
-              <span class="wk__leader" aria-hidden="true"></span>
-              <span class="wk__metric">{c.metrics[0].value} {c.metrics[0].label.toLowerCase()}</span>
+        <li class="wkx__row reveal">
+          <a href={`/work/${c.slug}`} class="wkx__link" data-cursor="View">
+            <span class="wkx__no">{pad(i)}</span>
+            <span class="wkx__name display">{c.title}</span>
+            <span class="wkx__body">
+              <span class="wkx__tagline">{c.tagline}</span>
+              <span class="wkx__detail">{c.status} · {c.tags.join(' · ')}</span>
             </span>
-            <span class="wk__line">{c.tagline}</span>
-            <span class="wk__foot">
-              <span class="wk__status">{c.status}</span>
-              <span class="wk__tags">{c.tags.join(' · ')}</span>
-              <span class="wk__go" aria-hidden="true">→</span>
-            </span>
+            <span class="wkx__metric">{c.metrics[0].value}<em>{c.metrics[0].label}</em></span>
+            <span class="wkx__arrow" aria-hidden="true">→</span>
           </a>
         </li>
       ))}
@@ -35,42 +31,43 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 </BaseLayout>
 
 <style>
-  .wk { padding-top: clamp(3rem, 7vw, 5.5rem); }
-  .wk__head { max-width: 760px; }
-  .wk__folio { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
-    letter-spacing: 0.18em; color: var(--text-faint); }
-  .wk__title { font-size: var(--fs-3xl); margin-top: 1.1rem; text-transform: uppercase;
-    font-stretch: 118%; font-weight: 750; }
-  .wk__sub { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.1rem; max-width: 48ch; }
+  .wkx { padding-top: clamp(3.5rem, 8vw, 6rem); }
+  .wkx__head { max-width: 780px; }
+  .wkx__title { font-size: clamp(2.4rem, 6vw, 4.6rem); margin-top: 0.8rem; }
+  .wkx__sub { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.2rem; max-width: 50ch; }
 
-  .wk__toc { list-style: none; margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1.5px solid var(--line-strong); }
-  .wk__entry { display: grid; gap: 0.45rem 1.5rem; padding: 1.6rem 0.2rem;
-    border-bottom: 1px solid var(--line); transition: background var(--t-fast) var(--ease); }
-  .wk__row:last-child .wk__entry { border-bottom: 1.5px solid var(--line-strong); }
-  .wk__entry:hover { background: var(--card); }
+  .wkx__list { list-style: none; margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line-3); }
+  .wkx__link {
+    display: grid; align-items: center; gap: 0.3rem 1.5rem;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas: 'no name metric arrow' 'no body body arrow';
+    padding: clamp(1.4rem, 3vw, 2.2rem) 0.2rem;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left var(--t) var(--ease-out);
+  }
+  .wkx__row:last-child .wkx__link { border-bottom: 1px solid var(--line-3); }
+  .wkx__link:hover { padding-left: 0.6rem; }
 
-  .wk__no { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
-  .wk__main { display: flex; align-items: baseline; gap: 0.9rem; min-width: 0; }
-  .wk__name { font-size: var(--fs-2xl); font-weight: 600; letter-spacing: -0.02em; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; transition: color var(--t-fast) var(--ease); }
-  .wk__entry:hover .wk__name { color: var(--accent); }
-  .wk__leader { flex: 1; min-width: 2rem; border-bottom: 2px dotted var(--line-2);
-    transform: translateY(-0.35em) scaleX(0.45); transform-origin: left; opacity: 0.55;
-    transition: transform 0.55s var(--ease-out), opacity 0.55s var(--ease-out), border-color 0.55s var(--ease-out); }
-  .wk__entry:hover .wk__leader { transform: translateY(-0.35em) scaleX(1); opacity: 1; border-color: var(--accent-line); }
-  .wk__metric { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-dim); white-space: nowrap; }
-  .wk__line { color: var(--text-dim); font-size: var(--fs-lg); max-width: 56ch; }
-  .wk__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.6rem; margin-top: 0.5rem;
-    font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint);
+  .wkx__no { grid-area: no; font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
+    letter-spacing: 0.1em; color: var(--accent); align-self: start; padding-top: 0.5rem; }
+  .wkx__name { grid-area: name; font-size: clamp(1.7rem, 4.2vw, 3.2rem); color: var(--text);
+    font-variation-settings: 'wdth' 100; transition: font-variation-settings var(--t) var(--ease-out), color var(--t) var(--ease-out); }
+  .wkx__link:hover .wkx__name { color: var(--accent); font-variation-settings: 'wdth' 125; }
+  .wkx__body { grid-area: body; display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+  .wkx__tagline { color: var(--text-dim); font-size: var(--fs-base); max-width: 52ch; }
+  .wkx__detail { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint);
     text-transform: uppercase; letter-spacing: 0.1em; }
-  .wk__go { margin-left: auto; font-size: var(--fs-lg); color: var(--text-dim);
-    transition: transform var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
-  .wk__entry:hover .wk__go { transform: translateX(5px); color: var(--accent); }
+  .wkx__metric { grid-area: metric; justify-self: end; text-align: right; font-family: var(--font-mono);
+    font-size: var(--fs-lg); color: var(--text); white-space: nowrap; }
+  .wkx__metric em { display: block; font-style: normal; font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-faint); margin-top: 0.3rem; }
+  .wkx__arrow { grid-area: arrow; font-size: var(--fs-xl); color: var(--text-dim);
+    transition: transform var(--t) var(--ease-out), color var(--t) var(--ease-out); }
+  .wkx__link:hover .wkx__arrow { transform: translateX(6px); color: var(--accent); }
 
-  @media (max-width: 640px) {
-    .wk__main { flex-wrap: wrap; gap: 0.3rem 0.9rem; }
-    .wk__name { white-space: normal; }
-    .wk__leader { display: none; }
+  @media (max-width: 700px) {
+    .wkx__link { grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'no name arrow' 'no body body' 'no metric metric'; }
+    .wkx__metric { justify-self: start; text-align: left; margin-top: 0.4rem; }
   }
 </style>

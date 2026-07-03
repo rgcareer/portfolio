@@ -7,56 +7,46 @@ const linkedinText = site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '');
 <BaseLayout title="Contact" active="contact" description="Get in touch with Ryan Garver about AI enablement and adoption roles.">
   <section class="container ct">
     <div class="ct__lead">
-      <span class="eyebrow eyebrow--pill" data-anim><span class="dot" aria-hidden="true"></span> Open to work</span>
-      <h1 class="ct__title" data-anim>Let's talk.</h1>
-      <p class="ct__p" data-anim>I'm open to AI enablement and adoption roles, and I'm glad to talk through a project or a problem you're stuck on. Email is the fastest way to reach me, and I usually reply within a day.</p>
+      <p class="section-kicker reveal"><span class="dot" aria-hidden="true"></span> Open to work</p>
+      <h1 class="ct__title display reveal" data-stretch>Let's talk</h1>
+      <p class="ct__p reveal">I'm open to AI enablement and adoption roles, and I'm glad to talk through a project or a problem you're stuck on. Email is the fastest way to reach me, and I usually reply within a day.</p>
 
-      <div class="ct__cta" data-anim>
-        <a href={`mailto:${site.email}`} class="btn btn--accent magnetic">
-          Email me
-          <span class="btn__ic" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3M5 3h6v6"/></svg>
-          </span>
-        </a>
-        <a href={site.links.linkedin} target="_blank" rel="me noopener" class="btn btn--ghost magnetic">
-          LinkedIn
-          <span class="btn__ic" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3M5 3h6v6"/></svg>
-          </span>
-        </a>
+      <div class="ct__cta reveal">
+        <a href={`mailto:${site.email}`} class="btn btn--solid">Email me</a>
+        <a href={site.links.linkedin} target="_blank" rel="me noopener" class="btn btn--line">LinkedIn</a>
       </div>
-      <p class="ct__hint" data-anim>Or hit <kbd>⌘</kbd><kbd>K</kbd> anywhere on the site.</p>
+      <p class="ct__hint reveal">Or hit <kbd>⌘</kbd><kbd>K</kbd> anywhere on the site.</p>
     </div>
 
-    <aside class="ct__card" data-anim>
-      <div class="bezel"><dl class="bezel__core ct__core">
+    <aside class="ct__card reveal">
+      <dl class="ct__core">
         <div class="ct__row"><dt>Email</dt><dd><a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
         <div class="ct__row"><dt>LinkedIn</dt><dd><a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">{linkedinText}</a></dd></div>
         <div class="ct__row"><dt>Location</dt><dd>{site.location}</dd></div>
         <div class="ct__row"><dt>Response</dt><dd class="ct__ok"><span class="dot" aria-hidden="true"></span>usually within a day</dd></div>
-      </dl></div>
+      </dl>
     </aside>
   </section>
 </BaseLayout>
 
 <style>
   .ct { display: grid; gap: clamp(2rem, 6vw, 4rem); align-items: center;
-    padding-top: clamp(3.5rem, 10vw, 7rem); }
+    padding-top: clamp(4rem, 11vw, 8rem); }
   @media (min-width: 860px) { .ct { grid-template-columns: 1.2fr 0.9fr; } }
 
-  .ct__title { font-size: var(--fs-hero); margin-top: 1.4rem; }
-  .ct__p { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.4rem; max-width: 46ch; line-height: 1.7; }
+  .ct__title { font-size: clamp(3.4rem, 11vw, 8rem); margin-top: 1.2rem; }
+  .ct__p { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.6rem; max-width: 46ch; line-height: 1.7; }
   .ct__cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2rem; }
   .ct__hint { margin-top: 1.4rem; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
-  .ct__hint kbd { font-family: var(--font-mono); border: 0.5px solid var(--line-2); border-radius: 5px;
+  .ct__hint kbd { font-family: var(--font-mono); border: 1px solid var(--line-2); border-radius: 5px;
     padding: 0.1em 0.45em; margin: 0 0.1em; color: var(--text-dim); background: var(--bg-1); }
 
-  .ct__core { padding: 0.4rem 0.3rem; }
+  .ct__card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); overflow: hidden; }
   .ct__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: 0.85rem 1rem; border-bottom: 0.5px solid var(--line); }
+    padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); }
   .ct__row:last-child { border-bottom: 0; }
   .ct__row dt { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
-    letter-spacing: 0.16em; color: var(--text-faint); }
+    letter-spacing: 0.14em; color: var(--text-faint); }
   .ct__row dd { font-size: var(--fs-sm); color: var(--text); text-align: right; }
   .ct__ok { color: var(--accent); display: inline-flex; align-items: center; gap: 0.5em; }
 </style>

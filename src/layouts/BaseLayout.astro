@@ -1,8 +1,7 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import CommandPalette from '../components/CommandPalette.astro';
-import InkTrail from '../components/InkTrail.astro';
-import Readout from '../components/Readout.astro';
 import { site } from '../config/site';
 
 interface Props {
@@ -45,7 +44,7 @@ const personLd = {
     <meta name="description" content={desc} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#F5F1E8" />
+    <meta name="theme-color" content="#0F0F11" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
@@ -58,18 +57,25 @@ const personLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    />
+    <link rel="preload" href="/fonts/anybody-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bricolage-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+
+    <noscript><style>.preloader { display: none !important; }</style></noscript>
     <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
+    <ClientRouter />
   </head>
   <body>
-    <div class="paper-grain" aria-hidden="true"></div>
-    <InkTrail />
-    <Readout />
+    <!-- global chrome (persists across page transitions; init once) -->
+    <div class="preloader" id="preloader" transition:persist="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <span class="preloader__name">{site.initials}</span>
+        <span class="preloader__count" id="preloader-count">0</span>
+      </div>
+      <div class="preloader__bar"><span id="preloader-fill"></span></div>
+    </div>
+    <div class="progress" id="progress" transition:persist="progress" aria-hidden="true"><span id="progress-fill"></span></div>
+    <div class="cursor" id="cursor" transition:persist="cursor" aria-hidden="true"><span class="cursor__label" id="cursor-label"></span></div>
+    <div class="wipe" id="wipe" transition:persist="wipe" aria-hidden="true"></div>
 
     <a href="#main" class="skip">Skip to content</a>
 
@@ -84,7 +90,6 @@ const personLd = {
             <li><a href={n.href} class:list={['nav__link', { 'is-active': active === n.key }]}>{n.label}</a></li>
           ))}
         </ul>
-        <span class="nav__rev" aria-hidden="true">REV {site.year}.07</span>
         <button class="nav__cmd" data-cmdk type="button" aria-label="Open command menu" aria-keyshortcuts="Meta+K">
           <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="5.2"/><path d="m13 13 3 3"/></svg>
           <span class="nav__cmd-keys"><kbd>⌘</kbd><kbd>K</kbd></span>
@@ -110,7 +115,7 @@ const personLd = {
           <a class="link-quiet" href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
           <a class="link-quiet" href="/resume">Résumé</a>
         </div>
-        <p class="foot__meta">© {site.year} · {site.location} · Set in Archivo & IBM Plex Mono</p>
+        <p class="foot__meta">© {site.year} · {site.location} · Set in Anybody, Bricolage Grotesque &amp; Martian Mono</p>
       </div>
     </footer>
 
@@ -120,62 +125,45 @@ const personLd = {
       import '../scripts/motion.ts';
     </script>
 
-    <script is:inline>
-      (() => {
-        const els = document.querySelectorAll('.reveal:not(.in)');
-        if (!els.length || !('IntersectionObserver' in window)) {
-          els.forEach((el) => el.classList.add('in'));
-          return;
-        }
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-          });
-        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
-        els.forEach((el) => io.observe(el));
-      })();
-    </script>
-
     <style>
-      .skip { position: absolute; left: -9999px; top: 0; z-index: var(--z-overlay);
-        background: var(--accent); color: var(--accent-text); padding: 0.6rem 1rem; border-radius: var(--r-sm); }
-      .skip:focus { left: 1rem; top: 1rem; }
+      .skip { position: fixed; left: 1rem; top: -4rem; z-index: var(--z-overlay);
+        background: var(--accent); color: var(--accent-text); padding: 0.6rem 1rem; border-radius: var(--r-sm);
+        transition: top var(--t) var(--ease-out); }
+      .skip:focus { top: 1rem; }
 
       .nav-wrap { position: sticky; top: 0; z-index: var(--z-nav);
-        background: color-mix(in srgb, var(--bg) 92%, transparent);
-        border-bottom: 1px solid var(--line-2); }
-      .nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); padding-block: 0.8rem; }
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--line); }
+      .nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); padding-block: 0.85rem; }
       .nav__brand { display: inline-flex; align-items: center; gap: 0.65rem; margin-right: auto; }
-      .nav__mono { font-family: var(--font-mono); font-weight: 500; font-size: 0.8rem;
+      .nav__mono { font-family: var(--font-mono); font-weight: 600; font-size: 0.78rem;
         display: grid; place-items: center; width: 30px; height: 30px; flex: none;
-        border: 1.5px solid var(--accent); border-radius: var(--r-sm); color: var(--accent); }
+        border: 1.5px solid var(--accent); border-radius: var(--r-sm); color: var(--accent); letter-spacing: 0.02em; }
       .nav__name { font-weight: 600; font-size: var(--fs-sm); letter-spacing: -0.01em; }
       .nav__links { display: none; align-items: center; gap: 1.6rem; list-style: none; }
-      .nav__link { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-dim);
-        text-transform: uppercase; letter-spacing: 0.05em;
-        transition: color var(--t-fast) var(--ease); border-bottom: 1px solid transparent; }
+      .nav__link { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        transition: color var(--t-fast) var(--ease-out); border-bottom: 1px solid transparent; padding-bottom: 2px; }
       .nav__link:hover { color: var(--text); }
       .nav__link.is-active { color: var(--accent); border-bottom-color: var(--accent); }
-      .nav__rev { display: none; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
-        letter-spacing: 0.14em; color: var(--text-faint); }
       @media (min-width: 720px) { .nav__links { display: flex; } .nav__name { font-size: var(--fs-base); } }
-      @media (min-width: 980px) { .nav__rev { display: inline; } }
       .nav__cmd { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.42rem 0.55rem;
         border: 1px solid var(--line-2); border-radius: var(--r-sm); color: var(--text-dim);
-        background: var(--card); transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); }
-      .nav__cmd:hover { color: var(--text); border-color: var(--line-strong); }
+        background: var(--bg-1); transition: color var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out); }
+      .nav__cmd:hover { color: var(--text); border-color: var(--line-3); }
       .nav__cmd-keys { display: none; gap: 2px; }
       .nav__cmd kbd { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint);
         border: 1px solid var(--line); border-radius: 3px; padding: 0.05em 0.3em; }
       @media (min-width: 720px) { .nav__cmd { padding: 0.42rem 0.45rem 0.42rem 0.7rem; } .nav__cmd-keys { display: inline-flex; } }
 
-      .foot { border-top: 1px solid var(--line-2); margin-top: var(--section-y); padding-block: 3rem; }
+      .foot { border-top: 1px solid var(--line); margin-top: var(--section-y); padding-block: 3rem; }
       .foot__in { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2.5rem; }
       .foot__id { display: flex; align-items: center; gap: 0.8rem; margin-right: auto; }
       .foot__name { font-weight: 600; font-size: var(--fs-sm); }
       .foot__role { color: var(--text-dim); font-size: var(--fs-sm); }
       .foot__links { display: flex; gap: 1.5rem; font-size: var(--fs-sm); }
-      .foot__meta { color: var(--text-faint); font-family: var(--font-mono); font-size: var(--fs-eyebrow); width: 100%; }
+      .foot__meta { color: var(--text-faint); font-family: var(--font-mono); font-size: var(--fs-eyebrow); width: 100%; letter-spacing: 0.02em; }
       @media (min-width: 720px) { .foot__meta { width: auto; } }
     </style>
   </body>

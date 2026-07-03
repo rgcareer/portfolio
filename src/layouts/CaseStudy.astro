@@ -8,21 +8,20 @@ const { slug } = Astro.props;
 const c = getCase(slug)!;
 const idx = work.findIndex((w) => w.slug === slug);
 const next = work[(idx + 1) % work.length];
-const plateNo = String(idx + 1).padStart(2, '0');
 ---
 
 <BaseLayout title={c.title} active="work" description={c.tagline}>
   <article class="cs container">
-    <a href="/work" class="cs__back" data-anim><span aria-hidden="true">←</span> Table of contents</a>
+    <a href="/work" class="cs__back reveal"><span aria-hidden="true">&#8592;</span> Back to work</a>
 
-    <header class="cs__head" data-anim>
-      <p class="cs__folio">Plate {plateNo} · {c.year}</p>
-      <h1 class="cs__title">{c.title}</h1>
+    <header class="cs__head reveal">
+      <p class="cs__kicker">{c.role} · {c.year} · {c.status}</p>
+      <h1 class="cs__title display" data-stretch>{c.title}</h1>
       <p class="cs__tagline">{c.tagline}</p>
     </header>
 
     <div class="cs__layout">
-      <aside class="cs__rail" data-anim>
+      <aside class="cs__rail reveal">
         <dl class="cs__meta">
           <div><dt>Role</dt><dd>{c.role}</dd></div>
           <div><dt>Status</dt><dd>{c.status}</dd></div>
@@ -31,7 +30,7 @@ const plateNo = String(idx + 1).padStart(2, '0');
       </aside>
 
       <div class="cs__main">
-        <div class="cs__metrics" data-anim>
+        <div class="cs__metrics reveal">
           {c.metrics.map((m) => (
             <div class="cs__metric">
               <span class="cs__metric-v">{m.value}</span>
@@ -40,13 +39,16 @@ const plateNo = String(idx + 1).padStart(2, '0');
           ))}
         </div>
 
-        <figure class="cs__fig">
-          {c.figure.src ? (
-            <img src={c.figure.src} alt={c.figure.alt ?? ''} loading="eager" decoding="async" />
-          ) : (
-            <pre class="cs__specimen" aria-hidden="true">{c.figure.specimen?.join('\n')}</pre>
-          )}
-          <figcaption>Fig. {plateNo} · {c.figure.caption}</figcaption>
+        <figure class="cs__fig reveal">
+          <div class="cs__frame" data-cursor="View">
+            <div class="cs__chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+            {c.figure.src ? (
+              <img src={c.figure.src} alt={c.figure.alt ?? ''} loading="eager" decoding="async" />
+            ) : (
+              <pre class="cs__specimen">{c.figure.specimen?.join('\n')}</pre>
+            )}
+          </div>
+          <figcaption>{c.figure.caption}</figcaption>
         </figure>
 
         <div class="cs__body prose">
@@ -54,16 +56,11 @@ const plateNo = String(idx + 1).padStart(2, '0');
         </div>
 
         <nav class="cs__next" aria-label="Next case study">
-          <a href={`/work/${next.slug}`} class="cs__next-card">
-            <span class="cs__next-k">Next plate →</span>
+          <a href={`/work/${next.slug}`} class="cs__next-card" data-cursor="View">
+            <span class="cs__next-k">Next project</span>
             <span class="cs__next-t">{next.title}</span>
           </a>
-          <a href={`mailto:${site.email}`} class="btn btn--accent magnetic magnetic--soft cs__next-cta">
-            Get in touch
-            <span class="btn__ic" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3M5 3h6v6"/></svg>
-            </span>
-          </a>
+          <a href={`mailto:${site.email}`} class="btn btn--solid cs__next-cta">Get in touch</a>
         </nav>
       </div>
     </div>
@@ -71,22 +68,21 @@ const plateNo = String(idx + 1).padStart(2, '0');
 </BaseLayout>
 
 <style>
-  .cs { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+  .cs { padding-top: clamp(3rem, 7vw, 5rem); }
   .cs__back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono);
-    font-size: var(--fs-sm); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em;
-    transition: color var(--t-fast) var(--ease); }
+    font-size: var(--fs-sm); color: var(--text-dim); letter-spacing: 0.02em;
+    transition: color var(--t-fast) var(--ease-out); }
   .cs__back:hover { color: var(--accent); }
-  .cs__back span { transition: transform var(--t) var(--ease); }
+  .cs__back span { transition: transform var(--t) var(--ease-out); }
   .cs__back:hover span { transform: translateX(-3px); }
 
-  .cs__head { margin-top: 2rem; border-bottom: 1.5px solid var(--line-strong); padding-bottom: clamp(1.6rem, 4vw, 2.4rem); }
-  .cs__folio { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
-  .cs__title { font-size: var(--fs-3xl); margin-top: 1rem; text-transform: uppercase;
-    font-stretch: 118%; font-weight: 750; }
+  .cs__head { margin-top: 2rem; border-bottom: 1px solid var(--line-3); padding-bottom: clamp(1.6rem, 4vw, 2.4rem); }
+  .cs__kicker { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); }
+  .cs__title { font-size: clamp(2.4rem, 6vw, 5rem); margin-top: 0.9rem; }
   .cs__tagline { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1rem; max-width: 44ch; }
 
-  .cs__layout { display: grid; gap: clamp(2rem, 5vw, 4rem); margin-top: clamp(1.6rem, 4vw, 2.4rem); }
+  .cs__layout { display: grid; gap: clamp(2rem, 5vw, 4rem); margin-top: clamp(1.8rem, 4vw, 2.6rem); }
   @media (min-width: 900px) {
     .cs__layout { grid-template-columns: 230px minmax(0, 1fr); align-items: start; }
     .cs__rail { position: sticky; top: 6rem; }
@@ -94,45 +90,47 @@ const plateNo = String(idx + 1).padStart(2, '0');
   .cs__main { min-width: 0; }
 
   .cs__meta { display: flex; flex-wrap: wrap; gap: 1.2rem 2.2rem; }
-  @media (min-width: 900px) {
-    .cs__meta { flex-direction: column; gap: 1.3rem; }
-  }
+  @media (min-width: 900px) { .cs__meta { flex-direction: column; gap: 1.3rem; } }
   .cs__meta dt { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
-    letter-spacing: 0.16em; color: var(--text-faint); margin-bottom: 0.35rem; }
+    letter-spacing: 0.14em; color: var(--text-faint); margin-bottom: 0.35rem; }
   .cs__meta dd { font-size: var(--fs-sm); color: var(--text); max-width: 22ch; }
 
   .cs__metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
-  .cs__metric { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 1rem 1.1rem; }
-  .cs__metric-v { display: block; font-family: var(--font-mono); font-size: var(--fs-xl); color: var(--accent); letter-spacing: -0.02em; }
+  .cs__metric { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-md); padding: 1.1rem 1.2rem; }
+  .cs__metric-v { display: block; font-family: var(--font-mono); font-weight: 600; font-size: var(--fs-xl); color: var(--accent); letter-spacing: -0.01em; }
   .cs__metric-l { display: block; font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase;
     letter-spacing: 0.12em; color: var(--text-faint); margin-top: 0.4rem; }
   @media (max-width: 600px) { .cs__metrics { grid-template-columns: 1fr; } }
 
-  .cs__fig { margin-top: 1.6rem; border: 1px solid var(--line-2); border-radius: var(--r-sm);
-    background: var(--bg-1); padding: var(--bezel); }
-  .cs__fig img { width: 100%; border-radius: 2px; border: 1px solid var(--line); }
-  .cs__specimen { font-family: var(--font-mono); font-size: var(--fs-sm); line-height: 1.9;
-    color: var(--text-dim); background: var(--card-2); border: 1px solid var(--line);
-    border-radius: 2px; padding: 1.2rem 1.3rem; overflow-x: auto; }
-  .cs__fig figcaption { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-faint);
-    text-transform: uppercase; letter-spacing: 0.12em; padding: 0.65rem 0.35rem 0.3rem; }
+  .cs__fig { margin-top: 1.8rem; }
+  .cs__frame { border: 1px solid var(--line-2); border-radius: var(--r-lg); overflow: hidden;
+    background: var(--bg-2); box-shadow: 0 40px 90px -50px rgba(0,0,0,0.9); }
+  .cs__chrome { display: flex; gap: 0.4rem; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line-1); background: var(--bg-1); }
+  .cs__chrome span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--line-2); }
+  .cs__chrome span:first-child { background: rgba(232,75,12,0.6); }
+  .cs__frame img { width: 100%; display: block; }
+  .cs__specimen { font-family: var(--font-mono); font-size: clamp(0.66rem, 1.4vw, 0.82rem); line-height: 2;
+    color: var(--text-dim); margin: 0; padding: 1.5rem 1.6rem; white-space: pre; overflow-x: auto; }
+  .cs__fig figcaption { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-faint);
+    letter-spacing: 0.03em; padding: 0.9rem 0.2rem 0; max-width: 60ch; }
 
-  .cs__body { max-width: 720px; margin-top: clamp(2.2rem, 5vw, 3.4rem); }
+  .cs__body { max-width: 720px; margin-top: clamp(2.4rem, 5vw, 3.4rem); }
 
   .cs__next { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; justify-content: space-between;
-    margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: 2.5rem; border-top: 1.5px solid var(--line-strong); }
-  .cs__next-card { flex: 1 1 260px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
-    background: var(--card); padding: 1.1rem 1.3rem;
-    transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease); }
-  .cs__next-card:hover { border-color: var(--accent-line); background: var(--bg-1); }
-  .cs__next-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); }
+    margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: 2.5rem; border-top: 1px solid var(--line-3); }
+  .cs__next-card { flex: 1 1 260px; border: 1px solid var(--line-2); border-radius: var(--r-md);
+    background: var(--card); padding: 1.2rem 1.4rem;
+    transition: border-color var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out); }
+  .cs__next-card:hover { border-color: var(--accent-line); background: var(--bg-2); }
+  .cs__next-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
   .cs__next-t { display: block; font-size: var(--fs-lg); font-weight: 600; margin-top: 0.35rem; }
 </style>
 
 <style is:global>
   .prose > * + * { margin-top: 1.3rem; }
-  .prose h2 { font-size: var(--fs-2xl); margin-top: 3rem; }
+  .prose h2 { font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 110;
+    font-size: clamp(1.6rem, 3vw, 2.2rem); margin-top: 3rem; letter-spacing: -0.01em; }
   .prose h2:first-child { margin-top: 0; }
   .prose h3 { font-size: var(--fs-lg); margin-top: 2rem; color: var(--text); }
   .prose p, .prose li { color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75; }
@@ -140,10 +138,10 @@ const plateNo = String(idx + 1).padStart(2, '0');
   .prose ul { list-style: none; padding: 0; display: grid; gap: 0.7rem; }
   .prose li { position: relative; padding-left: 1.4rem; }
   .prose li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 7px; height: 7px;
-    border-radius: 1px; background: var(--accent); }
-  .prose code { font-family: var(--font-mono); font-size: 0.88em; color: var(--accent-press);
-    background: var(--accent-soft); padding: 0.12em 0.4em; border-radius: 3px; }
-  .prose pre { background: var(--card-2); border: 1px solid var(--line-2); border-radius: var(--r-sm);
+    border-radius: 50%; background: var(--accent); }
+  .prose code { font-family: var(--font-mono); font-size: 0.86em; color: var(--accent);
+    background: var(--accent-soft); padding: 0.12em 0.4em; border-radius: 4px; }
+  .prose pre { background: var(--bg-1); border: 1px solid var(--line-2); border-radius: var(--r-md);
     padding: 1.1rem 1.25rem; overflow-x: auto; }
   .prose pre code { color: var(--text-dim); background: none; padding: 0; font-size: var(--fs-sm); line-height: 1.7; }
   .prose .lead { color: var(--text); font-size: var(--fs-xl); }

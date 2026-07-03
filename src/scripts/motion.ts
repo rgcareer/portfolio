@@ -1,246 +1,212 @@
-import gsap from 'gsap';
+// Site-wide motion for v3 "IMMERSION". Works with Astro View Transitions:
+// one-time chrome (Lenis, custom cursor, preloader, wipe lifecycle) is set up on
+// module load; per-page systems (reveals, kinetic titles, counters, HUD, parallax,
+// the lazy WebGL hero) are (re)built on every astro:page-load. No-JS / reduced-motion
+// / touch all degrade to fully visible, still content.
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const motionOK = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+const fine = matchMedia('(min-width: 860px) and (hover: hover) and (pointer: fine)').matches;
+const canWipe = motionOK && matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 // ---------------------------------------------------------------------------
-// Typewriter (folio + field note). Text lives in markup (no-JS safe); with
-// motion we clear and retype it.
+// One-time: Lenis smooth scroll
 // ---------------------------------------------------------------------------
-function typewrite(el: HTMLElement, delayMs: number, speed = 30, caret?: HTMLElement) {
-  const txt = el.dataset.type ?? el.textContent ?? '';
-  if (reduce) return;
-  el.textContent = '';
-  if (caret) caret.hidden = false;
-  let i = 0;
-  setTimeout(function tick() {
-    el.textContent = txt.slice(0, i);
-    if (i++ <= txt.length) setTimeout(tick, speed);
-    else if (caret) setTimeout(() => (caret.hidden = true), 1400);
-  }, delayMs);
+let lenis: Lenis | null = null;
+if (motionOK) {
+  lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+  document.documentElement.classList.add('lenis');
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((t) => lenis!.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
 }
 
 // ---------------------------------------------------------------------------
-// Cover print sequence — the one orchestrated load the brand register earns.
-// Story: the manual assembles — registration marks, folio types, the name is
-// pressed then inked, the stamp approves it, the spec table rules itself.
+// One-time: custom cursor (fine pointer + motion). Hover targets via delegation
+// so they keep working after View-Transition page swaps.
 // ---------------------------------------------------------------------------
-const coverMarks = document.getElementById('cover-marks');
-const masks = gsap.utils.toArray<HTMLElement>('.mask__in');
-const sweep = document.querySelector<HTMLElement>('.ink-sweep');
-const stamp = document.querySelector<HTMLElement>('[data-stamp]');
-const specRows = gsap.utils.toArray<HTMLElement>('[data-specrow]');
-const folio = document.getElementById('folio-type');
-const note = document.getElementById('fieldnote');
-const noteCaret = document.getElementById('fieldnote-caret');
-
-if (reduce) {
-  gsap.set(masks, { y: 0 });
-  if (sweep) gsap.set(sweep, { clipPath: 'none' });
-  if (stamp) gsap.set(stamp, { opacity: 1 });
-  coverMarks?.classList.add('in');
-} else if (masks.length) {
-  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-  tl.add(() => coverMarks?.classList.add('in'), 0);
-  if (folio) typewrite(folio, 150, 26);
-  tl.to(masks[0], { y: 0, duration: 0.9 }, 0.3);
-  if (sweep) {
-    tl.set(sweep, { y: 0 }, 0.55); // rises with clip still closed
-    tl.to(sweep, { clipPath: 'inset(-2% -2% -2% -2%)', duration: 0.85, ease: 'power2.inOut' }, 0.62);
-  }
-  if (stamp) {
-    tl.fromTo(
-      stamp,
-      { opacity: 0, scale: 1.9, rotate: -2 },
-      { opacity: 1, scale: 1, rotate: -7, duration: 0.4, ease: 'power4.in', clearProps: 'scale' },
-      1.15
-    );
-    // ink soak: one quick settle pulse
-    tl.to(stamp, { opacity: 0.82, duration: 0.07, yoyo: true, repeat: 1 }, 1.56);
-  }
-  if (specRows.length) {
-    tl.fromTo(
-      specRows,
-      { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' },
-      1.2
-    );
-  }
-  if (note) typewrite(note, 1900, 24, noteCaret ?? undefined);
-}
-
-// Entrance for remaining [data-anim] (tagline, blurb, CTAs, folio row).
-const anim = gsap.utils.toArray<HTMLElement>('[data-anim]');
-if (anim.length) {
-  if (reduce) {
-    gsap.set(anim, { opacity: 1 });
-  } else {
-    gsap.fromTo(
-      anim,
-      { opacity: 0, y: 22 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07, delay: masks.length ? 0.5 : 0.06 }
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Magnetic pull on CTAs (hover physics).
-// ---------------------------------------------------------------------------
-if (!reduce && fine) {
-  gsap.utils.toArray<HTMLElement>('.magnetic').forEach((el) => {
-    const strength = el.classList.contains('magnetic--soft') ? 0.16 : 0.28;
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      gsap.to(el, {
-        x: (e.clientX - (r.left + r.width / 2)) * strength,
-        y: (e.clientY - (r.top + r.height / 2)) * strength,
-        duration: 0.5,
-        ease: 'power3.out',
-      });
-    });
-    el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'power3.out' }));
+if (fine && motionOK) {
+  document.documentElement.classList.add('has-cursor');
+  const cursor = document.getElementById('cursor')!;
+  const label = document.getElementById('cursor-label')!;
+  gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+  const cx = gsap.quickTo(cursor, 'x', { duration: 0.15, ease: 'power3' });
+  const cy = gsap.quickTo(cursor, 'y', { duration: 0.15, ease: 'power3' });
+  let shown = false;
+  window.addEventListener('pointermove', (e) => {
+    cx(e.clientX); cy(e.clientY);
+    if (!shown) { gsap.to(cursor, { opacity: 1, duration: 0.3 }); shown = true; }
+  });
+  document.addEventListener('pointerover', (e) => {
+    const t = (e.target as HTMLElement).closest?.('[data-cursor]');
+    if (t) { cursor.classList.add('is-hover'); label.textContent = t.getAttribute('data-cursor') || 'View'; }
+  });
+  document.addEventListener('pointerout', (e) => {
+    const t = (e.target as HTMLElement).closest?.('[data-cursor]');
+    if (t && !t.contains((e as PointerEvent).relatedTarget as Node)) {
+      cursor.classList.remove('is-hover'); label.textContent = '';
+    }
   });
 }
 
 // ---------------------------------------------------------------------------
-// Plates: cinematic filing (desktop). The outgoing sheet lifts, tilts with
-// paper physics, and takes a FILED stamp; each figure drifts inside its frame.
-// Mobile keeps the CSS sticky stack untouched.
+// One-time: branded preloader (first load only; reduced-motion skips it)
 // ---------------------------------------------------------------------------
-if (!reduce) {
-  const mm = gsap.matchMedia();
-  mm.add('(hover: hover) and (pointer: fine) and (min-width: 880px)', () => {
-    const plates = gsap.utils.toArray<HTMLElement>('.plate');
-
-    plates.forEach((plate, i) => {
-      const sheet = plate.querySelector<HTMLElement>('.plate__in');
-      const filed = plate.querySelector<HTMLElement>('.filed');
-      const fig = plate.querySelector<HTMLElement>('[data-parallax]');
-      const next = plates[i + 1];
-
-      // Figure drifts inside its frame while the plate crosses the viewport.
-      if (fig) {
-        gsap.fromTo(
-          fig,
-          { yPercent: -6, scale: 1.06 },
-          {
-            yPercent: 6,
-            scale: 1.06,
-            ease: 'none',
-            scrollTrigger: { trigger: plate, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
-          }
-        );
-      }
-
-      if (!next || !sheet) return;
-
-      // Outgoing sheet files itself as the next one slides over.
-      gsap.to(sheet, {
-        scale: 0.962,
-        y: -10,
-        rotate: i % 2 ? 0.55 : -0.55,
-        opacity: 0.75,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: next,
-          start: 'top bottom-=120',
-          end: 'top top+=140',
-          scrub: 0.4,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // FILED stamp thunks onto the sheet as it's put away (once).
-      if (filed) {
-        ScrollTrigger.create({
-          trigger: next,
-          start: 'top 45%',
-          once: true,
-          onEnter: () =>
-            gsap.fromTo(
-              filed,
-              { opacity: 0, scale: 1.8, rotate: -14 },
-              { opacity: 1, scale: 1, rotate: -6, duration: 0.28, ease: 'power4.in' }
-            ),
-        });
-      }
-    });
-
-    return () => {};
+let preloaderDone = !motionOK;
+(function preloader() {
+  const pre = document.getElementById('preloader');
+  if (!pre) { preloaderDone = true; return; }
+  if (!motionOK) { pre.classList.add('is-done'); preloaderDone = true; return; }
+  const count = document.getElementById('preloader-count');
+  const fill = document.getElementById('preloader-fill');
+  const st = { n: 0 };
+  gsap.to(st, {
+    n: 100, duration: 1.1, ease: 'power2.inOut',
+    onUpdate: () => { const v = Math.round(st.n); if (count) count.textContent = String(v); if (fill) (fill as HTMLElement).style.width = v + '%'; },
+    onComplete: () => { pre.classList.add('is-done'); preloaderDone = true; playHeroIntro(); },
   });
+})();
+
+// ---------------------------------------------------------------------------
+// Hero entrance (coordinated with the preloader on first load)
+// ---------------------------------------------------------------------------
+let heroIntroPlayed = false;
+function playHeroIntro() {
+  if (heroIntroPlayed) return;
+  const els = document.querySelectorAll('[data-hero-in]');
+  if (!els.length) return;
+  heroIntroPlayed = true;
+  if (!motionOK) { gsap.set(els, { opacity: 1, y: 0 }); return; }
+  gsap.fromTo(els, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.09 });
 }
 
 // ---------------------------------------------------------------------------
-// Metric counters (numbers are measured, not asserted). Once, on view.
+// Page-transition wipe, driven by the Astro lifecycle (desktop only)
 // ---------------------------------------------------------------------------
-gsap.utils.toArray<HTMLElement>('[data-count]').forEach((el) => {
-  const target = Number(el.dataset.count);
-  if (!Number.isFinite(target) || reduce) return;
-  const state = { v: 0 };
-  gsap.to(state, {
-    v: target,
-    duration: 1.4,
-    ease: 'power2.out',
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    onUpdate: () => {
-      el.textContent = Math.round(state.v).toLocaleString('en-US');
-    },
+const wipe = document.getElementById('wipe');
+function wipeCover(): Promise<void> {
+  return new Promise((res) => {
+    if (!canWipe || !wipe) return res();
+    gsap.timeline({ onComplete: () => res() })
+      .set(wipe, { scaleY: 0, transformOrigin: '50% 100%' })
+      .to(wipe, { scaleY: 1, duration: 0.45, ease: 'power4.inOut' });
   });
+}
+function wipeReveal() {
+  if (!canWipe || !wipe) return;
+  gsap.timeline()
+    .set(wipe, { transformOrigin: '50% 0%' })
+    .to(wipe, { scaleY: 0, duration: 0.55, ease: 'power4.inOut' });
+}
+
+document.addEventListener('astro:before-preparation', (e: any) => {
+  const original = e.loader;
+  e.loader = async () => { await wipeCover(); await original(); };
+});
+document.addEventListener('astro:after-swap', () => {
+  window.scrollTo(0, 0);
+  lenis?.scrollTo(0, { immediate: true });
 });
 
 // ---------------------------------------------------------------------------
-// Drafting-machine layer: straightedge hairlines + coordinate readout.
-// Fine pointers on wide viewports only (Readout.astro gates display via CSS).
+// Per-page: (re)build everything tied to swapped <main> content
 // ---------------------------------------------------------------------------
-if (!reduce && fine) {
-  const dx = document.getElementById('draft-x');
-  const dy = document.getElementById('draft-y');
-  const xy = document.getElementById('readout-xy');
-  const secEl = document.getElementById('readout-sec');
+let pageMM: ReturnType<typeof gsap.matchMedia> | null = null;
+function initPage() {
+  // clear stale triggers + matchMedia context from the previous page
+  ScrollTrigger.getAll().forEach((t) => t.kill());
+  pageMM?.revert();
+  heroIntroPlayed = false;
 
-  if (dx && dy && xy) {
-    let px = 0, py = 0, queued = false;
-    const paint = () => {
-      queued = false;
-      dx.style.transform = `translateY(${py}px)`;
-      dy.style.transform = `translateX(${px}px)`;
-      xy.textContent = `X ${String(px).padStart(4, '0')} · Y ${String(py).padStart(4, '0')}`;
-    };
-    addEventListener(
-      'pointermove',
-      (e) => {
-        px = Math.round(e.clientX);
-        py = Math.round(e.clientY);
-        if (!queued) { queued = true; requestAnimationFrame(paint); }
-      },
-      { passive: true }
-    );
+  // scroll progress
+  const progressFill = document.getElementById('progress-fill');
+  if (progressFill && motionOK) {
+    const setProg = gsap.quickSetter(progressFill, 'scaleX');
+    ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (self) => setProg(self.progress) });
   }
 
-  // Current-section tracking for the readout.
-  if (secEl) {
-    const secs = document.querySelectorAll<HTMLElement>('[data-sec]');
-    if (secs.length) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) secEl.textContent = (e.target as HTMLElement).dataset.sec!.toUpperCase();
-          });
-        },
-        { rootMargin: '-40% 0px -50% 0px' }
-      );
-      secs.forEach((s) => io.observe(s));
-    } else {
-      // Inner pages: label by document title's first word segment.
-      secEl.textContent = (document.body.dataset.page || document.title.split('·')[0] || 'PAGE').trim().toUpperCase().slice(0, 12);
-    }
+  pageMM = gsap.matchMedia();
+  const mm = pageMM;
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    // reveal groups (scene stagger). fromTo (not from): the CSS base is opacity:0
+    // for no-FOUC, so we must set the end state explicitly or it animates 0 -> 0.
+    document.querySelectorAll('.scene').forEach((scene) => {
+      const ins = scene.querySelectorAll('[data-in]');
+      if (ins.length) gsap.fromTo(ins, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85, ease: 'expo.out', stagger: 0.09, scrollTrigger: { trigger: scene, start: 'top 68%', once: true } });
+    });
+    // simple reveals (inner pages)
+    document.querySelectorAll('.reveal:not(.in)').forEach((el) => {
+      ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => el.classList.add('in') });
+    });
+    // kinetic type: display titles assemble their width axis on entry
+    document.querySelectorAll<HTMLElement>('.scene__title, .contact__big, [data-stretch]').forEach((title) => {
+      gsap.fromTo(title, { '--wdth': 74 }, { '--wdth': 118, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: title, start: 'top 82%', once: true } });
+    });
+    // count-ups (init to 0 on the motion path; reduced-motion keeps the real value)
+    document.querySelectorAll<HTMLElement>('[data-count]').forEach((counter) => {
+      const target = Number(counter.dataset.count);
+      if (!Number.isFinite(target)) return;
+      const obj = { n: 0 };
+      counter.textContent = '0';
+      ScrollTrigger.create({ trigger: counter, start: 'top 85%', once: true, onEnter: () => {
+        gsap.to(obj, { n: target, duration: 1.8, ease: 'power2.out', onUpdate: () => { counter.textContent = Math.round(obj.n).toLocaleString('en-US'); } });
+      }});
+    });
+  });
+
+  // parallax (desktop + motion only)
+  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 860px)', () => {
+    document.querySelectorAll<HTMLElement>('[data-par]').forEach((el) => {
+      const amt = parseFloat(el.dataset.par || '0');
+      gsap.fromTo(el, { yPercent: -amt }, { yPercent: amt, ease: 'none', scrollTrigger: { trigger: el.closest('.scene') || el, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+  });
+
+  // section HUD (home)
+  const idxEl = document.getElementById('hud-idx');
+  const labelEl = document.getElementById('hud-label');
+  if (fine && idxEl && labelEl) {
+    const ticks = Array.from(document.querySelectorAll<HTMLElement>('[data-tick]'));
+    document.querySelectorAll<HTMLElement>('.scene[data-scene]').forEach((scene) => {
+      const i = Number(scene.dataset.scene);
+      ScrollTrigger.create({ trigger: scene, start: 'top center', end: 'bottom center',
+        onToggle: (self) => { if (self.isActive) {
+          idxEl.textContent = String(i + 1).padStart(2, '0');
+          labelEl.textContent = scene.dataset.label || '';
+          ticks.forEach((tk, j) => tk.classList.toggle('is-on', j === i));
+        }},
+      });
+    });
   }
+
+  // lazy WebGL hero (home only; keeps ogl out of the main bundle)
+  if (document.getElementById('hero-field')) {
+    import('./hero-field').then((m) => m.initHeroField()).catch(() => {});
+  }
+
+  // no-JS-parity: if reduced motion, ensure reveals are shown (CSS already does, belt-and-braces)
+  if (!motionOK) document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+
+  if (preloaderDone) playHeroIntro();
+  lenis?.resize();
+  ScrollTrigger.refresh();
 }
 
-// ---------------------------------------------------------------------------
-// Rule-draw + crop-mark triggers reuse the global IO (elements carry .reveal),
-// which only decorates — content is never visibility-gated. (See BaseLayout.)
-// ---------------------------------------------------------------------------
+// in-page anchor links: smooth-scroll via Lenis (no wipe)
+document.addEventListener('click', (e) => {
+  const a = (e.target as HTMLElement).closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+  if (!a) return;
+  const id = a.getAttribute('href') || '';
+  if (id.length < 2) return;
+  const target = document.querySelector(id) as HTMLElement | null;
+  if (!target) return;
+  e.preventDefault();
+  if (lenis) lenis.scrollTo(target, { offset: -10 });
+  else target.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto' });
+});
+
+document.addEventListener('astro:page-load', () => { initPage(); wipeReveal(); });

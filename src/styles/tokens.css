@@ -1,62 +1,100 @@
 /* ============================================================
-   Design tokens — "THE FIELD MANUAL" system
-   Warm bone paper, warm ink, one vermilion signal (technical-
-   manual safety ink), Archivo (variable width) + IBM Plex Mono.
-   Same variable names as the previous system: one file re-skins
+   Design tokens — v3 "IMMERSION"
+   Deep ink ground, warm ivory type, one signal-orange accent.
+   Anybody (variable width, display) + Bricolage Grotesque (body/UI)
+   + Martian Mono (labels/metrics). Fonts self-hosted (latin subset,
+   full variable axes) so there is no render-blocking external CSS.
+   Same variable NAMES as the previous system: this one file re-skins
    the whole site.
    ============================================================ */
+
+/* ---------- self-hosted variable fonts (latin) ---------- */
+@font-face {
+  font-family: 'Anybody';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-display: swap;
+  src: url('/fonts/anybody-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 400 600;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/bricolage-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 75% 112.5%;
+  font-display: swap;
+  src: url('/fonts/martianmono-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* surfaces — bone paper */
-  --bg:       #F5F1E8;
-  --bg-1:     #EFEAE0;
-  --bg-2:     #E8E2D6;
-  --card:     #FBF8F1;
-  --card-2:   #F0EBE0;
+  /* surfaces — deep ink */
+  --bg:       #0F0F11;
+  --bg-1:     #17171A;
+  --bg-2:     #1D1D21;
+  --card:     #17171A;
+  --card-2:   #1D1D21;
 
-  /* hairlines — ink rules */
-  --line:        rgba(32, 29, 26, 0.16);
-  --line-2:      rgba(32, 29, 26, 0.28);
-  --line-strong: rgba(32, 29, 26, 0.48);
-  --inset-hi:    rgba(255, 255, 255, 0.55);
+  /* hairlines — ivory-alpha rules */
+  --line:        rgba(240, 237, 230, 0.08);
+  --line-1:      rgba(240, 237, 230, 0.08);
+  --line-2:      rgba(240, 237, 230, 0.14);
+  --line-3:      rgba(240, 237, 230, 0.24);
+  --line-strong: rgba(240, 237, 230, 0.24);
+  --inset-hi:    rgba(240, 237, 230, 0.06);
 
-  /* text — warm ink */
-  --text:       #201D1A;
-  --text-dim:   #57514A;
-  --text-faint: #6E6660;
+  /* text — warm ivory */
+  --text:       #F0EDE6;
+  --text-dim:   #9C978C;
+  --text-faint: #6E6A61;
+  --dim:        #9C978C; /* proto alias */
 
-  /* accent — single vermilion signal (safety ink) */
-  --accent:       #C23A14;
-  --accent-press: #A32E0D;
-  --accent-soft:  rgba(194, 58, 20, 0.09);
-  --accent-line:  rgba(194, 58, 20, 0.5);
-  --accent-text:  #FBF8F1;
+  /* accent — single signal orange */
+  --accent:       #E84B0C;
+  --accent-press: #C43D06;
+  --accent-soft:  rgba(232, 75, 12, 0.12);
+  --accent-line:  rgba(232, 75, 12, 0.5);
+  --accent-text:  #140A04; /* dark ink for text ON the orange */
 
   /* typography */
-  --font-sans: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --font-display: 'Anybody', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans:    'Bricolage Grotesque', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:    'Bricolage Grotesque', system-ui, -apple-system, BlinkMacSystemFont, sans-serif; /* proto alias */
+  --font-mono:    'Martian Mono', ui-monospace, 'SF Mono', monospace;
 
   /* fluid type scale — editorial, oversized display */
   --fs-eyebrow: 0.72rem;
   --fs-sm:   0.875rem;
-  --fs-base: 1rem;
-  --fs-lg:   1.0625rem;
+  --fs-base: 1.0625rem;
+  --fs-lg:   1.15rem;
   --fs-xl:   clamp(1.25rem, 1.8vw, 1.6rem);
   --fs-2xl:  clamp(1.7rem, 3vw, 2.5rem);
   --fs-3xl:  clamp(2.3rem, 5vw, 3.9rem);
-  --fs-hero: clamp(3.4rem, 11vw, 9rem);
+  --fs-hero: clamp(2.6rem, 12.5vw, 11.5rem);
 
   /* spatial rhythm */
   --container: 1240px;
-  --gutter:    clamp(1.25rem, 4vw, 2.5rem);
+  --gutter:    clamp(1.25rem, 4vw, 3.5rem);
   --section-y: clamp(5rem, 12vw, 10rem);
 
-  /* radii — print-sharp */
-  --r-sm: 2px;
-  --r-md: 4px;
-  --r-lg: 6px;
-  --r-xl: 8px;
+  /* radii — v3 is softer than the print system */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 999px;
   --bezel: 0.25rem;
 
   /* motion */
