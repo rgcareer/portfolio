@@ -1,3 +1,18 @@
+# ============================================================================
+#  WARNING: THIS FILE IS NOT APPLIED IN PRODUCTION. Read before trusting it.
+#  This site deploys as a Cloudflare WORKER (see wrangler.toml [assets]), not
+#  Cloudflare Pages. `_headers` is a Pages-only feature and is SILENTLY IGNORED
+#  by Workers static assets.
+#  Verified 2026-07-02: the LIVE response headers do not match this file — live
+#  `font-src` lacks 'self', Permissions-Policy differs, HSTS has no 'preload'.
+#  The live security headers come from a Cloudflare DASHBOARD rule
+#  (Rules -> Transform Rules -> Modify Response Header, getsmartai.ai zone) and
+#  MUST be edited there. This file is kept only as the intended spec; sync it by
+#  hand, or migrate headers into the Worker so the repo owns them.
+#  CRITICAL: the dashboard CSP must include  font-src 'self'  — without it the
+#  self-hosted /fonts/*.woff2 are CSP-blocked and the whole site falls back to
+#  system fonts.
+# ============================================================================
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
