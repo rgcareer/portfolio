@@ -133,6 +133,7 @@ const personLd = {
 
       .nav-wrap { position: sticky; top: 0; z-index: var(--z-nav);
         background: color-mix(in srgb, var(--bg) 82%, transparent);
+        -webkit-backdrop-filter: saturate(1.4) blur(10px);
         backdrop-filter: saturate(1.4) blur(10px);
         border-bottom: 1px solid var(--line); }
       .nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); padding-block: 0.85rem; }

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Not found" description="That page doesn't exist.">
+  <section class="nf container">
+    <p class="section-kicker">Error 404</p>
+    <h1 class="nf__big display" data-stretch>Lost the<br>signal</h1>
+    <p class="nf__sub">That page doesn't exist, or it moved. Let's get you back on track.</p>
+    <div class="nf__cta">
+      <a class="btn btn--solid" href="/">Back home</a>
+      <a class="btn btn--line" href="/work">See the work</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { min-height: 78vh; display: flex; flex-direction: column; justify-content: center;
+    padding-top: clamp(4rem, 10vh, 8rem); padding-bottom: clamp(3rem, 8vh, 6rem); }
+  .nf__big { font-size: clamp(3.2rem, 12vw, 9.5rem); margin-top: 0.9rem; }
+  .nf__sub { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1.6rem; max-width: 38ch; line-height: 1.4; }
+  .nf__cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2.4rem; }
+  .section-kicker { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+</style>

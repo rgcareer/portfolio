@@ -12,7 +12,7 @@ const next = work[(idx + 1) % work.length];
 
 <BaseLayout title={c.title} active="work" description={c.tagline}>
   <article class="cs container">
-    <a href="/work" class="cs__back reveal"><span aria-hidden="true">&#8592;</span> Back to work</a>
+    <a href="/work" class="cs__back reveal"><span class="cs__back-ic" aria-hidden="true"></span> Back to work</a>
 
     <header class="cs__head reveal">
       <p class="cs__kicker">{c.role} · {c.year} · {c.status}</p>
@@ -73,8 +73,10 @@ const next = work[(idx + 1) % work.length];
     font-size: var(--fs-sm); color: var(--text-dim); letter-spacing: 0.02em;
     transition: color var(--t-fast) var(--ease-out); }
   .cs__back:hover { color: var(--accent); }
-  .cs__back span { transition: transform var(--t) var(--ease-out); }
-  .cs__back:hover span { transform: translateX(-3px); }
+  .cs__back-ic { width: 1em; height: 1em; flex: none; background-color: currentColor;
+    -webkit-mask: var(--arrow-left) center / contain no-repeat; mask: var(--arrow-left) center / contain no-repeat;
+    transition: transform var(--t) var(--ease-out); }
+  .cs__back:hover .cs__back-ic { transform: translateX(-3px); }
 
   .cs__head { margin-top: 2rem; border-bottom: 1px solid var(--line-3); padding-bottom: clamp(1.6rem, 4vw, 2.4rem); }
   .cs__kicker { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500;
