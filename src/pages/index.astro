@@ -4,8 +4,10 @@ import { site } from '../config/site';
 import { work } from '../config/work';
 
 const hired = work.find((w) => w.slug === 'operation-hired')!;
-const rest = work.filter((w) => w.slug !== 'operation-hired');
-const sceneCount = work.length + 2; // hero + 4 work scenes + contact = 6
+// Homepage shows a curated scroll: the feature + entries flagged `home`.
+// Every project still appears on /work and its own detail page.
+const rest = work.filter((w) => w.slug !== 'operation-hired' && w.home);
+const sceneCount = rest.length + 3; // hero + feature + home panels + contact
 
 const method = [
   { n: '01', t: 'Assess', d: 'Map the real workflows first. Where hours actually go, not where the demo looks good.' },

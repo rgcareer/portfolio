@@ -18,6 +18,13 @@ const next = work[(idx + 1) % work.length];
       <p class="cs__kicker">{c.role} · {c.year} · {c.status}</p>
       <h1 class="cs__title display" data-stretch>{c.title}</h1>
       <p class="cs__tagline">{c.tagline}</p>
+      {c.links && (
+        <div class="cs__links">
+          {c.links.map((l) => (
+            <a class="cs__link-chip" href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+          ))}
+        </div>
+      )}
     </header>
 
     <div class="cs__layout">
@@ -83,6 +90,14 @@ const next = work[(idx + 1) % work.length];
     text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); }
   .cs__title { font-size: clamp(2.4rem, 6vw, 5rem); margin-top: 0.9rem; }
   .cs__tagline { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1rem; max-width: 44ch; }
+  .cs__links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .cs__link-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono);
+    font-size: var(--fs-sm); color: var(--text); background: var(--accent-soft);
+    border: 1px solid var(--accent-line); border-radius: 999px; padding: 0.42rem 0.95rem; letter-spacing: 0.02em;
+    transition: background var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out); }
+  .cs__link-chip::after { content: '\2192'; color: var(--accent); transition: transform var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out); }
+  .cs__link-chip:hover { background: var(--accent); color: var(--bg); }
+  .cs__link-chip:hover::after { color: var(--bg); transform: translateX(3px); }
 
   .cs__layout { display: grid; gap: clamp(2rem, 5vw, 4rem); margin-top: clamp(1.8rem, 4vw, 2.6rem); }
   @media (min-width: 900px) {

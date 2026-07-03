@@ -1,0 +1,18 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="evalcard">
+  <p class="lead reveal">Most people who deploy an AI assistant cannot evaluate one. The tooling assumes you write Python and think in metrics. evalcard is for the operator instead: the person who owns the support bot but not the codebase. You describe what a good answer looks like in plain English, and it turns that into pass or fail checks, a judged rubric, and a report card an exec can read in thirty seconds.</p>
+
+  <h2 class="reveal">A test case is one row of a spreadsheet</h2>
+  <p class="reveal">You write cases in a CSV or YAML file: the input, a plain-language description of a good answer, phrases the answer <strong>must</strong> or <strong>must not</strong> contain, and yes or no rubric questions. No framework to learn. The bundled example is a contractor-business FAQ bot, so you can run the whole thing in mock mode before you ever touch an API key.</p>
+
+  <h2 class="reveal">Two kinds of grading, blended into one honest number</h2>
+  <p class="reveal">Every case is graded twice. Deterministic checks handle the objective parts: <code>must_include</code>, <code>must_not_include</code>, a regex if you want one. Then an LLM judge grades your plain-language rubric and returns a reason for each verdict, so you can see <em>why</em>, not just a score. The two blend into a confidence number you can actually defend.</p>
+
+  <h2 class="reveal">The honesty feature</h2>
+  <p class="reveal">The judge runs the same model family as the assistant it is grading, so it is not an independent reviewer, and the tool refuses to pretend otherwise. Every judge result is labelled <code>[SIMULATED]</code>, and per-case confidence is capped at <strong>0.80</strong>, because a same-model judge cannot earn full trust. The report always says a human owns the final ship decision. evalcard advises, it does not authorize.</p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">Enablement lives or dies on whether people trust the tool. A harness that scored everything a perfect pass would be worthless, so this one is built to show its own limits: labelled confidence, a capped judge, and a human in the loop on the decision that matters. That is the posture I bring to every AI rollout, made into running code.</p>
+</CaseStudy>

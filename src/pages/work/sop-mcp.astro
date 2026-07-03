@@ -1,0 +1,18 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="sop-mcp">
+  <p class="lead reveal">A team's knowledge usually lives in a folder of markdown SOPs and FAQs that nobody reads at the moment they need it. sop-mcp turns that folder into something an AI client can answer from, with a citation back to the exact document. It is the plumbing that lets a non-technical team turn its own handbook into an assistant, and it installs in about two minutes.</p>
+
+  <h2 class="reveal">Three tools and a handbook</h2>
+  <p class="reveal">It is a Model Context Protocol server that exposes three read-only tools: <code>search_handbook</code> does keyword and heading matching and returns cited excerpts, <code>get_document</code> returns one SOP by name, and <code>list_documents</code> shows the whole catalogue. Each document is also exposed as an MCP resource. Point Claude Desktop at your folder and it can now cite your handbook instead of guessing.</p>
+
+  <h2 class="reveal">Built for the person who owns the handbook</h2>
+  <p class="reveal">The wedge is not the search, it is the install. The README opens with a two-minute path: an npx one-liner, the exact Claude Desktop config to paste, and the three things that actually go wrong, written for an admin who does not code. It ships with a full sample handbook so the first run works before anyone edits a thing.</p>
+
+  <h2 class="reveal">Safe by design, not by disclaimer</h2>
+  <p class="reveal">Everything is read-only: it can search and quote the handbook, never change it. It runs locally over stdio, with no network, no account, and no database. Path traversal is impossible <strong>by construction</strong>: the server loads every document once at startup and answers from memory, so a caller's input never reaches the filesystem at all. That is verified by tests, alongside 24 unit tests and an 11-step scripted session that drives the built server exactly as a real client would.</p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">This is what "AI plumbing" looks like when it is built for adoption: a small, honest tool a non-technical team can turn on themselves, that cites its sources and cannot damage the thing it reads. Enablement is not just the flashy demo, it is the boring, trustworthy pipe that makes the demo real on Monday.</p>
+</CaseStudy>

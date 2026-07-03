@@ -1,0 +1,36 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="victoria-reliability-layer">
+  <p class="lead reveal">LLM work fails in two predictable ways: loops that run without a stop condition, and confidence that is felt rather than computed. Victoria 4.0 is the methodology I wrote to fix both. It is a reliability layer that decides how much process a task earns, keeps a human on the calls that matter, and makes an agent state where it might be wrong instead of asserting that it is not. This page is not a description of the method. It is the method running, with the receipts.</p>
+
+  <h2 class="reveal">The design</h2>
+  <p class="reveal">Six layers, each aimed at a specific failure:</p>
+  <ul class="reveal">
+    <li><strong>Tier routing.</strong> A task is scored on complexity, stakes, external facts, and ambiguity, and that score decides how much process it gets. Small work stays fast; risky work earns gates.</li>
+    <li><strong>Loop specs.</strong> No loop starts without a written stop-test and a maximum iteration count, decided before the loop runs, not during it.</li>
+    <li><strong>Computed confidence.</strong> A number with named limiting factors, not a vibe.</li>
+    <li><strong>Claim ledgers.</strong> Every load-bearing factual claim is logged with its verification status, so "we checked" is auditable.</li>
+    <li><strong><code>[SIMULATED]</code> and <code>[EXTERNAL]</code> labels.</strong> A checker that is not independent is labelled, and its confidence is capped at 0.80. Only a human clears the cap.</li>
+    <li><strong>Human-gated decisions.</strong> The irreversible and public calls are owned by a person, on purpose.</li>
+  </ul>
+
+  <h2 class="reveal">A worked example: one real sprint under the rules</h2>
+  <p class="reveal">The evidence is a full portfolio-build sprint run end to end under Victoria 4.0. At intake, the router scored it complexity 3, stakes 2 to 3, external facts 2, artifact 3, recurrence 2, ambiguity 2, for a total at or above 14, which triggers the rule to <strong>decompose</strong> rather than run one giant loop. The research phase then fanned out to <strong>6 agents across 359K tokens</strong>, with a deliberate serial baseline running alongside as a miss-catcher. It consolidated <strong>26 raw candidates down to 13</strong>, behind a <strong>30-claim ledger</strong> (13 verified, 16 single-source, 1 flagged unverified) and 9 systemic patterns. The stop-test was mechanical: every framed question had a ledger entry before the phase could close.</p>
+
+  <h2 class="reveal">What the method actually caught</h2>
+  <p class="reveal">Governance is only worth anything if it catches real problems, not if it just claims discipline. In this sprint it caught, among others:</p>
+  <ul class="reveal">
+    <li>A <strong>systemic craft defect a content search cannot see</strong>: 59 stray typographic dashes across 14 already-built cards, invisible to a grep that only reads card bodies. It was raised as one human-gated decision, not 59 tickets, then swept and re-verified to zero in the rendered output.</li>
+    <li>A <strong>metadata inconsistency across repositories</strong> that a content scan structurally cannot see, standardized before anything shipped. The class of leak lives in commit metadata, not file contents, which is exactly why a dedicated audit exists.</li>
+    <li>A <strong>shared-link bug the test suite missed</strong>: the encoder wrote eight values, the decoder accepted seven, so a shared result silently failed to restore. The evidence checklist caught what green tests did not.</li>
+    <li>A <strong>plausible review finding that was wrong</strong>: a reviewer flagged a model id as invalid; checking the primary source refuted it. A high-confidence simulated claim was itself falsified by a human-checkable source, which is precisely why simulated confidence caps at 0.80.</li>
+    <li>A <strong>security property proven by construction</strong>: one tool was designed so untrusted input can never reach the filesystem, then hit with nine path-traversal payloads that all returned nothing.</li>
+  </ul>
+
+  <h2 class="reveal">The outcome</h2>
+  <p class="reveal">The sprint shipped four tools, each carrying the method's fingerprints: an eval harness with a capped, labelled judge; a decision tool that hands you a stop-test; a customer-success prompt kit held to a mechanical five-element bar; and an SOP server that is safe by construction. The case study proves the point it is trying to make: the methodology is not a slide. It runs, it finds real bugs, it refuses to fake improvement, and it keeps a human on the decisions that cannot be undone.</p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">Every job posting for AI enablement asks for the same thing in different words: someone who can make AI safe to roll out to people who are not engineers. This is that skill, written down and then run in public. Not "trust me, I am careful," but a layer of rules you can read, and a sprint of evidence showing them catch the things carelessness would have shipped.</p>
+</CaseStudy>

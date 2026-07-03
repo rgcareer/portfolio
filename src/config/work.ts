@@ -21,7 +21,9 @@ export interface CaseStudy {
   stack: string[];
   metrics: { label: string; value: string }[];
   tags: string[];
-  accent?: boolean; // featured
+  accent?: boolean; // featured (homepage hero)
+  home?: boolean; // render as a homepage scroll panel
+  links?: { label: string; href: string }[]; // external links (live demo / source / npm)
   figure: CaseFigure;
 }
 
@@ -61,6 +63,7 @@ export const work: CaseStudy[] = [
       { label: 'MCP servers monetized', value: '<5%' },
     ],
     tags: ['MCP', 'Agent economy', 'APIs'],
+    home: true,
     figure: {
       specimen: [
         '$ tools/list',
@@ -86,6 +89,7 @@ export const work: CaseStudy[] = [
       { label: 'Build cost', value: '$0' },
     ],
     tags: ['Automation', 'Generative', 'Content'],
+    home: true,
     figure: {
       specimen: [
         'spec.yaml',
@@ -111,6 +115,7 @@ export const work: CaseStudy[] = [
       { label: '"Done" =', value: 'evidence, not claim' },
     ],
     tags: ['Agents', 'Orchestration', 'Reliability'],
+    home: true,
     figure: {
       specimen: [
         'RULE  no loop without a written stop condition',
@@ -119,6 +124,139 @@ export const work: CaseStudy[] = [
         'REVIEW  fresh-context agent, adversarial by default',
       ],
       caption: 'Operating rules, mechanically enforced. The assistant proves its work.',
+    },
+  },
+
+  // ---- Portfolio Projects Sprint (2026): four shipped AI-enablement tools + the method behind them ----
+  {
+    slug: 'evalcard',
+    title: 'evalcard',
+    tagline: 'A no-code eval harness: write test cases in plain English, get a report card and a ship / fix-first / do-not-ship brief.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · MIT · 30 tests',
+    stack: ['TypeScript', 'Node', 'Anthropic SDK', 'Vitest'],
+    metrics: [
+      { label: 'Tests passing', value: '30 / 30' },
+      { label: 'Judge honesty', value: 'capped at 0.80' },
+      { label: 'Output', value: 'report card + brief' },
+    ],
+    tags: ['LLM eval', 'AI testing', 'No-code'],
+    links: [
+      { label: 'npm', href: 'https://www.npmjs.com/package/evalcard' },
+      { label: 'Source', href: 'https://github.com/rgcareer/evalcard' },
+    ],
+    figure: {
+      src: '/figures/evalcard-report-card.png',
+      alt: 'evalcard report card: per-case pass and fail, rubric scores, and a ship-decision brief',
+      caption: 'The report card an operator reads. Every judge score is labelled [SIMULATED] and capped, because a same-model judge is not an independent reviewer.',
+    },
+  },
+  {
+    slug: 'should-i-automate-this',
+    title: 'Should I Automate This?',
+    tagline: 'A decision tool that tells you whether to hand a task to AI, and hands you a stop-test instead of hype.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · 28 tests',
+    stack: ['TypeScript', 'Vite', 'Calibrated router'],
+    metrics: [
+      { label: 'Tests passing', value: '28 / 28' },
+      { label: 'Calibration goldens', value: '10 / 10' },
+      { label: 'Output', value: 'tiered verdict' },
+    ],
+    tags: ['AI adoption', 'Decision tool', 'Enablement'],
+    links: [
+      { label: 'Live demo', href: '#demo-coming-soon' },
+      { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
+    ],
+    figure: {
+      src: '/figures/should-i-automate-verdict.png',
+      alt: 'Should I Automate This verdict: a tiered recommendation with a concrete stop-test',
+      caption: 'Answer a few questions, get a tier and a stop-test. It will talk you out of automating the wrong thing, which is the honest half of enablement.',
+    },
+  },
+  {
+    slug: 'cs-prompt-field-kit',
+    title: 'CS Prompt Field Kit',
+    tagline: 'Copy-ready prompts for customer-success work, each with a five-element teardown you can actually trust.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · 18 cards',
+    stack: ['Astro', 'TypeScript'],
+    metrics: [
+      { label: 'Prompt cards', value: '18' },
+      { label: 'Each card', value: '5-element teardown' },
+      { label: 'Filter by', value: 'CS job to be done' },
+    ],
+    tags: ['Customer success', 'Prompts', 'Enablement'],
+    links: [
+      { label: 'Live demo', href: '#demo-coming-soon' },
+      { label: 'Source', href: 'https://github.com/rgcareer/cs-prompt-field-kit' },
+    ],
+    figure: {
+      src: '/figures/cs-prompt-field-kit.png',
+      alt: 'CS Prompt Field Kit index: filterable cards, each with a five-element prompt teardown',
+      caption: 'A kit a CS team opens on the job. Each prompt is torn down into its five moving parts, so people learn the shape, not just the copy.',
+    },
+  },
+  {
+    slug: 'sop-mcp',
+    title: 'sop-mcp',
+    tagline: 'Point any MCP client at a folder of markdown SOPs and FAQs, and your team can search and cite its handbook. Two-minute, no-code install.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · npm · 24 tests',
+    stack: ['TypeScript', 'MCP SDK', 'stdio', 'Vitest'],
+    metrics: [
+      { label: 'Tests + stdio', value: '24 + 11' },
+      { label: 'Install', value: 'two minutes' },
+      { label: 'Tools', value: 'search · get · list' },
+    ],
+    tags: ['MCP', 'Enablement', 'No-code'],
+    links: [
+      { label: 'npm', href: 'https://www.npmjs.com/package/sop-mcp' },
+      { label: 'Source', href: 'https://github.com/rgcareer/sop-mcp' },
+    ],
+    figure: {
+      specimen: [
+        '$ tools/list',
+        '> search_handbook   keyword + heading match, cited excerpts',
+        '> get_document      one SOP or FAQ by name',
+        '> list_documents    the whole handbook, catalogued',
+        '',
+        '# point it at a folder of .md SOPs;',
+        '# Claude Desktop can now answer from them, with citations.',
+      ],
+      caption: 'The tool surface a non-technical admin turns on. stdio only, read-only, no database. Path traversal is impossible by design, not by string-filtering.',
+    },
+  },
+  {
+    slug: 'victoria-reliability-layer',
+    title: 'Victoria 4.0',
+    tagline: 'A reliability layer for LLM work: tier routing, human-gated loops, computed confidence, and claim ledgers, so an agent knows where it might be wrong.',
+    role: 'Author + operator',
+    year: '2026',
+    status: 'methodology · worked example shipped',
+    stack: ['Methodology', 'Multi-agent', 'Claude', 'Governance'],
+    metrics: [
+      { label: 'Claim ledger', value: '30 claims' },
+      { label: 'Research fan-out', value: '6 agents' },
+      { label: 'Faked improvements', value: '0' },
+    ],
+    tags: ['Reliability', 'Governance', 'AI enablement'],
+    home: true,
+    figure: {
+      specimen: [
+        'ROUTER   complexity 3 · stakes 2-3 · external 2',
+        '         artifact 3 · recurrence 2 · ambiguity 2',
+        'TOTAL    >= 14   ->   DECOMPOSE (never one giant loop)',
+        '',
+        'LOOP     no loop without a written stop test',
+        'LABEL    [SIMULATED] caps confidence at 0.80',
+        '         [EXTERNAL]  a human owns the call',
+      ],
+      caption: 'The router that decides how much process a task earns. Everything below ran under these rules.',
     },
   },
 ];
