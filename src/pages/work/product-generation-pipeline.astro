@@ -2,24 +2,32 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="product-generation-pipeline">
-  <p class="lead reveal">Making digital products by hand, laying out interiors, designing covers, writing listings, doesn't scale. So instead of making products, I built the thing that makes them. You give it a short spec and it hands back a finished, print-ready product.</p>
+  <p class="lead reveal">Making digital products by hand, laying out interiors, designing covers, writing listings, does not scale. Each variant is another manual design pass. So instead of making products, I built the thing that makes them: you give it a short spec and it hands back a finished, print-ready product.</p>
 
-  <h2 class="reveal">The engine</h2>
-  <p class="reveal">A few parametric <code>Python</code> generators turn one config file into a whole product. Change a couple of values, like region, theme, or difficulty, and the same code produces a different finished SKU. One script covers <strong>50+ variants</strong>, and I never have to touch the layout logic again.</p>
+  <h2 class="reveal">The problem: craft that does not compound</h2>
+  <p class="reveal">A one-off digital product is a day of layout work. Ten variants is ten days, and the eleventh is no faster than the first, because nothing you learned got captured. The goal was to move all of that effort once, into a generator, so that the marginal cost of the next variant drops to nearly zero.</p>
 
-  <h2 class="reveal">What it generates, per product</h2>
+  <h2 class="reveal">The engine: one config in, a whole product out</h2>
+  <p class="reveal">A few parametric <code>Python</code> generators turn one config file into a complete product. Change a couple of values, like region, theme, or difficulty, and the same code produces a different finished SKU. One script covers <strong>50+ variants</strong>, and I never touch the layout logic again. Each run produces the full stack, not just the interior:</p>
   <ul class="reveal">
     <li><strong>Interiors.</strong> Multi-page, print-spec PDFs built in code, with front-matter and consistent typography.</li>
     <li><strong>Covers.</strong> Full-wrap cover PDFs computed to the exact spine width and bleed, so they upload as one file with no manual design step.</li>
     <li><strong>Listings.</strong> Formula-driven spreadsheets and ready-to-paste listing copy, generated alongside the assets.</li>
   </ul>
 
-  <h2 class="reveal">What makes it work</h2>
+  <h2 class="reveal">The decisions that make it hold up</h2>
   <ul class="reveal">
-    <li><strong>It's deterministic.</strong> The same spec always produces the same files. Covers and interiors are computed rather than placed by hand, so a 102-page book and its 0.230-inch spine line up every time.</li>
-    <li><strong>The work is up front.</strong> One more variant costs basically nothing, because it all went into the generator.</li>
-    <li><strong>The pieces are separate.</strong> The content spec, the layout engine, and the output format don't depend on each other, so a new product line is a new config file instead of a rewrite.</li>
+    <li><strong>Deterministic by design.</strong> The same spec always produces the same files. The randomness in a puzzle is seeded, so a book is reproducible and auditable, not a lucky one-time render.</li>
+    <li><strong>Computed, not placed.</strong> Covers and interiors are calculated rather than laid out by hand, so a 102-page book and its 0.230-inch spine line up every time, with no eyeballing and no reject from the printer.</li>
+    <li><strong>Separated pieces.</strong> The content spec, the layout engine, and the output format do not depend on each other, so a new product line is a new config file instead of a rewrite.</li>
+    <li><strong>Stdlib, straight to upload.</strong> Generation is dependency-light and produces the exact files a marketplace wants, so there is no print house, no pre-flight service, and no manual review loop after the generator runs.</li>
   </ul>
 
+  <h2 class="reveal">How I verified it</h2>
+  <p class="reveal">The proof is the output: real print-ready PDFs, full-wrap covers sized to the computed spine, and formula-driven tracker spreadsheets whose dashboards recalculate as a user edits. The determinism is the test, run the same spec twice and you get the same artifact, which is what makes a catalog of 50 trustworthy rather than 50 things I have to inspect by hand.</p>
+
   <p class="reveal"><em>This write-up is about the system, not the products. The storefronts it feeds are a separate venture I keep low-profile on purpose.</em></p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">It is the clearest example of how I think about scale: not by working faster, but by moving the work up a level, into a system that makes the expensive thing cheap and repeatable. Parametric design, determinism, and separation of concerns are the same instincts that make an AI workflow scale instead of sprawl.</p>
 </CaseStudy>

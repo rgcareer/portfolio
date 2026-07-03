@@ -162,4 +162,10 @@ const next = work[(idx + 1) % work.length];
     padding: 1.1rem 1.25rem; overflow-x: auto; }
   .prose pre code { color: var(--text-dim); background: none; padding: 0; font-size: var(--fs-sm); line-height: 1.7; }
   .prose .lead { color: var(--text); font-size: var(--fs-xl); }
+  /* Staged inline figure — shows a process step inside the case-study body. */
+  .prose .cs-shot { margin-top: 2rem; border: 1px solid var(--line-2); border-radius: var(--r-lg);
+    overflow: hidden; background: var(--bg-2); box-shadow: 0 30px 70px -50px rgba(0, 0, 0, 0.9); }
+  .prose .cs-shot img { width: 100%; display: block; border-bottom: 1px solid var(--line-1); }
+  .prose .cs-shot figcaption { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-faint);
+    text-transform: uppercase; letter-spacing: 0.1em; padding: 0.75rem 1rem; margin: 0; }
 </style>

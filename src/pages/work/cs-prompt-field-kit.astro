@@ -2,17 +2,37 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="cs-prompt-field-kit">
-  <p class="lead reveal">A prompt library is easy to ship and easy to ignore. People copy a line, it does not quite fit their situation, and they quietly go back to writing from scratch. So I built a field kit instead: prompts for real customer-success jobs, each one taken apart so the person using it learns the shape and can adapt it, not just paste it.</p>
+  <p class="lead reveal">A prompt library is easy to ship and easy to ignore. People copy a line, it does not quite fit, and they quietly go back to writing from scratch. So I built a field kit instead: prompts for real customer-success jobs, each taken apart so the person using it learns the shape and can adapt it, with a build that refuses to ship a half-finished card.</p>
 
-  <h2 class="reveal">Every card is a teardown</h2>
-  <p class="reveal">The kit is 18 cards, one per CS job to be done: the at-risk save play, the mutual success plan, the reference request, the churn post-mortem, and more. Each card breaks its prompt into five moving parts, so you can see which lever does what and swap any one of them for your own account. It reads like a worked example, not a vending machine.</p>
+  <h2 class="reveal">The problem: prompt dumps teach nobody</h2>
+  <p class="reveal">Most prompt libraries are 200 templates with no judgment attached. A CS rep gets a wall of copy and no signal about when a prompt is safe to hand a teammate, whether the output needs review before it reaches a customer, or when not to use it at all. The goal was a small, curated kit that carries that judgment on the face of every card.</p>
 
-  <h2 class="reveal">Built to be used on the job</h2>
-  <p class="reveal">You filter by the job you are actually doing, copy the prompt in one click, and go. It is a static site, so it loads instantly and works on a phone between calls. There is a short rollout page too, tying the kit to a wider adoption story rather than leaving it as a pile of tips.</p>
+  <h2 class="reveal">The approach: a five-part contract, enforced by the build</h2>
+  <p class="reveal">Every card ships five elements: a fill-in-the-blank template, a worked example, a good-versus-bad teardown, guardrails (when not to use it, whether a human must review), and model notes. The contract is not a guideline; it is enforced twice, by the content schema and by a prebuild gate that fails the build if any card is missing a part. Zero willpower required: you cannot ship an incomplete card.</p>
 
-  <h2 class="reveal">Held to a real bar</h2>
-  <p class="reveal">A build-time gate refuses to ship a card that is missing any of its five elements, so the quality bar is mechanical, not a matter of me remembering. The teardowns use plausible, non-strawman bad examples, because a teardown that only mocks an obviously terrible prompt teaches nothing.</p>
+  <figure class="cs-shot reveal">
+    <img src="/figures/cs-prompt-field-kit-card.png" alt="A single prompt card showing the five-element contract" loading="lazy" decoding="async" />
+    <figcaption>One card, five parts: template, worked example, good-versus-bad teardown, guardrails, model notes. The bad example is plausible, not a strawman.</figcaption>
+  </figure>
+
+  <h2 class="reveal">The defect a content search could not see</h2>
+  <p class="reveal">Mid-build, a review surfaced a systemic craft problem: 59 stray typographic dashes scattered across all 14 existing cards. The catch is that they were invisible to an ordinary content search, because they lived in card titles and layout components, not just the card bodies a grep reads. Rather than file 59 tickets, I elevated it to one decision, got a human call on scope ("fix all the visible ones"), swept them, and had the reviewer independently re-confirm zero visible dashes across all 22 rendered pages. One invisible, systemic defect, turned into a single gated fix.</p>
+
+  <h2 class="reveal">Removing a broken link instead of papering over it</h2>
+  <p class="reveal">The build also caught a navigation link to an <code>/about</code> page that never existed. The lazy fix is to add the page. The right fix, given the scope, was to remove the dead link and flag it, not to quietly expand the project to cover a mistake. Discipline about what stays out is part of what makes the thing trustworthy.</p>
+
+  <figure class="cs-shot reveal">
+    <img src="/figures/cs-prompt-field-kit-rollout.png" alt="The five-rung adoption ladder on the rollout page" loading="lazy" decoding="async" />
+    <figcaption>Not just cards: a five-rung adoption ladder that ties the kit to a rollout story instead of leaving it a pile of tips.</figcaption>
+  </figure>
+
+  <h2 class="reveal">How I verified it</h2>
+  <ul class="reveal">
+    <li><strong>Build gate:</strong> 20 pages built, <strong>18 of 18</strong> cards passing the five-element contract; the build fails otherwise.</li>
+    <li><strong>Behavioral:</strong> in a real browser, the lifecycle filter returns exactly the right cards, copy-to-clipboard yields the exact template, the rollout page loads, and there is no overflow at 375px, with zero console errors.</li>
+    <li><strong>Review:</strong> a fresh-context pass confirmed all four new teardowns are non-strawman and the contract held on every card; then a human approved the content.</li>
+  </ul>
 
   <h2 class="reveal">Why I point to this one</h2>
-  <p class="reveal">Enablement is teaching, and teaching means showing your work. This kit is what I would hand a CS team on day one: not "here are some prompts," but "here is how a good prompt is built, for the exact jobs you have, so you can make your own."</p>
+  <p class="reveal">Enablement is teaching, and teaching means showing your work. This kit is what I would hand a CS team on day one: not "here are some prompts," but "here is how a good prompt is built, for the jobs you actually have, checked by a build that will not let a bad one through."</p>
 </CaseStudy>

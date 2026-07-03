@@ -2,30 +2,35 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="competitor-intel-mcp">
-  <p class="lead reveal">AI agents can now find and call tools on their own through the Model Context Protocol. That's a new kind of distribution: an agent picks your tool because it works, not because you marketed it. There are roughly 13,000 public MCP servers today and fewer than 5% make any money. I wanted to find out whether a well-built one could.</p>
+  <p class="lead reveal">AI agents can now find and call tools on their own through the Model Context Protocol. That is a new kind of distribution: an agent picks your tool because it works, not because you marketed it. There are roughly 13,000 public MCP servers today and fewer than 5% make any money. I wanted to find out whether a well-built one could, and to do it as a disciplined experiment rather than a hopeful guess.</p>
+
+  <h2 class="reveal">The bet: sell to agents, not to people</h2>
+  <p class="reveal">The agent economy inverts the usual solo-founder problem. There is no audience to build, because the buyer is a program that discovers tools by capability. So the question is not "can I market this," it is "is the tool good enough that an agent would choose it, and can it charge per call." I picked a concrete job to test that: competitor intelligence on a local business.</p>
 
   <h2 class="reveal">What it does</h2>
-  <p class="reveal">It exposes a single tool, <code>get_competitor_intel(business_name, location)</code>, that returns a structured report on a local business: its public reputation and any advertising signal. The data comes only from official APIs, so Yelp Fusion, Google Places, and a best-effort Meta Ad Library lookup. Every response includes a <code>_provenance</code> block that states where the data came from and whether it used live keys or a mock fallback. The audience is research and marketing agents running competitor checks and qualifying leads.</p>
+  <p class="reveal">It exposes a single tool, <code>get_competitor_intel(business_name, location)</code>, that returns a structured report on a local business: its public reputation and any advertising signal. The data comes only from official APIs, Yelp Fusion, Google Places, and a best-effort Meta Ad Library lookup. Every response carries a <code>_provenance</code> block stating where the data came from and whether it used live keys or a mock fallback.</p>
 
   <h2 class="reveal">Architecture</h2>
-  <p class="reveal">The protocol layer and the data clients stay separate. It's written in plain <strong>Python with no dependencies</strong>, so there's no supply chain to worry about and it starts instantly.</p>
+  <p class="reveal">The protocol layer and the data clients stay separate. It is written in plain <strong>Python with no dependencies</strong>, so there is no supply chain to worry about and it starts instantly.</p>
   <pre class="reveal"><code>AI agent ──MCP/JSON-RPC(stdio)──▶ server.py ──▶ intel.py ──▶ Yelp Fusion API
                                      │                     ├─▶ Google Places API
                                      │                     └─▶ Meta Ad Library API
                                      └─ _charge() ─▶ Apify pay-per-event billing</code></pre>
+
+  <h2 class="reveal">The decisions that separate sellable from toy</h2>
   <ul class="reveal">
-    <li><strong>server.py</strong> is the MCP server: JSON-RPC 2.0 over stdio, with <code>initialize</code>, <code>tools/list</code>, <code>tools/call</code>, <code>ping</code>, and the <code>notifications/initialized</code> no-response case.</li>
-    <li><strong>intel.py</strong> holds three official-API clients. Each one normalizes to a common shape and falls back gracefully when a key is missing.</li>
-    <li><strong>test_local.py</strong> drives the handler with real protocol messages and checks the behavior, so the whole thing is <strong>testable without any API keys</strong>.</li>
+    <li><strong>Official APIs only, even when it costs coverage.</strong> Google has no official ads-transparency API, so instead of authenticating and scraping it, I dropped that source. Scraping is the difference between something you could sell and something that breaks the first time a page changes its markup. Yelp and Places are the reliable core; Meta is best-effort.</li>
+    <li><strong>Honest coverage labeling.</strong> Meta's API covers political ads fully but commercial ads only partially, so the payload says so. A consuming agent must not over-trust a null result, so the tool tells it where its own vision is limited.</li>
+    <li><strong>Testable without secrets.</strong> Any missing key makes that source return realistic, clearly-flagged mock data, so the whole tool runs in a demo or a test with zero credentials and switches to live data the moment keys are set. The self-test is hermetic by design.</li>
+    <li><strong>Packaged to earn.</strong> It ships as an Apify pay-per-event Actor, with the billing hook already wired, rather than a subscription, because agents care about capability per call, not a monthly plan.</li>
   </ul>
 
-  <h2 class="reveal">A few decisions worth calling out</h2>
-  <ul class="reveal">
-    <li><strong>Official APIs only.</strong> No scraping, so it stays inside each provider's terms. That's the difference between something you could sell and something that breaks the first time a site changes its markup.</li>
-    <li><strong>Mock fallbacks.</strong> It self-tests and demos with no credentials, then switches to live data the moment you add keys.</li>
-    <li><strong>Packaged to earn.</strong> It ships as an Apify pay-per-event Actor, with a Dockerfile and an <code>.actor</code> manifest, where the developer keeps 80% of each billed call.</li>
-  </ul>
+  <h2 class="reveal">How I verified it</h2>
+  <p class="reveal">The self-test drives the real protocol, initialize, tools/list, tools/call, over stdio and asserts the behavior, and it passes with no API keys at all. The mock data returns in the same normalized shape as live data, so adding keys is the only change between demo and production. The engineering is done and checkable; what is unproven is demand.</p>
 
-  <h2 class="reveal">Honest results</h2>
-  <p class="reveal">I haven't proven anyone will pay for this yet, and I'm not pretending otherwise. I funded it as a cheap experiment, under $50, with metrics attached. What I can stand behind is the build: a correct, testable MCP server with no dependencies that returns live data once you set keys and is set up to charge per call. The open question is distribution, not the code.</p>
+  <h2 class="reveal">Honest results, on purpose</h2>
+  <p class="reveal">I have not proven anyone will pay for this, and I am not pretending otherwise. I funded it as a cheap, instrumented probe, under $50, with a hard kill gate: at least one paid call from someone who is not me, inside 30 days, or the revenue experiment is shelved. If it fails that gate, the engineering artifact still stands and the revenue line does not. Falsifiable, with the failure condition written down first.</p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">It shows two things at once: that I can implement a protocol correctly from the wire up, with deliberate legal and ethical boundaries in how data is sourced, and that I test a business idea the way I test code, with a probe and a kill gate instead of optimism. That combination, real engineering plus honest validation, is exactly what AI product work needs.</p>
 </CaseStudy>

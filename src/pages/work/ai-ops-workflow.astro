@@ -2,19 +2,27 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="ai-ops-workflow">
-  <p class="lead reveal">AI coding agents are capable and unreliable at the same time. They'll happily ship broken work, skip the checks, and forget what they were doing between sessions. So I built a layer around one: a set of rules, hooks, and a few review agents that make its output safe enough to act on.</p>
+  <p class="lead reveal">AI coding agents are capable and unreliable at the same time. They will happily ship broken work, skip the checks, and forget what they were doing between sessions. So I built a layer around one: a set of rules, hooks, and review agents that make its output safe enough to act on, without slowing down the work that is actually low-risk.</p>
 
-  <h2 class="reveal">The system</h2>
-  <p class="reveal">It's a governance layer for an AI coding agent. It adds tiered process, safety hooks, persistent memory, and structured review by separate agents. The point is to get from "the model did something" to "the work is checked and stayed in scope." I use it every day on my own builds, including this site.</p>
+  <h2 class="reveal">The problem: autonomy fights safety</h2>
+  <p class="reveal">The usual answers to an unreliable agent are a sandbox or a wall of strict prompts, and both kill the speed that made the agent worth using. The real requirement is narrower and harder: keep the autonomy, but put guardrails on it that actually bite, and only where the stakes justify the friction. A tool that treats a typo fix like a database migration teaches people to route around it.</p>
 
-  <h2 class="reveal">How it works</h2>
+  <h2 class="reveal">The approach: layered defense, policy in code</h2>
+  <p class="reveal">Rather than one big rule, it is a stack of small ones, each aimed at a specific failure and enforced mechanically instead of by good intentions:</p>
   <ul class="reveal">
-    <li><strong>Guard hooks for dangerous actions.</strong> A deny layer catches irreversible operations (secret reads, force-push, destructive deletes) before they run. The policy lives in code, not in a prompt.</li>
-    <li><strong>Adversarial review by separate agents.</strong> On higher-stakes changes, independent reviewer agents are spawned to try to refute the work. A finding only survives if it holds up, and a plain serial pass catches what the structured one misses.</li>
-    <li><strong>Done means evidence.</strong> "Done" isn't a claim here. A stop-gate looks for real proof (test output, a build exit code, a screenshot) before anything counts as finished.</li>
-    <li><strong>Effort matches the stakes.</strong> Small changes move fast; risky ones get the full process. Typed memory keeps goals and decisions intact across sessions so the work doesn't drift.</li>
+    <li><strong>Tiered process.</strong> A quick triage at the start of every task, is this a reversible one-file change, or does it touch auth, data, or anything public, routes the work to the right amount of process. Small changes move fast; risky ones earn a plan, a review, and a gate.</li>
+    <li><strong>A guard hook as the catastrophic floor.</strong> A deny layer catches irreversible operations, secret reads, force-push, destructive deletes, piping the internet into a shell, before they run. It is a coarse net for the unrecoverable, not a sandbox, so everything else still moves at full speed. The policy lives in code, not in a prompt that can be argued with.</li>
+    <li><strong>Done means evidence.</strong> A stop-gate refuses to accept "done" on higher-stakes work until real proof appears: test output, a build exit code, a screenshot. Trivial work is exempt, so the gate lands where it matters.</li>
+    <li><strong>Adversarial review by separate agents.</strong> On higher-stakes changes, independent reviewer agents are spawned to try to refute the work, with a plain serial pass running alongside to catch what the structured one misses. A finding survives only if it holds up.</li>
+    <li><strong>Memory across sessions.</strong> Typed memory keeps goals and decisions intact between conversations, so the work does not drift when the context resets.</li>
   </ul>
 
-  <h2 class="reveal">Why it matters for AI work</h2>
-  <p class="reveal">The hard part of running agents in production isn't whether they're capable. It's whether they're reliable, safe, and checkable. This is a working example of all three: limited autonomy, guardrails that are actually enforced, and a bar for "done" that needs evidence. It's the same approach I'd bring to running agents on a team.</p>
+  <h2 class="reveal">Hardened by a real audit</h2>
+  <p class="reveal">The review layer is not theoretical; it was tuned by a miss. In a security audit of one of my own projects, the structured, parallel review pass over-focused its framing and missed an injection bug, while a cheap serial baseline running next to it caught the issue. So the rule changed: always run a serial baseline as a miss-catcher, and add a synthesis step that re-raises systemic patterns instead of dismissing them one by one. The governance improved because it was allowed to be wrong once and learn from it.</p>
+
+  <h2 class="reveal">A layer, not a cage, and not the methodology</h2>
+  <p class="reveal">Two distinctions matter. First, this is not a sandbox that says no to everything; it is a set of guardrails that bite only on the irreversible and the high-stakes, so autonomy stays intact. Second, it is the enforcement layer, the running machine, not the thinking behind it. The methodology decides how much rigor a task deserves; this system is the hooks, gates, and review agents that make that rigor non-optional inside the actual coding agent.</p>
+
+  <h2 class="reveal">Why I point to this one</h2>
+  <p class="reveal">The hard part of running agents in production is not whether they are capable, it is whether they are reliable, safe, and checkable. This is a working example of all three, in daily use on my own builds including this site: limited autonomy, guardrails that are actually enforced, and a bar for "done" that needs evidence. It is the same posture I would bring to putting agents to work on a team.</p>
 </CaseStudy>

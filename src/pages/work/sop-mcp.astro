@@ -4,15 +4,29 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
 <CaseStudy slug="sop-mcp">
   <p class="lead reveal">A team's knowledge usually lives in a folder of markdown SOPs and FAQs that nobody reads at the moment they need it. sop-mcp turns that folder into something an AI client can answer from, with a citation back to the exact document. It is the plumbing that lets a non-technical team turn its own handbook into an assistant, and it installs in about two minutes.</p>
 
-  <h2 class="reveal">Three tools and a handbook</h2>
-  <p class="reveal">It is a Model Context Protocol server that exposes three read-only tools: <code>search_handbook</code> does keyword and heading matching and returns cited excerpts, <code>get_document</code> returns one SOP by name, and <code>list_documents</code> shows the whole catalogue. Each document is also exposed as an MCP resource. Point Claude Desktop at your folder and it can now cite your handbook instead of guessing.</p>
+  <h2 class="reveal">The problem: the handbook nobody opens in time</h2>
+  <p class="reveal">Generic "markdown knowledge base" servers exist, but they are built for developers and assume a technical setup. The person who actually owns the SOPs, an ops or HR lead, cannot stand one up without asking engineering. The goal was a server sized for that specific job, that a non-technical admin can turn on themselves, and that cites its sources so the answers are checkable.</p>
 
-  <h2 class="reveal">Built for the person who owns the handbook</h2>
-  <p class="reveal">The wedge is not the search, it is the install. The README opens with a two-minute path: an npx one-liner, the exact Claude Desktop config to paste, and the three things that actually go wrong, written for an admin who does not code. It ships with a full sample handbook so the first run works before anyone edits a thing.</p>
+  <h2 class="reveal">The approach: three tools, a handbook, a two-minute install</h2>
+  <p class="reveal">It is a Model Context Protocol server exposing three read-only tools: <code>search_handbook</code> (keyword and heading matching, returning cited excerpts), <code>get_document</code>, and <code>list_documents</code>. Each document is also an MCP resource. It ships with a full sample handbook so the first run works before anyone edits a thing, and the README opens with the two-minute path: an npx one-liner and the exact config to paste.</p>
 
-  <h2 class="reveal">Safe by design, not by disclaimer</h2>
-  <p class="reveal">Everything is read-only: it can search and quote the handbook, never change it. It runs locally over stdio, with no network, no account, and no database. Path traversal is impossible <strong>by construction</strong>: the server loads every document once at startup and answers from memory, so a caller's input never reaches the filesystem at all. That is verified by tests, alongside 24 unit tests and an 11-step scripted session that drives the built server exactly as a real client would.</p>
+  <pre class="reveal"><code>&gt; search_handbook  "refund window"
+  refund-policy.md#eligibility   "...full refund within 30 days if..."
+  refund-policy.md#exceptions    "...opened software is non-refundable..."</code></pre>
+
+  <h2 class="reveal">Correcting a stale guide by reading the types</h2>
+  <p class="reveal">I scaffolded it with a builder skill, but the skill's examples were written against an old SDK: an outdated version and a deprecated way of registering tools. Rather than trust the generated shape, I read the installed SDK's own type definitions to confirm the current contract, that tool inputs take a raw schema and that a successful result carries structured content while an error is exempt. That check avoided two classes of runtime error the stale guide would have baked in. Reading the source of truth beats trusting the tutorial.</p>
+
+  <h2 class="reveal">Security by construction, not by string-filtering</h2>
+  <p class="reveal">A tool that reads files by name is exactly where path traversal creeps in. Instead of trying to filter dangerous inputs, I removed the possibility: the server loads every document into memory once at startup, and <code>get_document</code> is a lookup against that in-memory set. A caller's input never reaches the filesystem at all, so there is nothing to traverse. I confirmed it with nine attack strings (parent-directory hops, absolute paths, separators, a null byte); every one returns a friendly "no such document" listing the real ids, never a file.</p>
+
+  <h2 class="reveal">How I verified it</h2>
+  <ul class="reveal">
+    <li><strong>Tests:</strong> <strong>24 of 24</strong> passing (handbook parsing, search ranking, document lookup, the traversal attacks, truncation).</li>
+    <li><strong>Live session:</strong> a scripted client drove the built server over real stdio, exactly as Claude Desktop would, and asserted <strong>11 of 11</strong> steps: tool discovery, search with citations, document fetch, the traversal defense, and resource reads.</li>
+    <li><strong>Ship-ready:</strong> a packaging dry-run confirms the published bundle carries the server plus the sample handbook, so a zero-config install works on the first try. A fresh-context review passed with no material findings.</li>
+  </ul>
 
   <h2 class="reveal">Why I point to this one</h2>
-  <p class="reveal">This is what "AI plumbing" looks like when it is built for adoption: a small, honest tool a non-technical team can turn on themselves, that cites its sources and cannot damage the thing it reads. Enablement is not just the flashy demo, it is the boring, trustworthy pipe that makes the demo real on Monday.</p>
+  <p class="reveal">This is what "AI plumbing" looks like when it is built for adoption: a small, honest tool a non-technical team can turn on themselves, that cites its sources and cannot damage what it reads. Enablement is not just the flashy demo; it is the boring, trustworthy pipe that makes the demo real on Monday.</p>
 </CaseStudy>

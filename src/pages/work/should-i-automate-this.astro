@@ -2,17 +2,35 @@
 import CaseStudy from '../../layouts/CaseStudy.astro';
 ---
 <CaseStudy slug="should-i-automate-this">
-  <p class="lead reveal">The fastest way to burn trust in an AI rollout is to automate the wrong task and let it fail loudly. So I built the opposite of a hype machine: a short decision tool that asks a handful of honest questions and tells you whether a task is a good fit for AI right now, or whether you should leave it alone.</p>
+  <p class="lead reveal">The fastest way to burn trust in an AI rollout is to automate the wrong task and let it fail loudly. So I built the opposite of a hype machine: a short decision tool that asks a handful of honest questions and tells you whether a task is a good fit for AI right now, or whether you should keep a human on it, and hands you a stop-test either way.</p>
 
-  <h2 class="reveal">A calibrated router, not a vibe</h2>
-  <p class="reveal">You answer a few questions about the task: how repetitive it is, how much judgment it needs, what it costs to be wrong. Those run through a calibrated router that returns a <strong>tier</strong>, from "automate this today" down to "keep a human on it." The routing logic is pinned by ten golden cases, so the same task always lands in the same place.</p>
+  <h2 class="reveal">The problem: no instrument for "how much should I trust this?"</h2>
+  <p class="reveal">Teams decide what to automate on gut feel, usually at the worst moment, mid-project, under pressure. There is good thinking on how to route work between a human and a model, but no fast, user-facing version of it. The goal was to put that decision in front of the person making it, at the point of use, with the reasoning visible.</p>
 
-  <h2 class="reveal">It hands you a stop-test</h2>
-  <p class="reveal">A recommendation you cannot check is just an opinion. Every verdict comes with a concrete <strong>stop-test</strong>: the specific condition under which you should pull the automation back. That turns "should I automate this" from a one-time guess into something you can monitor and reverse, which is what makes it safe to act on.</p>
+  <h2 class="reveal">The approach: a router ported from a calibrated methodology</h2>
+  <p class="reveal">Under the hood it is a faithful browser port of a task router I had already calibrated: six dimensions (complexity, stakes, external facts, artifact, recurrence, ambiguity), each scored 0 to 3, routing to a tier or to "decompose" past a threshold. The port is pinned to the methodology's ten golden routings, encoded as tests, so the tool cannot silently drift from the source it claims to implement. State lives in the URL, so a verdict is shareable without an account or a backend.</p>
 
-  <h2 class="reveal">Honest by construction</h2>
-  <p class="reveal">The whole tool is 28 tests green, including the ten calibration goldens and a round-trip check on the shareable result link. It runs entirely in the browser, with nothing to log into and no data leaving the page. Share a verdict by URL and the recipient sees exactly what you saw.</p>
+  <h2 class="reveal">The bug my tests could not see</h2>
+  <p class="reveal">The router tests were green, 25 of 25, but the evidence checklist has a task the tests do not: actually share a result and load it back. Doing that by hand, the shared link came back empty. The encoder wrote one value per question (eight of them, including an advisory prompt); the decoder had a hard-coded pattern that accepted seven. A shared URL never restored. No router test could have caught it, because it was not a routing bug; it was a round-trip the suite never exercised. I keyed the decoder to the question count so encode and decode stay in lockstep, and added the round-trip test that should have existed. It is a small bug with a big lesson: green tests are not the same as a working feature, and the checklist is what catches the difference.</p>
+
+  <h2 class="reveal">Measuring before fixing the mobile defect</h2>
+  <p class="reveal">The Tier-2 verdict includes a copyable stop-test template that "overflowed" on a phone. The obvious fix, loosening a flex ancestor, was a guess, so I measured first. The page did not overflow; the template body was scrolling sideways internally (629 pixels of content in a 338 pixel column), hiding half of it behind a drag. The blind fix would have missed it. The real fix wrapped the template inside the existing mobile breakpoint, so it reads top to bottom, while the copy button still yields the pristine, column-aligned original.</p>
+
+  <h2 class="reveal">Route-down is as important as route-up</h2>
+  <p class="reveal">A trust tool that only ever says "automate it" is a sales pitch. This one routes both ways, and shows it: the same instrument that gates a high-stakes task with a human in the loop sends a trivial one straight through.</p>
+
+  <figure class="cs-shot reveal">
+    <img src="/figures/should-i-automate-trivial.png" alt="The same tool routing a low-stakes task to Tier 0 with no gate" loading="lazy" decoding="async" />
+    <figcaption>Same six-dimension instrument, a low-stakes task: Tier 0, just let it run. Restored from a shared URL, so the reasoning travels with the verdict.</figcaption>
+  </figure>
+
+  <h2 class="reveal">How I verified it</h2>
+  <ul class="reveal">
+    <li><strong>Tests:</strong> <strong>28 of 28</strong> passing (the ten calibration goldens, plus the new round-trip and malformed-token tests).</li>
+    <li><strong>Round-trip:</strong> both worked presets, high-stakes and trivial, restore their full scorecard from a shared URL alone.</li>
+    <li><strong>Responsive:</strong> no overflow at 375px, motion renders correctly, zero console errors.</li>
+  </ul>
 
   <h2 class="reveal">Why I point to this one</h2>
-  <p class="reveal">Good enablement is as much about what you talk people out of as what you sell them on. This tool is the honest half of the job in a single page: it will tell a stakeholder "not yet," and it will tell them why, and it will give them the test that changes the answer.</p>
+  <p class="reveal">Good enablement is as much about what you talk people out of as what you sell them on. This tool is the honest half of the job in a single page: it will tell a stakeholder "not yet," show the reasoning behind it, and give them the test that would change the answer. And its own build is a small proof that I trust checklists over green tests.</p>
 </CaseStudy>
