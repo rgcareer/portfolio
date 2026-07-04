@@ -167,7 +167,7 @@ export const work: CaseStudy[] = [
     ],
     tags: ['AI adoption', 'Decision tool', 'Enablement'],
     links: [
-      { label: 'Live demo', href: '#demo-coming-soon' },
+      { label: 'Live demo', href: 'https://should-i-automate-this.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
     ],
     figure: {
@@ -191,7 +191,7 @@ export const work: CaseStudy[] = [
     ],
     tags: ['Customer success', 'Prompts', 'Enablement'],
     links: [
-      { label: 'Live demo', href: '#demo-coming-soon' },
+      { label: 'Live demo', href: 'https://cs-prompt-field-kit.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/cs-prompt-field-kit' },
     ],
     figure: {
