@@ -1,0 +1,276 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import { work, getCase } from '../config/work';
+
+const services = [
+  {
+    n: '01',
+    t: 'AI enablement & adoption',
+    d: 'Find the workflows worth the effort, prove the value with a small pilot, and make the change stick after the novelty wears off.',
+    chips: [] as string[],
+  },
+  {
+    n: '02',
+    t: 'Claude implementation',
+    d: 'Hands-on builds on the Claude stack: Claude Code for real work, MCP servers that connect Claude to your tools and documents, and Claude API integrations sized for a small team.',
+    chips: ['Claude Code', 'MCP', 'Claude API'],
+  },
+  {
+    n: '03',
+    t: 'Workflow automation',
+    d: 'The unglamorous plumbing that saves real hours: intake, follow-up, handoffs, reporting, and the glue between the tools you already pay for.',
+    chips: [] as string[],
+  },
+  {
+    n: '04',
+    t: 'Team training',
+    d: "Sessions pitched at your team's level, with playbooks people actually open. The goal is habits that survive after I leave, not a demo that impresses once.",
+    chips: [] as string[],
+  },
+];
+
+// Proof: pulled from the case-study registry so titles, taglines, and links
+// can never drift from /work. Ryan's chosen set: the two MCP servers, the
+// Claude API tool, and one live demo.
+const proofSlugs = ['sop-mcp', 'competitor-intel-mcp', 'evalcard', 'should-i-automate-this'];
+const proof = proofSlugs.map((s) => getCase(s)!);
+const caseCount = work.length;
+
+// ============================================================================
+// PUBLISH GATE: credentials. The section renders ONLY when this array is
+// non-empty; while it is [] the page emits zero credentials HTML (these
+// frontmatter comments are stripped at build and never reach the source).
+//
+// GATE 1, Anthropic Partner Network. Publish only after registration is
+// CONFIRMED by Anthropic. Modest wording, registered tier only:
+//   { type: 'text', k: 'Anthropic Partner Network', v: 'Registered member, 2026' },
+//
+// GATE 2, CCA-F. Publish only after the exam is PASSED:
+//   1) save the badge image to  public/badges/cca-f.png  (self-hosted static
+//      asset; the dashboard CSP is default-src 'self', so NEVER Credly's
+//      embed <script> and never a hotlinked images.credly.com src),
+//   2) fill in the real Credly verification URL:
+//   { type: 'badge', k: 'Claude Certified Architect - Foundations (CCA-F)',
+//     img: '/badges/cca-f.png', href: 'https://www.credly.com/badges/<id>' },
+// ============================================================================
+type Credential =
+  | { type: 'text'; k: string; v: string }
+  | { type: 'badge'; k: string; img: string; href: string };
+const credentials: Credential[] = [];
+
+const bizLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Smart Business AI LLC',
+  alternateName: 'Smart Business AI',
+  url: new URL('/consulting', site.url).toString(),
+  email: `mailto:${site.email}`,
+  founder: { '@type': 'Person', name: site.name, url: site.url },
+  areaServed: 'US',
+  serviceType: services.map((s) => s.t),
+};
+---
+
+<BaseLayout
+  title="Smart Business AI"
+  description="AI enablement and Claude implementation for small business: Claude Code, MCP servers, workflow automation, and team training. Led by Ryan Garver."
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(bizLd)} />
+
+  <!-- ================= HERO ================= -->
+  <section class="chero scene" aria-label="Smart Business AI">
+    <div class="chero__grain" aria-hidden="true"></div>
+    <div class="container chero__in">
+      <p class="eyebrow" data-hero-in><span class="dot" aria-hidden="true"></span> Smart Business AI LLC · {site.location}</p>
+      <h1 class="chero__title display" data-stretch data-hero-in>
+        <span class="chero__line">Smart Business</span>
+        <span class="chero__line">AI</span>
+      </h1>
+      <p class="chero__value" data-hero-in>AI enablement &amp; Claude implementation for small business.</p>
+      <p class="chero__sub" data-hero-in>Practical AI adoption for teams without an engineering department: real workflows, working tools, and training that sticks.</p>
+      <div class="chero__cta" data-hero-in>
+        <a class="btn btn--solid" href={`mailto:${site.email}`}>Start a conversation</a>
+        <a class="btn btn--line" href="/work">See the work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES ================= -->
+  <section class="svc scene container" aria-label="Services">
+    <p class="eyebrow" data-in>Services</p>
+    <h2 class="svc__title display" data-in data-stretch>What I do</h2>
+    <ol class="svc__list">
+      {services.map((s) => (
+        <li class="svc__row" data-in>
+          <span class="svc__no" aria-hidden="true">{s.n}</span>
+          <h3 class="svc__t">{s.t}</h3>
+          <div class="svc__body">
+            <p class="svc__d">{s.d}</p>
+            {s.chips.length > 0 && (
+              <div class="chips">{s.chips.map((c) => <span class="chip">{c}</span>)}</div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ================= PROOF ================= -->
+  <section class="proof scene container" aria-label="Proof">
+    <p class="eyebrow" data-in>Proof</p>
+    <h2 class="proof__title display" data-in data-stretch>Shipped and public</h2>
+    <p class="proof__lead" data-in>No client logos and no testimonials here. The proof is public: working tools you can install or try, with the code and tests behind them.</p>
+    <div class="proof__grid">
+      {proof.map((c) => (
+        <article class="proof__card" data-in>
+          <h3 class="proof__t display"><a href={`/work/${c.slug}`} data-cursor="View">{c.title}</a></h3>
+          <p class="proof__tag">{c.tagline}</p>
+          <div class="proof__links">
+            <a class="proof__case" href={`/work/${c.slug}`}>Case study</a>
+            {c.links?.[0] && (
+              <a class="link-quiet" href={c.links[0].href} target="_blank" rel="noopener noreferrer">{c.links[0].label}</a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="proof__door" data-in>
+      <span class="proof__door-num" data-count={caseCount}>{caseCount}</span>
+      <span class="proof__door-label">public case studies, each with the code, tests, and verification behind it</span>
+      <a class="scene__link" href="/work" data-cursor="View">Read the case studies</a>
+    </div>
+  </section>
+
+  <!-- ================= PRINCIPAL ================= -->
+  <section class="principal scene container" aria-label="Principal">
+    <p class="eyebrow" data-in>Principal</p>
+    <h2 class="principal__name display" data-in data-stretch>Led by Ryan Garver</h2>
+    <p class="principal__bio" data-in>Twenty years in training and enablement, now building with Claude daily. Smart Business AI is a solo consultancy and presented as one: the person on the call is the person who does the work.</p>
+    <div class="principal__links" data-in>
+      <a class="scene__link" href="/">The full portfolio</a>
+      <a class="link-quiet" href="/resume">Résumé</a>
+    </div>
+  </section>
+
+  <!-- ================= CREDENTIALS (gated: renders nothing while empty) ================= -->
+  {credentials.length > 0 && (
+    <section class="creds scene container" aria-label="Credentials">
+      <p class="eyebrow" data-in>Credentials</p>
+      <ul class="creds__list">
+        {credentials.map((cr) => (
+          <li class="creds__item" data-in>
+            {cr.type === 'badge' ? (
+              <a class="creds__badge" href={cr.href} target="_blank" rel="noopener noreferrer">
+                <img src={cr.img} alt={cr.k} width="88" height="88" loading="lazy" decoding="async" />
+                <span>{cr.k}</span>
+              </a>
+            ) : (
+              <p class="creds__line"><strong>{cr.k}</strong> · {cr.v}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <!-- ================= CONTACT ================= -->
+  <section class="ccta scene" aria-label="Contact">
+    <div class="ccta__field" aria-hidden="true"></div>
+    <div class="ccta__inner container">
+      <p class="eyebrow" data-in><span class="dot" aria-hidden="true"></span> Contact</p>
+      <h2 class="display ccta__big" data-in data-stretch>
+        <a href={`mailto:${site.email}`} data-cursor="Email">Get in touch</a>
+      </h2>
+      <p class="ccta__sub" data-in>{site.email} · {site.location}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- hero: the calm-glow recipe (no WebGL) ---------- */
+  .chero { min-height: 86dvh; display: flex; align-items: center; overflow: hidden; }
+  .chero::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(120% 80% at 15% 10%, rgba(232, 75, 12, 0.1), transparent 55%),
+      radial-gradient(100% 90% at 85% 90%, rgba(240, 237, 230, 0.05), transparent 50%),
+      var(--bg);
+  }
+  .chero__grain { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"); }
+  .chero__in { position: relative; z-index: 2; padding-block: clamp(5rem, 12vh, 8rem); }
+  .chero__title { margin-top: 1.1rem; font-size: clamp(2.7rem, 9vw, 7.5rem); line-height: 0.92; letter-spacing: -0.015em; text-transform: uppercase; }
+  .chero__line { display: block; }
+  .chero__value { margin-top: 1.5rem; font-weight: 600; font-size: clamp(1.15rem, 2.2vw, 1.6rem); letter-spacing: -0.01em; max-width: 34ch; }
+  .chero__sub { margin-top: 0.7rem; color: var(--text-dim); font-size: clamp(1rem, 1.5vw, 1.15rem); max-width: 52ch; }
+  .chero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.9rem; }
+
+  /* ---------- shared section rhythm ---------- */
+  .svc, .proof, .principal, .creds { padding-top: var(--section-y); }
+
+  /* ---------- services (method-row pattern) ---------- */
+  .svc__title { font-size: clamp(2.2rem, 5vw, 4rem); margin-top: 0.7rem; }
+  .svc__list { list-style: none; margin-top: clamp(1.8rem, 4vw, 2.8rem); border-top: 1px solid var(--line-3); }
+  .svc__row { display: grid; grid-template-columns: 3.5rem 1fr; gap: 0.3rem 1.2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .svc__row > * { min-width: 0; }
+  @media (min-width: 760px) { .svc__row { grid-template-columns: 5rem 280px 1fr; gap: 1.5rem; } }
+  .svc__no { font-family: var(--font-mono); font-size: 1.15rem; color: var(--accent); font-weight: 500; }
+  .svc__t { font-size: clamp(1.3rem, 2vw, 1.7rem); letter-spacing: -0.01em; }
+  .svc__body { grid-column: 2; }
+  @media (min-width: 760px) { .svc__body { grid-column: auto; } }
+  .svc__d { color: var(--text-dim); max-width: 56ch; }
+  .svc__body :global(.chips) { margin-top: 0.8rem; }
+
+  /* ---------- proof (card grid + door into /work) ---------- */
+  .proof__title { font-size: clamp(2.2rem, 5vw, 4rem); margin-top: 0.7rem; }
+  .proof__lead { margin-top: 1.1rem; color: var(--text-dim); font-size: var(--fs-lg); max-width: 52ch; }
+  .proof__grid { display: grid; gap: 1rem; margin-top: 2.2rem; }
+  .proof__grid > * { min-width: 0; }
+  @media (min-width: 860px) { .proof__grid { grid-template-columns: 1fr 1fr; } }
+  .proof__card { display: flex; flex-direction: column; gap: 0.8rem; padding: 1.6rem 1.7rem;
+    background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg);
+    transition: border-color var(--t) var(--ease-out), transform var(--t) var(--ease-out); }
+  .proof__card:hover { border-color: var(--line-3); transform: translateY(-3px); }
+  .proof__t { font-size: clamp(1.4rem, 2.4vw, 2rem); }
+  .proof__t a { transition: color var(--t-fast) var(--ease-out); }
+  .proof__t a:hover { color: var(--accent); }
+  .proof__tag { color: var(--text-dim); line-height: 1.6; }
+  .proof__links { margin-top: auto; display: flex; align-items: center; gap: 1.6rem; padding-top: 0.9rem;
+    border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: var(--fs-sm); }
+  .proof__case { color: var(--text); border-bottom: 1px solid var(--accent-line); transition: color var(--t-fast) var(--ease-out); }
+  .proof__case:hover { color: var(--accent); }
+  .proof__door { margin-top: 2.8rem; }
+  .proof__door-num { display: block; font-family: var(--font-display); font-weight: 800;
+    font-variation-settings: 'wdth' 130; font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 0.9; color: var(--accent); letter-spacing: -0.02em; }
+  .proof__door-label { display: block; margin-top: 0.5rem; color: var(--text-dim); max-width: 34ch; }
+
+  /* ---------- principal ---------- */
+  .principal__name { font-size: clamp(2rem, 4.6vw, 3.8rem); margin-top: 0.7rem; }
+  .principal__bio { margin-top: 1.4rem; font-size: var(--fs-lg); color: var(--text-dim); max-width: 56ch; line-height: 1.7; }
+  .principal__links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1rem 2.2rem; }
+
+  /* ---------- credentials (markup gated; styles ship inert) ---------- */
+  .creds__list { list-style: none; margin-top: 1.8rem; display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; }
+  .creds__badge { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem;
+    background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg);
+    transition: border-color var(--t-fast) var(--ease-out); }
+  .creds__badge:hover { border-color: var(--accent-line); }
+  .creds__line { color: var(--text-dim); }
+  .creds__line strong { color: var(--text); }
+
+  /* ---------- contact (contact__field glow clone, calmer scale) ---------- */
+  .ccta { min-height: 70vh; display: flex; align-items: center; overflow: hidden;
+    border-top: 1px solid var(--line-1); margin-top: var(--section-y); }
+  .ccta__field { position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(90% 120% at 80% 20%, rgba(232, 75, 12, 0.12), transparent 55%), var(--bg); }
+  .ccta__inner { position: relative; z-index: 2; padding-block: clamp(4rem, 10vh, 8rem); }
+  .ccta__big { font-size: clamp(3rem, 10vw, 9rem); margin-top: 0.9rem; }
+  .ccta__big a { transition: color 0.3s var(--ease-out); }
+  .ccta__big a:hover { color: var(--accent); }
+  .ccta__sub { margin-top: 1.6rem; color: var(--text-dim); font-family: var(--font-mono); font-size: 0.82rem; }
+
+  @media (hover: none), (pointer: coarse) {
+    .chero, .ccta { min-height: auto; }
+  }
+</style>

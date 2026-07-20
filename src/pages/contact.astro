@@ -16,6 +16,7 @@ const linkedinText = site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '');
         <a href={site.links.linkedin} target="_blank" rel="me noopener" class="btn btn--line">LinkedIn</a>
       </div>
       <p class="ct__hint reveal">Or hit <kbd>⌘</kbd><kbd>K</kbd> anywhere on the site.</p>
+      <p class="ct__biz reveal">For business &amp; consulting: <a href="/consulting">Smart Business AI</a>.</p>
     </div>
 
     <aside class="ct__card reveal">
@@ -40,6 +41,9 @@ const linkedinText = site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '');
   .ct__hint { margin-top: 1.4rem; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
   .ct__hint kbd { font-family: var(--font-mono); border: 1px solid var(--line-2); border-radius: 5px;
     padding: 0.1em 0.45em; margin: 0 0.1em; color: var(--text-dim); background: var(--bg-1); }
+  .ct__biz { margin-top: 0.6rem; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
+  .ct__biz a { color: var(--text-dim); border-bottom: 1px solid var(--line-2); transition: color var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out); }
+  .ct__biz a:hover { color: var(--accent); border-bottom-color: var(--accent-line); }
 
   .ct__card { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); overflow: hidden; }
   .ct__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem;

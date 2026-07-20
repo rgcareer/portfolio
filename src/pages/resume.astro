@@ -81,6 +81,16 @@ const education = [
   { name: 'Bachelor of Arts, History', org: 'Boise State University', when: '2019' },
   { name: 'Business Leadership Program', org: 'Boise State University', when: '2019' },
 ];
+// ============================================================================
+// PUBLISH GATE (CCA-F): uncomment ONLY when the exam is passed. Then:
+//   1) render it in the sidebar as a "Certifications" block above Education,
+//      using the same rs__line markup as the education entries,
+//   2) move 'Claude Certified Architect (Anthropic)' OUT of `developing` above,
+//   3) add the matching line to the ATS print PDF path.
+// const certifications = [
+//   { name: 'Claude Certified Architect - Foundations (CCA-F)', org: 'Anthropic', when: '2026' },
+// ];
+// ============================================================================
 ---
 <BaseLayout title="Résumé" active="resume" description={`Résumé of ${site.name}, ${site.role}.`}>
   <section class="container rs">

@@ -135,7 +135,7 @@ export const work: CaseStudy[] = [
     role: 'Design + build',
     year: '2026',
     status: 'public · MIT · 30 tests',
-    stack: ['TypeScript', 'Node', 'Anthropic SDK', 'Vitest'],
+    stack: ['TypeScript', 'Node', 'Claude API (Anthropic SDK)', 'Vitest', 'Built with Claude Code'],
     metrics: [
       { label: 'Tests passing', value: '30 / 30' },
       { label: 'Judge honesty', value: 'capped at 0.80' },
@@ -159,7 +159,7 @@ export const work: CaseStudy[] = [
     role: 'Design + build',
     year: '2026',
     status: 'public · 28 tests',
-    stack: ['TypeScript', 'Vite', 'Calibrated router'],
+    stack: ['TypeScript', 'Vite', 'Calibrated router', 'Built with Claude Code'],
     metrics: [
       { label: 'Tests passing', value: '28 / 28' },
       { label: 'Calibration goldens', value: '10 / 10' },
@@ -183,7 +183,7 @@ export const work: CaseStudy[] = [
     role: 'Design + build',
     year: '2026',
     status: 'public · 18 cards',
-    stack: ['Astro', 'TypeScript'],
+    stack: ['Astro', 'TypeScript', 'Built with Claude Code'],
     metrics: [
       { label: 'Prompt cards', value: '18' },
       { label: 'Each card', value: '5-element teardown' },
@@ -207,7 +207,7 @@ export const work: CaseStudy[] = [
     role: 'Design + build',
     year: '2026',
     status: 'public · npm · 24 tests',
-    stack: ['TypeScript', 'MCP SDK', 'stdio', 'Vitest'],
+    stack: ['TypeScript', 'MCP (Model Context Protocol) SDK', 'stdio', 'Vitest', 'Built with Claude Code'],
     metrics: [
       { label: 'Tests + stdio', value: '24 + 11' },
       { label: 'Install', value: 'two minutes' },
