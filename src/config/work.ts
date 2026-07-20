@@ -34,10 +34,10 @@ export const work: CaseStudy[] = [
     tagline: 'A tool I built to score thousands of job postings and weed out the fakes.',
     role: 'Design + build',
     year: '2026',
-    status: '139 tests passing',
+    status: '616 tests passing',
     stack: ['Node', 'SQLite', 'Scoring heuristics', 'Vitest'],
     metrics: [
-      { label: 'Postings scored', value: '9,644' },
+      { label: 'Postings scored', value: '14,851' },
       { label: 'Signals', value: 'fraud · geo · tier' },
       { label: 'Re-score errors', value: '0' },
     ],

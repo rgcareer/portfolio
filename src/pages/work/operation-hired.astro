@@ -35,11 +35,11 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
   </figure>
 
   <h2 class="reveal">A discovery board, not a job board</h2>
-  <p class="reveal">Postings land in a local <code>SQLite</code> database and every one runs through a scoring model before I ever see it. So far it has scored <strong>9,600+</strong> of them, and each score can be reproduced from the source data. What surfaces is a ranked board carrying the signals I actually decide on:</p>
+  <p class="reveal">Postings land in a local <code>SQLite</code> database and every one runs through a scoring model before I ever see it. So far it has scored <strong>14,800+</strong> of them, and each score can be reproduced from the source data. What surfaces is a ranked board carrying the signals I actually decide on:</p>
   <ul class="reveal">
     <li><strong>Tier.</strong> Postings get bucketed by fit: role, seniority, pay signal. An early version was too generous with the top bucket, so I tightened it. Tier 1 dropped from a few thousand to about a hundred, which is what real fit should look like.</li>
     <li><strong>Fraud.</strong> A set of heuristics flags the patterns ghost and scam listings share. That cut the flagged-fraud noise by about 80%, so the board stays honest.</li>
-    <li><strong>Freshness.</strong> Every posting is re-verified against its source before it surfaces, so I never spend a morning chasing a role that closed last week.</li>
+    <li><strong>Freshness.</strong> A sweep re-checks live postings against the source job board and is deliberately conservative: only a hard <code>404</code> or <code>410</code> retires a listing, while a timeout or a redirect is left alone so a real job is never dropped by mistake. The first sweep pulled 12 dead postings out of the pool, so I never spend a morning chasing a role that closed last week.</li>
   </ul>
 
   <h2 class="reveal">A fit report that surfaces gaps instead of faking them</h2>
@@ -56,6 +56,16 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
     <li>A <strong>re-score pipeline</strong> re-ran every row (5,905 at the time) against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
     <li>A <strong>test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics, and it's green before anything ships.</li>
     <li><strong>Data-hygiene guards</strong> clear out orphaned rows and stop half-formed records from moving down the pipeline.</li>
+  </ul>
+
+  <h2 class="reveal">A follow-up ladder that never nags</h2>
+  <p class="reveal">Applying is the first move; the follow-through is where most searches go quiet. Once a package is sent, the system opens a follow-up ladder anchored to that submission: a hiring-manager note on day zero, a check-in around day five, another near day fourteen. It logs only the touches I actually make, and when a window passes it marks it closed instead of firing a reminder on its own. The tool keeps the schedule; I make the contact.</p>
+
+  <h2 id="guardrails" class="reveal">Guardrails I built in on purpose</h2>
+  <p class="reveal">A system that reaches out to the internet and drafts on my behalf needs limits it cannot talk itself out of. Two of them do the heavy lifting:</p>
+  <ul class="reveal">
+    <li><strong>An SSRF-safe fetch.</strong> The freshness sweep pulls live URLs, so every request runs through a guarded fetch that only speaks <code>http</code> and <code>https</code>, refuses private, loopback, link-local, and cloud-metadata addresses, re-checks every redirect hop against the same rules, and rejects the IPv4-mapped-IPv6 tricks that slip past a naive block. A job board should never be able to point my own tool at an internal address.</li>
+    <li><strong>An anti-fabrication grounding check.</strong> Before any generated answer goes near an application, it passes a grounding check that rejects any number, dollar figure, or credential that is not already in my own record, and falls back to a plain, grounded template instead. The tool can help me say what is true faster; it is structurally kept from inventing what is not.</li>
   </ul>
 
   <h2 class="reveal">Why I point to this one</h2>
