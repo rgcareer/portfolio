@@ -1,0 +1,25 @@
+---
+import Note from '../../layouts/Note.astro';
+---
+<Note slug="fonts-nobody-saw">
+  <p class="lead reveal">This site is built around three typefaces. For a few weeks after launch, not one visitor saw any of them. Every check I had told me the fonts were fine. They were not, and the reason they looked fine is the whole point of this note.</p>
+
+  <h2 class="reveal">The symptom I could not see</h2>
+  <p class="reveal">The site loads its fonts from its own server, no third party. Locally it looked exactly right. After I shipped it, I ran the check I thought closed the question: I requested one of the font files over the network and got back a clean <code>200 OK</code>. The file was there, the server served it, done. Except a visitor on the live site was reading everything in their system default font, and had been the whole time.</p>
+  <p class="reveal">I only found out because I opened the deployed site in a real browser and looked at the console, where a stack of Content Security Policy violations was quietly refusing to load every font file.</p>
+
+  <h2 class="reveal">Trap one: a 200 is not a render</h2>
+  <p class="reveal">A command-line request for a file asks one question: is this file here. The answer was yes. But a browser asks a second question the command line never does: am I <em>allowed</em> to use this file, under this page's security policy. The Content Security Policy is enforced by the browser and nothing else. So my request could sail through with a <code>200</code> while a real browser, holding the same file, threw it on the floor for a policy reason my check had no way to see.</p>
+  <p class="reveal">The lesson is narrow and permanent: to know a font renders, you have to watch a browser render it. Nothing short of that is evidence.</p>
+
+  <h2 class="reveal">Trap two: the fix was in a file that does nothing</h2>
+  <p class="reveal">The security policy lived, correctly, in a config file in the repo. The catch is how this site deploys. It ships as a Cloudflare Worker serving static assets, and that particular config file is a feature of a different Cloudflare product. On a Worker deploy it is not wrong, it is <strong>ignored</strong>. The real policy the browser enforced came from a rule in the Cloudflare dashboard, and that rule still carried an older policy that never allowed the fonts. I had been editing a file with no effect and trusting it because it said the right thing.</p>
+
+  <h2 class="reveal">What I do now</h2>
+  <p class="reveal">Two habits came out of this, and I apply them to anything that reaches production:</p>
+  <ul class="reveal">
+    <li><strong>Verify the deployed thing, in a browser, as a user sees it.</strong> For fonts specifically I read <code>document.fonts</code> on the live domain and confirm every entry says <code>loaded</code>, not <code>error</code>, and I check the console for policy violations. A file returning <code>200</code> is not on the list of things I will accept as proof.</li>
+    <li><strong>Know which config your host actually reads.</strong> A file that is authoritative on one platform can be dead weight on another. If a setting matters, I confirm it is live where the request is actually served, not where it looks tidy in the repo.</li>
+  </ul>
+  <p class="reveal">The bug was invisible because every tool in my loop agreed with me. The fix was to add the one check that could disagree.</p>
+</Note>

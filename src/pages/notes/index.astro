@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { notes } from '../../config/notes';
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+const fmt = (iso: string) =>
+  new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
+---
+<BaseLayout title="Notes" description="Short write-ups from building and shipping: what broke, why, and the habit it changed. Mostly about verifying that a thing actually works.">
+  <section class="container nx">
+    <header class="nx__head">
+      <p class="section-kicker reveal">Notes</p>
+      <h1 class="nx__title display reveal" data-stretch>What broke, and what it taught me</h1>
+      <p class="nx__sub reveal">Short write-ups from building and shipping. Each one is a real bug or a wrong assumption from this site and the tools behind it, and the checking habit it left me with.</p>
+    </header>
+
+    <ol class="nx__list">
+      {notes.map((n, i) => (
+        <li class="nx__row reveal">
+          <a href={`/notes/${n.slug}`} class="nx__link" data-cursor="Read">
+            <span class="nx__no">{pad(i)}</span>
+            <span class="nx__main">
+              <span class="nx__name display">{n.title}</span>
+              <span class="nx__summary">{n.summary}</span>
+            </span>
+            <span class="nx__meta">{fmt(n.date)}<em>{n.readingTime}</em></span>
+            <span class="nx__arrow" aria-hidden="true"></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .nx { padding-top: clamp(3.5rem, 8vw, 6rem); }
+  .nx__head { max-width: 780px; }
+  .nx__title { font-size: clamp(2.2rem, 5.5vw, 4.2rem); margin-top: 0.8rem; }
+  .nx__sub { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.2rem; max-width: 54ch; }
+
+  .nx__list { list-style: none; margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line-3); }
+  .nx__link {
+    display: grid; align-items: start; gap: 0.3rem 1.5rem;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas: 'no main meta arrow';
+    padding: clamp(1.4rem, 3vw, 2.2rem) 0.2rem;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left var(--t) var(--ease-out);
+  }
+  .nx__row:last-child .nx__link { border-bottom: 1px solid var(--line-3); }
+  .nx__link:hover { padding-left: 0.6rem; }
+
+  .nx__no { grid-area: no; font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
+    letter-spacing: 0.1em; color: var(--accent); padding-top: 0.55rem; }
+  .nx__main { grid-area: main; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .nx__name { font-size: clamp(1.5rem, 3.6vw, 2.6rem); color: var(--text);
+    font-variation-settings: 'wdth' 100; transition: font-variation-settings var(--t) var(--ease-out), color var(--t) var(--ease-out); }
+  .nx__link:hover .nx__name { color: var(--accent); font-variation-settings: 'wdth' 120; }
+  .nx__summary { color: var(--text-dim); font-size: var(--fs-base); max-width: 62ch; line-height: 1.55; }
+  .nx__meta { grid-area: meta; justify-self: end; text-align: right; font-family: var(--font-mono);
+    font-size: var(--fs-sm); color: var(--text-dim); white-space: nowrap; padding-top: 0.5rem; }
+  .nx__meta em { display: block; font-style: normal; font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-faint); margin-top: 0.3rem; }
+  .nx__arrow { grid-area: arrow; width: 1.5rem; height: 1.5rem; flex: none; background-color: var(--text-dim);
+    -webkit-mask: var(--arrow-right) center / contain no-repeat; mask: var(--arrow-right) center / contain no-repeat;
+    transition: transform var(--t) var(--ease-out), background-color var(--t) var(--ease-out); margin-top: 0.6rem; }
+  .nx__link:hover .nx__arrow { transform: translateX(6px); background-color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .nx__link { grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'no main arrow' 'no meta meta'; }
+    .nx__meta { justify-self: start; text-align: left; margin-top: 0.4rem; padding-top: 0; }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getNote, notes } from '../config/notes';
+import { site } from '../config/site';
+
+interface Props { slug: string; }
+const { slug } = Astro.props;
+const n = getNote(slug)!;
+const idx = notes.findIndex((x) => x.slug === slug);
+const next = notes[(idx + 1) % notes.length];
+const dateText = new Date(n.date + 'T00:00:00Z').toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
+});
+---
+<BaseLayout title={n.title} description={n.summary}>
+  <article class="nt container">
+    <a href="/notes" class="nt__back reveal"><span class="nt__back-ic" aria-hidden="true"></span> All notes</a>
+
+    <header class="nt__head reveal">
+      <p class="section-kicker">Note · {dateText} · {n.readingTime}</p>
+      <h1 class="nt__title display" data-stretch>{n.title}</h1>
+      <p class="nt__summary">{n.summary}</p>
+    </header>
+
+    <div class="nt__body prose">
+      <slot />
+    </div>
+
+    <nav class="nt__next" aria-label="Keep reading">
+      {notes.length > 1 && (
+        <a href={`/notes/${next.slug}`} class="nt__next-card" data-cursor="Read">
+          <span class="nt__next-k">Another note</span>
+          <span class="nt__next-t">{next.title}</span>
+        </a>
+      )}
+      <a href={`mailto:${site.email}`} class="btn btn--solid nt__next-cta">Get in touch</a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .nt { padding-top: clamp(3rem, 7vw, 5rem); }
+  .nt__back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono);
+    font-size: var(--fs-sm); color: var(--text-dim); letter-spacing: 0.02em;
+    transition: color var(--t-fast) var(--ease-out); }
+  .nt__back:hover { color: var(--accent); }
+  .nt__back-ic { width: 1em; height: 1em; flex: none; background-color: currentColor;
+    -webkit-mask: var(--arrow-left) center / contain no-repeat; mask: var(--arrow-left) center / contain no-repeat;
+    transition: transform var(--t) var(--ease-out); }
+  .nt__back:hover .nt__back-ic { transform: translateX(-3px); }
+
+  .nt__head { margin-top: 2rem; border-bottom: 1px solid var(--line-3); padding-bottom: clamp(1.6rem, 4vw, 2.4rem); max-width: 760px; }
+  .nt__title { font-size: clamp(2.2rem, 5.5vw, 4rem); margin-top: 0.9rem; }
+  .nt__summary { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1rem; max-width: 52ch; line-height: 1.5; }
+
+  .nt__body { max-width: 680px; margin-top: clamp(2.4rem, 5vw, 3.4rem); }
+
+  .nt__next { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; justify-content: space-between;
+    max-width: 680px; margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: 2.5rem; border-top: 1px solid var(--line-3); }
+  .nt__next-card { flex: 1 1 260px; border: 1px solid var(--line-2); border-radius: var(--r-md);
+    background: var(--card); padding: 1.2rem 1.4rem;
+    transition: border-color var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out); }
+  .nt__next-card:hover { border-color: var(--accent-line); background: var(--bg-2); }
+  .nt__next-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+  .nt__next-t { display: block; font-size: var(--fs-lg); font-weight: 600; margin-top: 0.35rem; }
+</style>

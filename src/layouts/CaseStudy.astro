@@ -137,39 +137,3 @@ const next = work[(idx + 1) % work.length];
     text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
   .cs__next-t { display: block; font-size: var(--fs-lg); font-weight: 600; margin-top: 0.35rem; }
 </style>
-
-<style is:global>
-  .prose > * + * { margin-top: 1.3rem; }
-  .prose h2 { font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 110;
-    font-size: clamp(1.6rem, 3vw, 2.2rem); margin-top: 3rem; letter-spacing: -0.01em; }
-  .prose h2:first-child { margin-top: 0; }
-  .prose h3 { font-size: var(--fs-lg); margin-top: 2rem; color: var(--text); }
-  .prose p, .prose li { color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75; }
-  .prose strong { color: var(--text); font-weight: 600; }
-  .prose ul { list-style: none; padding: 0; display: grid; gap: 0.7rem; }
-  .prose li { position: relative; padding-left: 1.4rem; }
-  .prose li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 7px; height: 7px;
-    border-radius: 50%; background: var(--accent); }
-  .prose code { font-family: var(--font-mono); font-size: 0.86em; color: var(--accent-up);
-    background: var(--accent-soft); padding: 0.12em 0.4em; border-radius: 4px; }
-  .prose pre { background: var(--bg-1); border: 1px solid var(--line-2); border-radius: var(--r-md);
-    padding: 1.1rem 1.25rem; overflow-x: auto; }
-  .prose pre code { color: var(--text-dim); background: none; padding: 0; font-size: var(--fs-sm); line-height: 1.7; }
-  .prose .lead { color: var(--text); font-size: var(--fs-xl); }
-  /* Unit-economics table — real measured numbers only (mono, one accent value column). */
-  .prose .econ { margin-top: 1.6rem; overflow-x: auto; }
-  .prose .econ table { width: 100%; border-collapse: collapse; }
-  .prose .econ th { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--text-faint); text-align: left; font-weight: 500;
-    padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--line-3); white-space: nowrap; }
-  .prose .econ td { padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--line);
-    color: var(--text-dim); font-size: var(--fs-sm); line-height: 1.5; vertical-align: top; }
-  .prose .econ td.econ__v { font-family: var(--font-mono); font-weight: 600; color: var(--accent); white-space: nowrap; }
-  .prose .econ tr:last-child td { border-bottom: 0; }
-  /* Staged inline figure — shows a process step inside the case-study body. */
-  .prose .cs-shot { margin-top: 2rem; border: 1px solid var(--line-2); border-radius: var(--r-lg);
-    overflow: hidden; background: var(--bg-2); box-shadow: 0 30px 70px -50px rgba(0, 0, 0, 0.9); }
-  .prose .cs-shot img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line-1); }
-  .prose .cs-shot figcaption { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-faint);
-    text-transform: uppercase; letter-spacing: 0.1em; padding: 0.75rem 1rem; margin: 0; }
-</style>

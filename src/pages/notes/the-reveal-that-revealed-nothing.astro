@@ -1,0 +1,22 @@
+---
+import Note from '../../layouts/Note.astro';
+---
+<Note slug="the-reveal-that-revealed-nothing">
+  <p class="lead reveal">Most sections on this site fade up as you scroll to them. During the rebuild, a whole run of them faded up to nothing and stayed blank. The animation was firing. The content was there. And the build was green. The bug was a single word.</p>
+
+  <h2 class="reveal">The setup that caused it</h2>
+  <p class="reveal">To avoid a flash of unstyled content, I start animated elements hidden in CSS: while JavaScript is present, anything tagged to animate in begins at zero opacity. Then, on scroll, the animation library fades each one from invisible to visible. Clean idea. The reveal is supposed to carry the element from <code>opacity: 0</code> up to <code>opacity: 1</code>.</p>
+
+  <h2 class="reveal">The one word</h2>
+  <p class="reveal">I told the animation to play <em>from</em> a hidden state:</p>
+  <pre class="reveal"><code>gsap.from(el, &#123; opacity: 0 &#125;)</code></pre>
+  <p class="reveal">A "from" tween reads the element's <strong>current</strong> value as the destination and animates starting from the value you hand it. But the current value was already zero, set by my no-flash CSS. So the library dutifully animated the element from zero to zero. A perfectly executed fade, from invisible, to invisible. The fix was to state both ends explicitly instead of letting it infer the end from a starting point I had already forced to zero:</p>
+  <pre class="reveal"><code>gsap.fromTo(el, &#123; opacity: 0 &#125;, &#123; opacity: 1 &#125;)</code></pre>
+
+  <h2 class="reveal">Why a green build lied</h2>
+  <p class="reveal">Here is the part I actually keep. The build compiled. The page loaded. No error anywhere. Every automated signal said the work was done, because none of them scrolled the page and looked at whether the content was visible. "It builds" and "it works" are different claims, and the gap between them is exactly where this kind of bug lives.</p>
+  <p class="reveal">I caught it by driving a real browser, scrolling to each section, and reading back the computed opacity of the elements that were supposed to have appeared. They read <code>0</code>. That number, after a real scroll, is the only thing that would have told the truth.</p>
+
+  <h2 class="reveal">The habit</h2>
+  <p class="reveal">When a change is visual or behavioral, the check has to exercise the behavior, not just confirm the code assembled. For a reveal that means: scroll it, then assert the element is genuinely visible. A build that turns red on failure is worth a lot. A build that stays green while shipping a blank page is worth watching closely.</p>
+</Note>

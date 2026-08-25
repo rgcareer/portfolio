@@ -1,0 +1,22 @@
+---
+import Note from '../../layouts/Note.astro';
+---
+<Note slug="done-means-evidence">
+  <p class="lead reveal">I have a rule I try to hold to: nothing is done on my say-so. Done is a claim, and a claim owes proof from the thing that actually shipped, not the thing I built on my machine. Two small failures on this very site are why I hold it.</p>
+
+  <h2 class="reveal">The 404 that never served</h2>
+  <p class="reveal">I built a custom "page not found" screen, on brand, with a way back home. It compiled into the output. The file existed. I moved on.</p>
+  <p class="reveal">Then I mistyped a URL on the live site and got a bare, empty 404. Correct status code, nothing on the page. My designed screen was sitting in the build, unused. The host, serving static assets as a Worker, defaults to not showing a custom not-found page unless you explicitly tell it to. "The 404 file exists" was true and completely beside the point. What mattered was what the server returned to a real request, and I had never asked it. One request to the live URL, checking both the status and the actual body, would have caught it. That is now the check.</p>
+
+  <h2 class="reveal">The plan that described a site already shipped</h2>
+  <p class="reveal">A separate time, a working session picked up a handoff plan and started carefully executing a multi-step build: installing things, writing files, following the steps. The problem was that the build the plan described had already been finished and deployed by an earlier session. The plan was a snapshot of the past, written before the work was done, and nothing in it announced that it was stale.</p>
+  <p class="reveal">It was caught only because someone asked for a review first, which meant looking at the actual commit history and loading the live URL before touching anything. Both said, plainly, that the site was already live. A plan is a description of intent at the moment it was written. It is not evidence of current state, and this project gets touched by more than one session, so I stopped trusting a plan's premise on its own.</p>
+
+  <h2 class="reveal">The common thread</h2>
+  <p class="reveal">Both failures share a shape. In each, a reasonable-looking artifact stood in for reality: a file in the build, a plan on disk. Both were real. Neither was the deployed truth. The habit that catches this is boring and cheap:</p>
+  <ul class="reveal">
+    <li><strong>Before executing a plan, check live state first.</strong> A quick look at the history and the running site tells you whether the work you are about to do is already done.</li>
+    <li><strong>Before calling something done, get evidence from the deployed thing.</strong> The command output, the live response, the browser showing the change. Not "it should work." The thing, working, where the user meets it.</li>
+  </ul>
+  <p class="reveal">None of this is clever. It is just the difference between believing a change landed and knowing it did, and that difference is most of what I mean when I say something is finished.</p>
+</Note>
