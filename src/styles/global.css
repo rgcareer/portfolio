@@ -121,7 +121,7 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.04; letter-spacing: -0.02em; }
    ============================================================ */
 
 /* ---------- branded preloader ---------- */
-.preloader { position: fixed; inset: 0; z-index: 300; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; transition: opacity 0.7s var(--ease-out), visibility 0.7s; }
+.preloader { position: fixed; inset: 0; z-index: 300; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; transition: opacity 0.45s var(--ease-out), visibility 0.45s; }
 .preloader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
 .preloader__inner { display: flex; align-items: baseline; gap: 1rem; }
 .preloader__name { font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 150; text-transform: uppercase; font-size: clamp(3rem, 8vw, 5.5rem); color: var(--text); line-height: 1; }

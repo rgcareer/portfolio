@@ -65,7 +65,7 @@ let preloaderDone = !motionOK;
   const fill = document.getElementById('preloader-fill');
   const st = { n: 0 };
   gsap.to(st, {
-    n: 100, duration: 1.1, ease: 'power2.inOut',
+    n: 100, duration: 0.45, ease: 'power2.inOut',
     onUpdate: () => { const v = Math.round(st.n); if (count) count.textContent = String(v); if (fill) (fill as HTMLElement).style.width = v + '%'; },
     onComplete: () => { pre.classList.add('is-done'); preloaderDone = true; playHeroIntro(); },
   });
