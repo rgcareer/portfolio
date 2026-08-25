@@ -50,7 +50,7 @@ const next = work[(idx + 1) % work.length];
           <div class="cs__frame" data-cursor="View">
             <div class="cs__chrome" aria-hidden="true"><span></span><span></span><span></span></div>
             {c.figure.src ? (
-              <img src={c.figure.src} alt={c.figure.alt ?? ''} loading="eager" decoding="async" />
+              <img src={c.figure.src} alt={c.figure.alt ?? ''} width={c.figure.width} height={c.figure.height} loading="eager" decoding="async" />
             ) : (
               <pre class="cs__specimen">{c.figure.specimen?.join('\n')}</pre>
             )}
@@ -119,7 +119,7 @@ const next = work[(idx + 1) % work.length];
   .cs__chrome { display: flex; gap: 0.4rem; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line-1); background: var(--bg-1); }
   .cs__chrome span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--line-2); }
   .cs__chrome span:first-child { background: rgba(232,75,12,0.6); }
-  .cs__frame img { width: 100%; display: block; }
+  .cs__frame img { width: 100%; height: auto; display: block; }
   .cs__specimen { font-family: var(--font-mono); font-size: clamp(0.66rem, 1.4vw, 0.82rem); line-height: 2;
     color: var(--text-dim); margin: 0; padding: 1.5rem 1.6rem; white-space: pre; overflow-x: auto; }
   .cs__fig figcaption { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-faint);
@@ -169,7 +169,7 @@ const next = work[(idx + 1) % work.length];
   /* Staged inline figure — shows a process step inside the case-study body. */
   .prose .cs-shot { margin-top: 2rem; border: 1px solid var(--line-2); border-radius: var(--r-lg);
     overflow: hidden; background: var(--bg-2); box-shadow: 0 30px 70px -50px rgba(0, 0, 0, 0.9); }
-  .prose .cs-shot img { width: 100%; display: block; border-bottom: 1px solid var(--line-1); }
+  .prose .cs-shot img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line-1); }
   .prose .cs-shot figcaption { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-faint);
     text-transform: uppercase; letter-spacing: 0.1em; padding: 0.75rem 1rem; margin: 0; }
 </style>

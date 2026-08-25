@@ -8,7 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "resume:pdf": "node scripts/generate-resume-pdf.mjs"
+    "resume:pdf": "node scripts/generate-resume-pdf.mjs",
+    "figures:webp": "node scripts/optimize-figures.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -21,6 +22,7 @@
     "ogl": "^1.0.11"
   },
   "devDependencies": {
-    "playwright": "^1.62.1"
+    "playwright": "^1.62.1",
+    "sharp": "^0.35.3"
   }
 }

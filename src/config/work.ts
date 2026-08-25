@@ -50,7 +50,7 @@ export const work: CaseStudy[] = [
     tags: ['Data pipeline', 'Scoring', 'Automation'],
     accent: true,
     figure: {
-      src: '/figures/operation-hired-dashboard.png',
+      src: '/figures/operation-hired-dashboard.webp',
       alt: 'Operation Hired dashboard: pipeline funnel, scoring distribution, and discovery charts',
       width: 1600, height: 626,
       caption: 'Mission-control view. Every posting re-verified against its source before it surfaces.',
@@ -152,7 +152,7 @@ export const work: CaseStudy[] = [
       { label: 'Source', href: 'https://github.com/rgcareer/evalcard' },
     ],
     figure: {
-      src: '/figures/evalcard-report-card.png',
+      src: '/figures/evalcard-report-card.webp',
       alt: 'evalcard report card: per-case pass and fail, rubric scores, and a ship-decision brief',
       width: 1280, height: 2239,
       caption: 'The report card an operator reads. Every judge score is labelled [SIMULATED] and capped, because a same-model judge is not an independent reviewer.',
@@ -178,7 +178,7 @@ export const work: CaseStudy[] = [
       { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
     ],
     figure: {
-      src: '/figures/should-i-automate-verdict.png',
+      src: '/figures/should-i-automate-verdict.webp',
       alt: 'Should I Automate This verdict: a tiered recommendation with a concrete stop-test',
       width: 1280, height: 1741,
       caption: 'Answer a few questions, get a tier and a stop-test. It will talk you out of automating the wrong thing, which is the honest half of enablement.',
@@ -204,7 +204,7 @@ export const work: CaseStudy[] = [
       { label: 'Source', href: 'https://github.com/rgcareer/cs-prompt-field-kit' },
     ],
     figure: {
-      src: '/figures/cs-prompt-field-kit.png',
+      src: '/figures/cs-prompt-field-kit.webp',
       alt: 'CS Prompt Field Kit index: filterable cards, each with a five-element prompt teardown',
       width: 1280, height: 2681,
       caption: 'A kit a CS team opens on the job. Each prompt is torn down into its five moving parts, so people learn the shape, not just the copy.',
