@@ -4,36 +4,6 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
 <CaseStudy slug="operation-hired">
   <p class="lead reveal">I needed to run a serious job search, so I built the system I'd roll out to a team. Not a spreadsheet and not a folder of bookmarks: a pipeline that pulls postings in, scores them, drafts the application, and keeps a record of every send. The point was never the software. The point was to make one person move like a staffed function, without losing the judgment that makes the work any good.</p>
 
-  <!--
-    ============================================================
-    VIDEO EMBED SLOT — 90-second Loom walkthrough
-    ============================================================
-    HOW TO DROP IN THE LOOM:
-    1. Record the walkthrough (cue sheet: docs/t1-outputs/loom-cue-sheet.md).
-    2. In Loom, click "Share" -> "Embed" -> copy the <iframe ...> code.
-    3. Paste ONLY the <iframe> tag between the two >>> markers below,
-       replacing the placeholder <div class="cs-video__ph">...</div>.
-    4. Add  loading="lazy"  and  title="Operation Hired — 90-second walkthrough"
-       to the pasted iframe if Loom's snippet omits them.
-    5. Delete this comment block and the placeholder div. Keep the
-       surrounding <figure class="cs-video"> ... </figure> wrapper.
-       Its CSS holds the responsive 16:9 frame.
-    Do NOT hardcode width/height on the iframe; the wrapper is responsive.
-    ============================================================
-  -->
-  <figure class="cs-video reveal">
-    <div class="cs-video__frame">
-      <!-- >>> PASTE LOOM <iframe> HERE >>> -->
-      <div class="cs-video__ph" role="img" aria-label="Loom walkthrough of Operation Hired, embed pending">
-        <span class="cs-video__ph-mark">▶</span>
-        <span class="cs-video__ph-t">90-second walkthrough</span>
-        <span class="cs-video__ph-s">Video embed pending</span>
-      </div>
-      <!-- <<< END LOOM EMBED <<< -->
-    </div>
-    <figcaption>Reel · A pass through the pipeline, from discovery board to the send record.</figcaption>
-  </figure>
-
   <h2 class="reveal">A discovery board, not a job board</h2>
   <p class="reveal">Postings land in a local <code>SQLite</code> database and every one runs through a scoring model before I ever see it. So far it has scored <strong>14,800+</strong> of them, and each score can be reproduced from the source data. What surfaces is a ranked board carrying the signals I actually decide on:</p>
   <ul class="reveal">
@@ -71,31 +41,3 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
   <h2 class="reveal">Why I point to this one</h2>
   <p class="reveal">That's what AI enablement means to me: real workflows, honest guardrails, and adoption you can trust. It's a system that makes a lot of decisions, knows where it might be wrong, and keeps a person in the loop on the ones that matter. I'd rather show evidence than make claims, and that holds for everything I build.</p>
 </CaseStudy>
-
-<style>
-  /* Video embed slot — v3 dark frame, 16:9. Matches .cs__frame in CaseStudy.astro. */
-  .cs-video { margin-top: clamp(1.8rem, 4vw, 2.6rem);
-    border: 1px solid var(--line-2); border-radius: var(--r-lg);
-    background: var(--bg-2); overflow: hidden; box-shadow: 0 40px 90px -50px rgba(0,0,0,0.9); }
-  .cs-video__frame { position: relative; aspect-ratio: 16 / 9;
-    overflow: hidden; background: var(--bg-1); }
-  .cs-video__frame :global(iframe) { position: absolute; inset: 0;
-    width: 100%; height: 100%; border: 0; display: block; }
-  .cs-video figcaption { font-family: var(--font-mono); font-size: 0.68rem;
-    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em;
-    padding: 0.65rem 0.35rem 0.3rem; }
-
-  /* Placeholder — removed once the Loom iframe is pasted in. */
-  .cs-video__ph { position: absolute; inset: 0; display: grid; place-content: center;
-    justify-items: center; gap: 0.4rem; text-align: center;
-    background:
-      repeating-linear-gradient(-45deg, transparent 0 11px, var(--accent-soft) 11px 12px),
-      var(--card-2); }
-  .cs-video__ph-mark { display: grid; place-items: center; width: 3rem; height: 3rem;
-    border: 1.5px solid var(--accent); border-radius: 50%; color: var(--accent);
-    font-size: 1rem; margin-bottom: 0.35rem; }
-  .cs-video__ph-t { font-family: var(--font-mono); font-size: var(--fs-sm);
-    color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; }
-  .cs-video__ph-s { font-family: var(--font-mono); font-size: 0.68rem;
-    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.16em; }
-</style>

@@ -79,7 +79,10 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.04; letter-spacing: -0.02em; }
 
 /* ---------- shared scene typography (home + work) ---------- */
 .scene { position: relative; }
-.scene__kicker { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+/* Mono eyebrow used by home scenes AND interior-page section headers. inline-flex +
+   gap lets an optional leading `.dot` sit inline (see /contact). Distinct from the
+   `.eyebrow` above only in size/tracking — /consulting keeps its own larger variant. */
+.scene__kicker, .section-kicker { display: inline-flex; align-items: center; gap: 0.55em; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
 .scene__title { font-size: clamp(2.4rem, 6vw, 5.5rem); margin-top: 0.7rem; }
 .scene__tag { margin-top: 1rem; font-size: clamp(1.05rem, 1.8vw, 1.35rem); color: var(--text); max-width: 36ch; }
 .scene__link { display: inline-flex; align-items: center; gap: 0.5em; margin-top: 2rem; font-weight: 600; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 0.15em; transition: gap var(--t) var(--ease-out), color var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out); }

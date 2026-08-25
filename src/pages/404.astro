@@ -19,5 +19,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .nf__big { font-size: clamp(3.2rem, 12vw, 9.5rem); margin-top: 0.9rem; }
   .nf__sub { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1.6rem; max-width: 38ch; line-height: 1.4; }
   .nf__cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2.4rem; }
-  .section-kicker { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  /* base styles are global (grouped with .scene__kicker); 404 just takes the accent color */
+  .section-kicker { color: var(--accent); }
 </style>
