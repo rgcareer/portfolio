@@ -1,5 +1,13 @@
 ---
 import CaseStudy from '../../layouts/CaseStudy.astro';
+
+// Unit economics — REAL, measured numbers only. Empty renders nothing; a placeholder
+// value fails the build (see operation-hired for the same guard pattern).
+interface EconRow { metric: string; value: string; basis: string; }
+const econ: EconRow[] = [];
+if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)\b/i.test(`${r.metric} ${r.value} ${r.basis}`))) {
+  throw new Error('evalcard econ: placeholder value present. Fill measured numbers or leave the array empty.');
+}
 ---
 <CaseStudy slug="evalcard">
   <p class="lead reveal">Most people who deploy an AI assistant cannot evaluate one. The tooling assumes you write Python and think in metrics, so the person who actually owns the support bot has no way to check it. I built evalcard to close that gap: you describe what a good answer looks like in plain English, and it turns that into pass or fail checks, a judged rubric, and a report card an exec can read in thirty seconds.</p>
@@ -25,6 +33,22 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
     <li><strong>Sample run:</strong> the bundled contractor-bot eval scores 93% (14 of 15 cases), with the report card, HTML, and exec brief all generated.</li>
     <li><strong>Review:</strong> fresh-context pass, both findings dispositioned (one refuted against the source, one fixed).</li>
   </ul>
+
+  {econ.length > 0 && (
+    <>
+      <h2 class="reveal">What an eval run costs</h2>
+      <div class="econ reveal">
+        <table>
+          <thead><tr><th scope="col">Metric</th><th scope="col">Value</th><th scope="col">Basis</th></tr></thead>
+          <tbody>
+            {econ.map((r) => (
+              <tr><td>{r.metric}</td><td class="econ__v">{r.value}</td><td>{r.basis}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
 
   <h2 class="reveal">Why I point to this one</h2>
   <p class="reveal">Enablement lives or dies on whether people trust the tool. A harness that scored everything a perfect pass would be worthless, so this one is built to show its own limits, and its build proved why those limits matter. Labelled confidence, a capped judge, a human on the decision, and a dependency upgrade proven inert: that is the posture I bring to every AI rollout, made into running code.</p>

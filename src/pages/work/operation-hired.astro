@@ -1,5 +1,14 @@
 ---
 import CaseStudy from '../../layouts/CaseStudy.astro';
+
+// Unit economics — REAL, measured numbers only (the site's whole thesis is evidence
+// over claims). Empty array renders nothing. A placeholder-shaped value fails the
+// build, so a stub can never ship by accident.
+interface EconRow { metric: string; value: string; basis: string; }
+const econ: EconRow[] = [];
+if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)\b/i.test(`${r.metric} ${r.value} ${r.basis}`))) {
+  throw new Error('operation-hired econ: placeholder value present. Fill measured numbers or leave the array empty.');
+}
 ---
 <CaseStudy slug="operation-hired">
   <p class="lead reveal">I needed to run a serious job search, so I built the system I'd roll out to a team. Not a spreadsheet and not a folder of bookmarks: a pipeline that pulls postings in, scores them, drafts the application, and keeps a record of every send. The point was never the software. The point was to make one person move like a staffed function, without losing the judgment that makes the work any good.</p>
@@ -11,6 +20,22 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
     <li><strong>Fraud.</strong> A set of heuristics flags the patterns ghost and scam listings share. That cut the flagged-fraud noise by about 80%, so the board stays honest.</li>
     <li><strong>Freshness.</strong> A sweep re-checks live postings against the source job board and is deliberately conservative: only a hard <code>404</code> or <code>410</code> retires a listing, while a timeout or a redirect is left alone so a real job is never dropped by mistake. The first sweep pulled 12 dead postings out of the pool, so I never spend a morning chasing a role that closed last week.</li>
   </ul>
+
+  {econ.length > 0 && (
+    <>
+      <h2 class="reveal">What a scored posting costs</h2>
+      <div class="econ reveal">
+        <table>
+          <thead><tr><th scope="col">Metric</th><th scope="col">Value</th><th scope="col">Basis</th></tr></thead>
+          <tbody>
+            {econ.map((r) => (
+              <tr><td>{r.metric}</td><td class="econ__v">{r.value}</td><td>{r.basis}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
 
   <h2 class="reveal">A fit report that surfaces gaps instead of faking them</h2>
   <p class="reveal">Pick a job and the system writes a fit report, then drafts a tailored package off it. The report grades every requirement into three honest tiers, and the third one is the whole point:</p>
