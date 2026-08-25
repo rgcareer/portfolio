@@ -23,6 +23,7 @@ const nav = [
   { href: '/contact', label: 'Contact', key: 'contact' },
 ];
 
+const sameAs = [site.links.linkedin, site.links.github].filter((u) => u && !u.includes('REPLACE'));
 const personLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -30,7 +31,7 @@ const personLd = {
   jobTitle: site.role,
   url: site.url,
   email: `mailto:${site.email}`,
-  ...(site.links.linkedin.includes('REPLACE') ? {} : { sameAs: [site.links.linkedin] }),
+  ...(sameAs.length ? { sameAs } : {}),
 };
 ---
 
@@ -113,6 +114,7 @@ const personLd = {
         <div class="foot__links">
           <a class="link-quiet" href={`mailto:${site.email}`}>Email</a>
           <a class="link-quiet" href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+          {site.links.github && <a class="link-quiet" href={site.links.github} rel="me noopener" target="_blank">GitHub</a>}
           <a class="link-quiet" href="/resume">Résumé</a>
           <a class="link-quiet" href="/consulting">Consulting</a>
         </div>

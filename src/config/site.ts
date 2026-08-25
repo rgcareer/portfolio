@@ -27,7 +27,7 @@ export const site = {
   // links
   links: {
     linkedin: 'https://www.linkedin.com/in/ryan-garver-ai', // custom URL changed 2026-06-19; old /in/-rgarver is dead (no redirect)
-    github: '', // optional — gated (publishing)
+    github: 'https://github.com/rgcareer', // profile hosting evalcard / sop-mcp / should-i-automate-this / cs-prompt-field-kit
   },
 } as const;
 

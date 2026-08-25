@@ -103,8 +103,9 @@ const education = [
           <span>{site.location}</span>
           <a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a>
           <a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">LinkedIn</a>
+          {site.links.github && <a class="link-quiet" href={site.links.github} target="_blank" rel="me noopener">GitHub</a>}
         </p>
-        <p class="rs__print-contact">{site.location} · {site.email} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}</p>
+        <p class="rs__print-contact">{site.location} · {site.email} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}{site.links.github ? ` · ${site.links.github.replace(/^https?:\/\/(www\.)?/, '')}` : ''}</p>
       </div>
       <div class="rs__actions">
         <button class="btn btn--solid" id="rs-print" type="button">Download PDF</button>
