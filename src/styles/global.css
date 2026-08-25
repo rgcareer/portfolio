@@ -97,6 +97,15 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.04; letter-spacing: -0.02em; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
 .chip { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.05em; padding: 0.42em 0.85em; border-radius: var(--r-pill); background: var(--accent-soft); color: var(--accent); }
 .chip--ghost { background: transparent; border: 1px solid var(--line-2); color: var(--text-dim); }
+
+/* ---------- external proof link chip (case-study header + homepage panels) ---------- */
+.link-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono);
+  font-size: var(--fs-sm); color: var(--text); background: var(--accent-soft);
+  border: 1px solid var(--accent-line); border-radius: 999px; padding: 0.42rem 0.95rem; letter-spacing: 0.02em;
+  transition: background var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out); }
+.link-chip::after { content: '\2192'; color: var(--accent); transition: transform var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out); }
+.link-chip:hover { background: var(--accent); color: var(--accent-text); }
+.link-chip:hover::after { color: var(--accent-text); transform: translateX(3px); }
 .specimen { font-family: var(--font-mono); font-size: clamp(0.58rem, 1vw, 0.72rem); line-height: 2; color: var(--text-dim); margin: 0; white-space: pre; overflow: auto; }
 
 /* ---------- scroll-reveal (hidden only with JS — no-JS shows everything) ---------- */

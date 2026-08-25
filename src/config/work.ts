@@ -1,11 +1,17 @@
 // Case-study registry. Drives the /work index, the homepage plates, and each
 // detail page's meta. Content curation rule: feature the engineering capability,
 // never the faceless product storefronts (KDP/Etsy listings stay unlinked).
+// Homepage curation: `home: true` is reserved for projects a recruiter can verify
+// independently (a live demo, a public repo, an npm package) so the homepage scroll
+// leads with clickable proof. Everything still appears on /work regardless.
 
 export interface CaseFigure {
   /** Screenshot plate (path under /public). */
   src?: string;
   alt?: string;
+  /** Intrinsic pixel dimensions — set on every `src` so the browser reserves space (no CLS). */
+  width?: number;
+  height?: number;
   /** Typeset specimen plate (real excerpt, used when no screenshot exists). */
   specimen?: string[];
   caption: string;
@@ -22,7 +28,7 @@ export interface CaseStudy {
   metrics: { label: string; value: string }[];
   tags: string[];
   accent?: boolean; // featured (homepage hero)
-  home?: boolean; // render as a homepage scroll panel
+  home?: boolean; // render as a homepage scroll panel (reserved for projects with public proof links)
   links?: { label: string; href: string }[]; // external links (live demo / source / npm)
   figure: CaseFigure;
 }
@@ -46,6 +52,7 @@ export const work: CaseStudy[] = [
     figure: {
       src: '/figures/operation-hired-dashboard.png',
       alt: 'Operation Hired dashboard: pipeline funnel, scoring distribution, and discovery charts',
+      width: 1600, height: 626,
       caption: 'Mission-control view. Every posting re-verified against its source before it surfaces.',
     },
   },
@@ -63,7 +70,6 @@ export const work: CaseStudy[] = [
       { label: 'MCP servers monetized', value: '<5%' },
     ],
     tags: ['MCP', 'Agent economy', 'APIs'],
-    home: true,
     figure: {
       specimen: [
         '$ tools/list',
@@ -89,7 +95,6 @@ export const work: CaseStudy[] = [
       { label: 'Build cost', value: '$0' },
     ],
     tags: ['Automation', 'Generative', 'Content'],
-    home: true,
     figure: {
       specimen: [
         'spec.yaml',
@@ -115,7 +120,6 @@ export const work: CaseStudy[] = [
       { label: '"Done" =', value: 'evidence, not claim' },
     ],
     tags: ['Agents', 'Orchestration', 'Reliability'],
-    home: true,
     figure: {
       specimen: [
         'RULE  no loop without a written stop condition',
@@ -142,6 +146,7 @@ export const work: CaseStudy[] = [
       { label: 'Output', value: 'report card + brief' },
     ],
     tags: ['LLM eval', 'AI testing', 'No-code'],
+    home: true,
     links: [
       { label: 'npm', href: 'https://www.npmjs.com/package/evalcard' },
       { label: 'Source', href: 'https://github.com/rgcareer/evalcard' },
@@ -149,6 +154,7 @@ export const work: CaseStudy[] = [
     figure: {
       src: '/figures/evalcard-report-card.png',
       alt: 'evalcard report card: per-case pass and fail, rubric scores, and a ship-decision brief',
+      width: 1280, height: 2239,
       caption: 'The report card an operator reads. Every judge score is labelled [SIMULATED] and capped, because a same-model judge is not an independent reviewer.',
     },
   },
@@ -166,6 +172,7 @@ export const work: CaseStudy[] = [
       { label: 'Output', value: 'tiered verdict' },
     ],
     tags: ['AI adoption', 'Decision tool', 'Enablement'],
+    home: true,
     links: [
       { label: 'Live demo', href: 'https://should-i-automate-this.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
@@ -173,6 +180,7 @@ export const work: CaseStudy[] = [
     figure: {
       src: '/figures/should-i-automate-verdict.png',
       alt: 'Should I Automate This verdict: a tiered recommendation with a concrete stop-test',
+      width: 1280, height: 1741,
       caption: 'Answer a few questions, get a tier and a stop-test. It will talk you out of automating the wrong thing, which is the honest half of enablement.',
     },
   },
@@ -190,6 +198,7 @@ export const work: CaseStudy[] = [
       { label: 'Filter by', value: 'CS job to be done' },
     ],
     tags: ['Customer success', 'Prompts', 'Enablement'],
+    home: true,
     links: [
       { label: 'Live demo', href: 'https://cs-prompt-field-kit.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/cs-prompt-field-kit' },
@@ -197,6 +206,7 @@ export const work: CaseStudy[] = [
     figure: {
       src: '/figures/cs-prompt-field-kit.png',
       alt: 'CS Prompt Field Kit index: filterable cards, each with a five-element prompt teardown',
+      width: 1280, height: 2681,
       caption: 'A kit a CS team opens on the job. Each prompt is torn down into its five moving parts, so people learn the shape, not just the copy.',
     },
   },
@@ -214,6 +224,7 @@ export const work: CaseStudy[] = [
       { label: 'Tools', value: 'search · get · list' },
     ],
     tags: ['MCP', 'Enablement', 'No-code'],
+    home: true,
     links: [
       { label: 'npm', href: 'https://www.npmjs.com/package/sop-mcp' },
       { label: 'Source', href: 'https://github.com/rgcareer/sop-mcp' },
@@ -245,7 +256,6 @@ export const work: CaseStudy[] = [
       { label: 'Faked improvements', value: '0' },
     ],
     tags: ['Reliability', 'Governance', 'AI enablement'],
-    home: true,
     figure: {
       specimen: [
         'ROUTER   complexity 3 · stakes 2-3 · external 2',

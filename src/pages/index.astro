@@ -89,7 +89,7 @@ const capabilities = [
       <div class="feature__shot" data-par="-6">
         <div class="shot__frame" data-cursor="View">
           <div class="shot__chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-          <img src={hired.figure.src} alt={hired.figure.alt} loading="lazy" decoding="async" />
+          <img src={hired.figure.src} alt={hired.figure.alt} width={hired.figure.width} height={hired.figure.height} loading="lazy" decoding="async" />
         </div>
         <p class="shot__cap">{hired.figure.caption}</p>
       </div>
@@ -105,7 +105,11 @@ const capabilities = [
         <div class="panel__media" data-par={i % 2 === 0 ? '-8' : '8'}>
           <div class="panel__card" data-cursor="View">
             <div class="panel__chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-            <pre class="specimen">{c.figure.specimen?.join('\n')}</pre>
+            {c.figure.src ? (
+              <img src={c.figure.src} alt={c.figure.alt ?? ''} width={c.figure.width} height={c.figure.height} loading="lazy" decoding="async" />
+            ) : (
+              <pre class="specimen">{c.figure.specimen?.join('\n')}</pre>
+            )}
           </div>
         </div>
         <div class="panel__body">
@@ -121,7 +125,11 @@ const capabilities = [
             ))}
           </dl>
           <div class="chips" data-in>
-            {c.tags.map((t) => <span class="chip chip--ghost">{t}</span>)}
+            {c.links?.length
+              ? c.links.map((l) => (
+                  <a class="link-chip" href={l.href} target="_blank" rel="noopener noreferrer" data-cursor="Open">{l.label}</a>
+                ))
+              : c.tags.map((t) => <span class="chip chip--ghost">{t}</span>)}
           </div>
           <a class="scene__link" href={`/work/${c.slug}`} data-in>Read the case study</a>
         </div>
@@ -238,6 +246,10 @@ const capabilities = [
   .panel__chrome span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--line-2); }
   .panel__chrome span:first-child { background: rgba(232,75,12,0.6); }
   .panel__card .specimen { padding: 1.4rem 1.5rem; }
+  /* tall product screenshots top-crop to a sane height so a single scene stays ~100dvh;
+     the full untrimmed shot lives on the case-study page. width/height attrs still
+     reserve intrinsic aspect for CLS before the crop applies. */
+  .panel__card img { width: 100%; height: auto; max-height: 68vh; object-fit: cover; object-position: top; display: block; }
   .scene--v2 .panel__card { background: linear-gradient(160deg, #1a1410, var(--bg-1)); }
 
   /* ---------- shared section rhythm (interludes) ---------- */
