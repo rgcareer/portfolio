@@ -67,6 +67,7 @@
   --accent-soft:  rgba(232, 75, 12, 0.12);
   --accent-line:  rgba(232, 75, 12, 0.5);
   --accent-text:  #140A04; /* dark ink for text ON the orange */
+  --accent-up:    #F65D1C; /* brighter orange for small text on --accent-soft (5.3:1 AA; plain --accent was 4.47:1) */
 
   /* typography */
   --font-display: 'Anybody', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;

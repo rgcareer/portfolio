@@ -114,7 +114,6 @@ export function initHeroField() {
 
     let running = false; let rafId = 0; const t0 = performance.now();
     function frame(t: number) {
-      (window as any).__protoFrames = ((window as any).__protoFrames || 0) + 1;
       if (!velocity.needsUpdate) { mouse.set(-1); velocity.set(0); }
       velocity.needsUpdate = false;
       flowmap.mouse.copy(mouse);

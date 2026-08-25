@@ -95,7 +95,7 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.04; letter-spacing: -0.02em; }
 .callout dd { font-family: var(--font-mono); font-weight: 600; font-size: 1.15rem; color: var(--text); }
 .callout dt { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); margin-top: 0.4rem; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
-.chip { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.05em; padding: 0.42em 0.85em; border-radius: var(--r-pill); background: var(--accent-soft); color: var(--accent); }
+.chip { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.05em; padding: 0.42em 0.85em; border-radius: var(--r-pill); background: var(--accent-soft); color: var(--accent-up); }
 .chip--ghost { background: transparent; border: 1px solid var(--line-2); color: var(--text-dim); }
 
 /* ---------- external proof link chip (case-study header + homepage panels) ---------- */

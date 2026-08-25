@@ -60,6 +60,7 @@ const personLd = {
 
     <link rel="preload" href="/fonts/anybody-latin-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/bricolage-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/martianmono-latin-var.woff2" as="font" type="font/woff2" crossorigin />
 
     <noscript><style>.preloader { display: none !important; }</style></noscript>
     <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
@@ -88,7 +89,7 @@ const personLd = {
         </a>
         <ul class="nav__links">
           {nav.filter((n) => n.key !== 'home').map((n) => (
-            <li><a href={n.href} class:list={['nav__link', { 'is-active': active === n.key }]}>{n.label}</a></li>
+            <li><a href={n.href} class:list={['nav__link', { 'is-active': active === n.key }]} aria-current={active === n.key ? 'page' : undefined}>{n.label}</a></li>
           ))}
         </ul>
         <button class="nav__cmd" data-cmdk type="button" aria-label="Open command menu" aria-keyshortcuts="Meta+K">
@@ -139,20 +140,23 @@ const personLd = {
         -webkit-backdrop-filter: saturate(1.4) blur(10px);
         backdrop-filter: saturate(1.4) blur(10px);
         border-bottom: 1px solid var(--line); }
-      .nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); padding-block: 0.85rem; }
+      .nav { display: flex; align-items: center; flex-wrap: wrap; row-gap: 0.55rem; gap: clamp(1rem, 3vw, 2.2rem); padding-block: 0.85rem; }
       .nav__brand { display: inline-flex; align-items: center; gap: 0.65rem; margin-right: auto; }
       .nav__mono { font-family: var(--font-mono); font-weight: 600; font-size: 0.78rem;
         display: grid; place-items: center; width: 30px; height: 30px; flex: none;
         border: 1.5px solid var(--accent); border-radius: var(--r-sm); color: var(--accent); letter-spacing: 0.02em; }
       .nav__name { font-weight: 600; font-size: var(--fs-sm); letter-spacing: -0.01em; }
-      .nav__links { display: none; align-items: center; gap: 1.6rem; list-style: none; }
+      /* mobile: real nav on its own full-width row (works with JS off; the ⌘K button alone
+         was a ~35px, JS-only target). desktop restores the single inline row at >=720. */
+      .nav__links { display: flex; flex-wrap: wrap; align-items: center; order: 4; width: 100%; gap: 0.6rem 1.1rem; list-style: none; }
       .nav__link { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);
         text-transform: uppercase; letter-spacing: 0.06em;
         transition: color var(--t-fast) var(--ease-out); border-bottom: 1px solid transparent; padding-bottom: 2px; }
       .nav__link:hover { color: var(--text); }
       .nav__link.is-active { color: var(--accent); border-bottom-color: var(--accent); }
-      @media (min-width: 720px) { .nav__links { display: flex; } .nav__name { font-size: var(--fs-base); } }
-      .nav__cmd { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.42rem 0.55rem;
+      @media (min-width: 720px) { .nav__links { width: auto; order: 0; gap: 1.6rem; } .nav__name { font-size: var(--fs-base); } }
+      .nav__cmd { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        min-width: 44px; min-height: 44px; padding: 0.42rem 0.55rem;
         border: 1px solid var(--line-2); border-radius: var(--r-sm); color: var(--text-dim);
         background: var(--bg-1); transition: color var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out); }
       .nav__cmd:hover { color: var(--text); border-color: var(--line-3); }
