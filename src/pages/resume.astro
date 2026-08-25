@@ -108,8 +108,9 @@ const education = [
         <p class="rs__print-contact">{site.location} · {site.email} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}{site.links.github ? ` · ${site.links.github.replace(/^https?:\/\/(www\.)?/, '')}` : ''}</p>
       </div>
       <div class="rs__actions">
-        <button class="btn btn--solid" id="rs-print" type="button">Download PDF</button>
+        <a class="btn btn--solid" href="/resume.pdf" download="Ryan-Garver-Resume.pdf">Download PDF</a>
         <a class="btn btn--line" href="/work">See the work</a>
+        <button class="rs__print-btn link-quiet" id="rs-print" type="button">or print this page</button>
       </div>
     </header>
 
@@ -163,7 +164,8 @@ const education = [
   .rs__role { color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-base); margin-top: 0.6rem; }
   .rs__contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.9rem; font-size: var(--fs-sm); color: var(--text-dim); }
   .rs__print-contact { display: none; }
-  .rs__actions { display: flex; gap: 0.75rem; }
+  .rs__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+  .rs__print-btn { font-family: var(--font-mono); font-size: var(--fs-eyebrow); letter-spacing: 0.02em; }
 
   .rs__summary { max-width: 70ch; color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75;
     margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
