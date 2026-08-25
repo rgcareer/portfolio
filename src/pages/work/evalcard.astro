@@ -1,8 +1,11 @@
 ---
 import CaseStudy from '../../layouts/CaseStudy.astro';
 
-// Unit economics — REAL, measured numbers only. Empty renders nothing; a placeholder
-// value fails the build (see operation-hired for the same guard pattern).
+// Unit economics — REAL, measured numbers only. Intentionally EMPTY: evalcard has no
+// token/cost accounting in code (the SDK usage field is never read) and the only stored
+// run history is mock mode, so no real per-run cost or latency exists to cite yet. To
+// fill: run a live eval, capture the Anthropic usage/cost, add rows (same shape as the
+// operation-hired econ table). Empty renders nothing; a placeholder value fails the build.
 interface EconRow { metric: string; value: string; basis: string; }
 const econ: EconRow[] = [];
 if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)\b/i.test(`${r.metric} ${r.value} ${r.basis}`))) {

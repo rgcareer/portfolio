@@ -5,7 +5,14 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
 // over claims). Empty array renders nothing. A placeholder-shaped value fails the
 // build, so a stub can never ship by accident.
 interface EconRow { metric: string; value: string; basis: string; }
-const econ: EconRow[] = [];
+// Verified read-only against the OH repo (2026-08-25): scoring.js makes zero API calls;
+// llm.js defaults to claude-opus-4-8 and logs real token usage; the per-draft figure is
+// the mean of 76 logged Opus 4.8 calls (avg in 3,083 / out 1,060, $0.0271-$0.0559).
+const econ: EconRow[] = [
+  { metric: 'Cost to score one posting', value: '$0', basis: 'Scoring is deterministic code, weighted rules over a local database, with no model call. Every posting scores for zero tokens.' },
+  { metric: 'Where the model spend goes', value: 'Drafting only', basis: 'Claude Opus 4.8 writes the tailored application, and only for a job I approve, never across the whole discovery pool.' },
+  { metric: 'Per drafted application', value: '~$0.04', basis: 'Measured from 76 logged Opus 4.8 calls: about 3,100 input and 1,060 output tokens each, the cost read straight off the API usage field.' },
+];
 if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)\b/i.test(`${r.metric} ${r.value} ${r.basis}`))) {
   throw new Error('operation-hired econ: placeholder value present. Fill measured numbers or leave the array empty.');
 }
