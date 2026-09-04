@@ -12,7 +12,7 @@ export const site = {
   role: 'AI Enablement & Adoption',
   tagline: 'I help teams adopt AI, and I build a lot of it myself.',
   blurb:
-    "I've spent about twenty years helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
+    "I've spent my career helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
 
   // contact / availability
   email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé)
