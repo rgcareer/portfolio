@@ -8,5 +8,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   devToolbar: { enabled: false },
-  integrations: [sitemap()],
+  // /proto is the B1 moving-mockup gate: noindex and kept out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes('/proto') })],
 });

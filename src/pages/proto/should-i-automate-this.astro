@@ -1,0 +1,26 @@
+---
+import ProtoLayout from '../../layouts/ProtoLayout.astro';
+import { flagship } from './_data';
+---
+<ProtoLayout title={`${flagship.title} (proto case study)`}>
+  <main class="case wrap" id="top">
+    <!-- shared element: morphs in from the shelf object's frame -->
+    <div class="case__frame" transition:name={`frame-${flagship.slug}`}>
+      <img src={flagship.figure.src} alt={flagship.figure.alt} width={flagship.figure.width} height={flagship.figure.height} decoding="async" />
+    </div>
+
+    <h1 class="case__title" id="case-h1" tabindex="-1">{flagship.title}</h1>
+    <p class="case__lead">{flagship.tagline}</p>
+
+    <ul class="case__metrics">
+      {flagship.metrics.map((m) => (
+        <li class="case__metric">
+          <span class="plaque__label">{m.label}</span>
+          <div class="plaque__value">{m.value}</div>
+        </li>
+      ))}
+    </ul>
+
+    <a class="btn btn--quiet case__back" href="/proto">Back to the shelf</a>
+  </main>
+</ProtoLayout>
