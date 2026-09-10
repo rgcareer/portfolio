@@ -1,0 +1,30 @@
+# Design Memory — getsmartai.ai (portfolio-site)
+
+Per-project log of design decisions and rejections. Newest first. Read this BEFORE proposing any direction; whatever family the previous builds used is off the table (foundry `range.md` rotation discipline). This file was created 2026-09-09; the three earlier entries are reconstructed from git history and `tasks/todo.md` so the lineage lives in one place.
+
+## OFF THE TABLE (all three prior builds, cumulative)
+Near-black ground with a single accent (used twice) · bone or warm paper ground · terminal, console, CLI, or status-panel chrome · typed text, blinking carets, or any "the site assembles/builds itself" motion · print, stamp, registration-mark, or drafting metaphors · WebGL name masks or name heroes · glassmorphism, glow orbs, particle fields · section HUDs and coordinate readouts · the type stacks Geist/Geist Mono, Archivo/Plex Mono, Anybody/Bricolage/Martian Mono · monospace as a primary voice.
+
+## 2026-09-09 — whole site revamp: The Shelf (bright showroom of objects with engraved plaques)
+- **Chosen:** The Shelf — every project is a physical object on a horizontally panning shelf, framed with a recorded demo and an engraved plaque of verified numbers, shelves sectioned by lane. Tokens/spec → `docs/design/revamp-handoff.md`. Program → `~/.claude/plans/own-the-portfolio-site-project-cosmic-bubble.md`.
+- **Rejected (round 1):** D1 Working drawing (paper + drafting + stamps = the 2026-07-02 Field Manual again) · D2 Atelier spotlight (dimmed-until-lit imagery risks contrast; arty tone for an enablement brand) · D3 White stage (poster-grotesk-on-white is the industry reflex) · D4 Ops floor (navigation-as-movement fights the recruiter's fast path; highest cost).
+- **Rejected (round 2):** R1 Live build (site assembles itself + build-console chrome = Field Manual + the June console, both already shipped) · R2 Signal and noise (two skins to maintain; satire risks credibility) · R3 Model room (dark WebGL field = the v3 family; flagship cost).
+- **Rejected (round 3):** N2 Signal and noise re-rolled (same two-skin cost) · N3 Weather (beautiful, says nothing about the offer; four locked palettes quadruple contrast work).
+- **Grafts:** from N2, the before/after plaque flip ("the default way" vs "the built way") inside each object's plaque.
+- **Evidence reviewed:** live site at 1440 and 375 (fonts loaded, 0 console errors), git diffs of `bff3b65`, `98c317e`, `178315b`, `0803b95`; foundry `range.md`, `immerse.md`, `heroes.md`, cookbook INDEX; the 60-site award-corpus synthesis (`New Skills/tasks/foundry-upgrade-2026-09/research/synthesis.md`); three rounds of direction boards in-session.
+- **Rationale:** the only palette family none of the three past builds touched (light showroom + per-object spectrum); the exhibits are the actual tools with real numbers, which is the capability showcase both audiences want; horizontal pan with spring settle and engraved type is a signature the site never had; scored 14/15 vs 13 and 11.
+- **User preferences learned:** Ryan rejects any round that echoes a past build even when the family is not in git (he remembers them); he wants foundry pushed to its highest tier, not a tasteful middle; "a boutique with full shelves, not an empty flea-market table": more objects, and new projects built to back the résumé. Award-grade bar, submission decided after launch.
+- **Open:** sound toggle keep/drop (B1); font faces may swap within voice at B2 with Ryan's OK; Track P slate (P2/P3) confirmed at its own gate.
+
+## 2026-07-02 (PM) — v3 "Immersion" (SUPERSEDED by 2026-09-09 entry)
+- **Chosen:** dark ink `#0F0F11` + ivory `#F0EDE6` + signal orange `#E84B0C`; Anybody + Bricolage Grotesque + Martian Mono; OGL WebGL name hero; branded preloader (RG + %); custom cursor; scroll HUD; ink-wipe view transitions; Lenis. Shipped `0803b95`/`eca711c`/`c36be7a`, live until the revamp.
+- **Rejected on the way:** R1 "Reactive Index" (too minimal) · R2 "Cinematic Immersive" (accepted density, wanted award-grade) → R3 "Refined Interactive" won after a ~50-site award scan.
+- **User preferences learned:** motion-first wow is the #1 want; a static milestone reads as boring; typography-led craft with ONE WebGL accent.
+
+## 2026-07-02 (AM) — "Field Manual" / "Living Manual" (SUPERSEDED same day by v3)
+- **Chosen briefly:** bone paper `#F5F1E8` + warm ink `#201D1A` + vermilion `#C23A14`; Archivo + IBM Plex Mono; editorial operator's-manual world; sticky-stacked plates; registration marks draw, folio types itself, name inks on, stamp thunks ("the manual now assembles itself"); drafting-machine crosshair with X/Y readout. Commits `98c317e`, `178315b`.
+- **Killed because:** superseded the same evening by the award-lane exploration; retired as "the Field Manual editorial site". Its vocabulary (paper, stamps, drafting, self-assembly) is now permanently off the table.
+
+## 2026-06-23 — "Ethereal Glass / Console" (SUPERSEDED 2026-07-02)
+- **Chosen:** OLED near-black `#07080B` + spring green `#4ADE80`; Geist + Geist Mono; glass bezel status panel with a typed CLI line and blinking caret; emerald/indigo glow orbs; mouse-reactive particle field; magnetic CTAs; ⌘K palette. Root commit `bff3b65`; shipped live 2026-06-23.
+- **Killed because:** retrospectively called "the dark-terminal theme"; replaced by the manual, then by v3. Its vocabulary (terminal, console panel, typed text, glass, particles, green-on-black) is permanently off the table.
