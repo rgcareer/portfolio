@@ -1,0 +1,164 @@
+---
+// The Highlighter M-gate moving mockup (/proto2). Held beside /proto (The Shelf)
+// for Ryan's feel-gate. noindex + kept out of the sitemap (astro.config filter
+// excludes any path containing '/proto'). Real project data reused from the B1
+// object set (single source of truth); numbers live INSIDE sentences, never in
+// stat cards. No em/en dashes anywhere by design.
+import Proto2Layout from '../layouts/Proto2Layout.astro';
+import { objects } from './proto/_data';
+
+const casebook = objects.find((o) => o.slug === 'should-i-automate-this')!;
+
+const services = [
+  { name: 'AI consulting', what: 'Find the', mark: 'follow-up leaks', tail: ' that cost you jobs.', price: 'from $750' },
+  { name: 'Automation builds', what: 'Hand the repetitive work to', mark: 'something tireless', tail: '.', price: 'from $2,000' },
+  { name: 'Website design', what: 'A site that', mark: 'earns its keep', tail: ', live in two weeks.', price: 'from $1,500' },
+  { name: 'Team training', what: 'Your team,', mark: 'fluent in the tools', tail: ' they already pay for.', price: 'from $900' },
+  { name: 'AI kits', what: 'The follow-up system,', mark: 'boxed and done for you', tail: '.', price: '$199' },
+];
+---
+<Proto2Layout>
+  <a class="skip" href="#services">Skip to what I do</a>
+
+  <header class="wrap topbar">
+    <a class="brand" href="#" data-hero-in aria-label="Get Smart AI, led by Ryan Garver">
+      <span class="wm" aria-hidden="true">get smart ai<span class="disc"></span></span>
+      <small>led by Ryan Garver</small>
+    </a>
+    <a class="hire" href="#casebook" data-hero-in style="--in-delay: 80ms">Hiring for AI enablement? See the work</a>
+  </header>
+
+  <!-- SCENE 1: annotation-pass entrance -->
+  <section class="wrap hero" aria-label="Introduction">
+    <p class="eyebrow" data-hero-in>Get Smart AI · Boise, ID and remote</p>
+    <h1 data-hero-in style="--in-delay: 70ms">
+      AI that <span class="usweep" data-sweep>pays for itself</span>, in <span class="usweep" data-sweep>plain English</span>.
+    </h1>
+    <p class="lead" data-hero-in style="--in-delay: 150ms">
+      I build it, I teach it, and every claim on this site is one I can show you.
+    </p>
+    <div class="cta-row" data-hero-in style="--in-delay: 230ms">
+      <a class="btn" href="#close">Start with a plain-English audit</a>
+      <a class="link-quiet" href="#casebook">See the work</a>
+    </div>
+  </section>
+
+  <!-- SCENE 2: services teaser -->
+  <section class="wrap section" id="services" aria-labelledby="svc-h">
+    <div class="svc-head">
+      <p class="eyebrow" data-in>One practice, five ways in</p>
+      <h2 id="svc-h" data-in style="--in-delay: 60ms">Pick the format. The <span class="gw">promise stays the same</span>.</h2>
+    </div>
+    <div class="svc-list">
+      {services.map((s, i) => (
+        <div class="svc" data-in style={`--in-delay: ${i * 60}ms`}>
+          <div class="svc__name">{s.name}</div>
+          <div class="svc__what">{s.what} <span class="gw">{s.mark}</span>{s.tail}</div>
+          <div class="svc__price">{s.price}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SCENE 3: pine proof band -->
+  <section class="band" aria-label="Proof">
+    <div class="wrap">
+      <p class="eyebrow" data-in>Proof, not adjectives</p>
+      <p class="claim" data-in style="--in-delay: 80ms">
+        I built a scorer that read <span class="mark num" data-sweep>14,851</span> job postings,
+        checked each against its source, and made <span class="mark num" data-sweep>zero</span> re-score errors.
+      </p>
+      <p class="attrib" data-in style="--in-delay: 160ms">Operation Hired · a tool I built, 616 tests passing</p>
+    </div>
+  </section>
+
+  <!-- SCENE 4: annotated casebook spread -->
+  <section class="wrap section" id="casebook" aria-labelledby="case-h">
+    <div class="case">
+      <div class="case__body">
+        <p class="case__kick" data-in>Case · {casebook.role} · {casebook.year}</p>
+        <h2 class="case__title" id="case-h" data-in style="--in-delay: 50ms">{casebook.title}</h2>
+        <p class="case__lead" data-in style="--in-delay: 110ms">
+          It ships with <span class="mark" data-sweep>28 of 28 tests</span> passing and
+          <span class="mark" data-sweep>10 of 10</span> calibration goldens, and it answers one question:
+          should a model touch this task at all?
+        </p>
+        <div class="case__ba">
+          <div class="ba__row" data-in>
+            <div class="ba__tag">The default way</div>
+            <div class="ba__txt">{casebook.flip.before}</div>
+          </div>
+          <div class="ba__row" data-in style="--in-delay: 70ms">
+            <div class="ba__tag is-built">The built way</div>
+            <div class="ba__txt is-built">{casebook.flip.after}</div>
+          </div>
+        </div>
+        <p class="verdict" data-in style="--in-delay: 60ms">
+          It talks you out of the <span class="gw">wrong ones first</span>.
+        </p>
+        <a class="link-green case__more" href="#" data-in>Read the case</a>
+      </div>
+      <figure class="case__fig" data-in style="--in-delay: 120ms">
+        <div class="frame">
+          <img src={casebook.figure.src} alt={casebook.figure.alt} width={casebook.figure.width} height={casebook.figure.height} loading="lazy" />
+        </div>
+        <figcaption>The verdict screen: a tier and a concrete stop-test, not a hype score.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- SCENE 5: intake close -->
+  <section class="close" id="close" aria-labelledby="close-h">
+    <div class="wrap section">
+      <h2 id="close-h" data-in>Tell me what is slow. I will tell you if <span class="gw">AI actually fixes it</span>.</h2>
+      <p class="sub" data-in style="--in-delay: 70ms">
+        No sales call. A short note, and a straight answer about whether this is worth your money.
+      </p>
+      <form class="intake" data-in style="--in-delay: 140ms" onsubmit="return false" aria-label="Start a conversation (mockup)">
+        <input type="text" name="name" placeholder="Your name" autocomplete="name" aria-label="Your name" />
+        <input type="email" name="email" placeholder="Email" autocomplete="email" aria-label="Email" />
+        <button class="btn" type="submit">Start the conversation</button>
+      </form>
+      <p class="fine" data-in style="--in-delay: 200ms">Prefer email? <a href="#">Write me directly.</a></p>
+    </div>
+  </section>
+
+  <footer class="foot" aria-label="Footer">
+    <div class="wrap">
+      <div class="brand"><span class="wm" aria-hidden="true">get smart ai<span class="disc"></span></span><span class="sr-only">Get Smart AI</span></div>
+      <p class="note">Proto: Green Light. Motion gate for the getsmartai.ai revamp. Not indexed, not linked. Smart Business AI LLC, Boise, ID.</p>
+    </div>
+  </footer>
+
+  <!-- ground switcher (proto compare; stripped at B2) -->
+  <div class="theme-switch" role="group" aria-label="Ground (proto compare)">
+    <button type="button" data-theme-btn="charcoal" aria-pressed="true">Charcoal</button>
+    <button type="button" data-theme-btn="pine" aria-pressed="false">Pine</button>
+    <button type="button" data-theme-btn="stone" aria-pressed="false">Stone</button>
+  </div>
+
+  <!-- dial panel (stripped at B2) -->
+  <button class="dials-toggle" id="dials-toggle" aria-expanded="false" aria-controls="dials">Dials</button>
+  <aside class="dials" id="dials" hidden aria-label="Motion dials">
+    <h3>The Highlighter dials</h3>
+    <div class="dial">
+      <label for="d-dur">Sweep duration <b id="d-dur-v">520ms</b></label>
+      <input type="range" id="d-dur" min="180" max="1100" step="20" value="520" />
+    </div>
+    <div class="dial">
+      <label for="d-stagger">Sweep stagger <b id="d-stagger-v">110ms</b></label>
+      <input type="range" id="d-stagger" min="0" max="320" step="10" value="110" />
+    </div>
+    <div class="dial">
+      <label for="d-pace">Entrance pace <b id="d-pace-v">1.0x</b></label>
+      <input type="range" id="d-pace" min="0.5" max="2" step="0.1" value="1" />
+    </div>
+    <div class="dial">
+      <label for="d-band">Band intensity <b id="d-band-v">0.70</b></label>
+      <input type="range" id="d-band" min="0" max="1" step="0.05" value="0.7" />
+    </div>
+    <div class="row">
+      <button type="button" id="d-replay">Replay entrance</button>
+    </div>
+  </aside>
+</Proto2Layout>
