@@ -28,7 +28,7 @@ const ld = jsonLd ?? personLd;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="pine">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,7 +37,7 @@ const ld = jsonLd ?? personLd;
     <meta name="description" content={desc} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#0F3327" />
+    <meta name="theme-color" content="#0A1015" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
@@ -50,8 +50,8 @@ const ld = jsonLd ?? personLd;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preload" href="/fonts/syne-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/schibsted-grotesk-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/unbounded-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
 
     <noscript><style>[data-in], [data-hero-in] { opacity: 1 !important; transform: none !important; }</style></noscript>
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ld)} />
