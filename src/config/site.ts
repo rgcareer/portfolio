@@ -15,14 +15,29 @@ export const site = {
     "I've spent my career helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
 
   // contact / availability
-  email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé)
+  email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé). Business surfaces move to ryan@getsmartai.ai at B3' (domain-email gate).
   availability: 'Open to work',
   year: '2026',
   location: 'Boise, ID · Remote',
 
+  // legal entity (footer + JSON-LD; brand "Get Smart AI · led by Ryan Garver" leads, LLC is the entity)
+  legalEntity: 'Smart Business AI LLC',
+  legalLocation: 'Boise, ID',
+
   // domain (short-term)
   domain: 'getsmartai.ai',
   url: 'https://getsmartai.ai',
+
+  // primary nav (7, at the ceiling but within it; no hamburger, wrap rule). Services + Shop are B5' pages.
+  nav: [
+    { href: '/services', label: 'Services', key: 'services' },
+    { href: '/work', label: 'Work', key: 'work' },
+    { href: '/shop', label: 'Shop', key: 'shop' },
+    { href: '/notes', label: 'Notes', key: 'notes' },
+    { href: '/resume', label: 'Résumé', key: 'resume' },
+    { href: '/about', label: 'About', key: 'about' },
+    { href: '/contact', label: 'Contact', key: 'contact' },
+  ],
 
   // links
   links: {

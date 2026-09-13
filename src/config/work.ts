@@ -30,6 +30,7 @@ export interface CaseStudy {
   accent?: boolean; // featured (homepage hero)
   home?: boolean; // render as a homepage scroll panel (reserved for projects with public proof links)
   links?: { label: string; href: string }[]; // external links (live demo / source / npm)
+  flip?: { before: string; after: string }; // before/after "the default way" vs "the built way" (home casebook + /work). <= 140 chars each, no em/en dashes. Migrated from proto/_data.ts at B2'.
   figure: CaseFigure;
 }
 
@@ -49,6 +50,10 @@ export const work: CaseStudy[] = [
     ],
     tags: ['Data pipeline', 'Scoring', 'Automation'],
     accent: true,
+    flip: {
+      before: 'You read job posts one by one, and reposts and ghost listings burn hours you never get back.',
+      after: 'A scorer reads 14,851 at once, checks each against its source, and surfaces only the real ones.',
+    },
     figure: {
       src: '/figures/operation-hired-dashboard.webp',
       alt: 'Operation Hired dashboard: pipeline funnel, scoring distribution, and discovery charts',
@@ -151,6 +156,10 @@ export const work: CaseStudy[] = [
       { label: 'npm', href: 'https://www.npmjs.com/package/evalcard' },
       { label: 'Source', href: 'https://github.com/rgcareer/evalcard' },
     ],
+    flip: {
+      before: 'You eyeball a few model outputs, call it good, and ship with no record of what you checked.',
+      after: 'Write cases in plain English, get a report card and a ship, fix-first, or do-not-ship brief.',
+    },
     figure: {
       src: '/figures/evalcard-report-card.webp',
       alt: 'evalcard report card: per-case pass and fail, rubric scores, and a ship-decision brief',
@@ -177,6 +186,10 @@ export const work: CaseStudy[] = [
       { label: 'Live demo', href: 'https://should-i-automate-this.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
     ],
+    flip: {
+      before: 'You automate on a hunch, then learn in production which tasks a model quietly gets wrong.',
+      after: 'Answer a few questions, get a tier and a stop-test that talks you out of the wrong ones first.',
+    },
     figure: {
       src: '/figures/should-i-automate-verdict.webp',
       alt: 'Should I Automate This verdict: a tiered recommendation with a concrete stop-test',
