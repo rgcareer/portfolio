@@ -206,7 +206,7 @@ section { padding: var(--sect-pad) 0; }
 .est-lead { font-family: var(--font-slab); font-style: italic; font-weight: 500; color: var(--muted); font-size: var(--fs-small); }
 .est-inputs { display: flex; flex-wrap: wrap; gap: 18px 28px; margin-top: 18px; }
 .est-field { display: flex; flex-direction: column; gap: 6px; }
-.est-field label { font-size: var(--fs-caption); color: var(--muted); font-weight: 500; }
+.est-field label { font-size: var(--fs-small); color: var(--muted); font-weight: 500; }
 .est-field input {
   width: 8.5ch; font-family: var(--font-slab); font-size: 22px; font-weight: 600;
   color: var(--ink); background: var(--ground); border: 1px solid var(--hairline);
@@ -396,6 +396,9 @@ section { padding: var(--sect-pad) 0; }
   /* keep the muted eyebrow off the sun; only ink text may sit over it (AA) */
   .sun-patch { width: min(320px, 62vw); height: min(210px, 44vw); top: 96px; right: -26px; }
   .est-field input { width: 7ch; }
+  /* continuity rows: wrap on narrow so the value never clips under overflow-x: clip */
+  .row-item { flex-wrap: wrap; gap: 2px 14px; }
+  .row-item .r-v { margin-left: 0; white-space: normal; }
 }
 
 /* ---- reduced-motion + ?reduce collapse (shared static end-state) ----------- */
