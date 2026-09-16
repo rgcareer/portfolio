@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+
+// The websites sub-page (charter §3.5: websites live here, NOT on the primary
+// ledger). Identity per charter §6.2 on /consulting/*: "Ryan" + Smart Business AI
+// LLC. This site is itself the sample of the work. Open Book look. Indexable.
+const title = 'Small-business websites that book the job, Boise';
+const description =
+  'A website that answers the phone when you cannot: it books the job and sends the quote while you are on a ladder. From $1,500, live in about two weeks, and you own it. Get Smart AI, Boise.';
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent('A website for my business')}`;
+---
+<BaseLayout title={title} description={description} active="consulting">
+  <article class="wd container">
+    <a href="/consulting" class="wd__back">Back to what I do</a>
+
+    <header class="wd__head">
+      <p class="kicker" data-in>Websites</p>
+      <h1 class="wd__title" data-in>A website that answers the phone when you can't.</h1>
+      <p class="wd__lead" data-in>
+        Most small-business sites are a brochure that sits there. This one is a worker: it catches the
+        after-hours call, books the job, and sends the quote while you are on a ladder or under a truck.
+        You are looking at a sample of the work right now.
+      </p>
+      <div class="wd__price" data-in>
+        <span class="wd__price-name">Website</span>
+        <span class="leader" aria-hidden="true"></span>
+        <span class="wd__price-fig"><small>from</small>$1,500</span>
+      </div>
+    </header>
+
+    <div class="wd__body prose">
+      <h2 data-in>What it does that a brochure can't</h2>
+      <ul data-in>
+        <li><strong>Answers after hours.</strong> The call you miss at 6:40 gets a text back by 6:41, so the customer does not just dial the next company on the list.</li>
+        <li><strong>Books the job.</strong> A visitor can pick a time and get on the calendar without waiting for you to call back.</li>
+        <li><strong>Sends the quote and the follow-up.</strong> The estimate goes out and the reminder fires on its own, instead of sitting in your drafts.</li>
+        <li><strong>Works on a phone.</strong> Most of your customers find you on one, so the site is built for that first, not squeezed onto it.</li>
+      </ul>
+
+      <h2 data-in>How it works</h2>
+      <p data-in>A fixed price from $1,500, scoped in writing after we talk, with no hourly meter running. Live in about two weeks. When it is done, the site, the domain, and the accounts are yours: no monthly fee to keep it up, and no lock-in.</p>
+
+      <h2 data-in>Where it fits</h2>
+      <p data-in>A website is one fix, not the whole answer. If you are not sure it is the fix to make first, start with the <a href="/#start">$750 diagnostic</a>: I find the three places work is leaking out and put a price next to each. A new site might be one of them, or catching the missed call might matter more. Either way you will know before you spend the bigger money.</p>
+    </div>
+
+    <nav class="wd__foot" aria-label="Next step">
+      <a href="/#start" class="btn" data-in data-magnetic>Start with a diagnostic <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+      <a href={mailto} class="link-arrow" data-in>Or just ask about a website <span class="a" aria-hidden="true">&rarr;</span></a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .wd { max-width: 760px; padding-top: clamp(2.4rem, 5vw, 3.4rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
+
+  .wd__back {
+    display: inline-block; font-family: var(--font-slab); font-size: var(--fs-small); font-weight: 500;
+    color: var(--muted); text-decoration: none; border-bottom: 1.5px solid var(--dot); padding-bottom: 2px;
+    transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  }
+  .wd__back::before { content: '\2190'; margin-right: 8px; color: var(--burgundy); }
+  .wd__back:hover { color: var(--burgundy); border-color: var(--burgundy); }
+
+  .wd__head { margin-top: 2rem; }
+  .wd__title { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.022em; line-height: 1.05; margin-top: 6px; text-wrap: balance; }
+  .wd__lead { margin-top: 1.3rem; font-size: var(--fs-lead); line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+
+  .wd__price { display: flex; align-items: baseline; gap: 14px; margin-top: 1.8rem; padding-top: 1.4rem; border-top: 2px solid var(--ink); }
+  .wd__price-name { font-weight: 600; font-size: 20px; letter-spacing: -0.01em; white-space: nowrap; }
+  .wd__price-fig { font-family: var(--font-slab); font-weight: 600; font-size: 24px; color: var(--burgundy); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .wd__price-fig small { font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--muted); margin-right: 6px; }
+
+  .wd__body { margin-top: clamp(2rem, 4vw, 2.8rem); }
+  .wd__body h2:first-child { margin-top: 0; }
+
+  .wd__foot {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem;
+    margin-top: clamp(2.6rem, 5vw, 3.6rem); padding-top: 2rem; border-top: 1px solid var(--hairline);
+  }
+
+  @media (max-width: 680px) { .wd__price { flex-wrap: wrap; } .leader { display: none; } .wd__price-fig { margin-left: auto; } }
+</style>

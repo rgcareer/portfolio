@@ -35,9 +35,10 @@ export const site = {
 
   // primary nav (no hamburger, wrap rule). Shop is OFF the nav until the FTC flags clear
   // and a CPA confirms kit taxability (charter §3.5; /shop is noindexed until then).
-  // Services returns in a later slice. Never point the nav at a 404.
+  // Services live under /consulting (namespace decided 2026-09-15). Never point at a 404.
   nav: [
     { href: '/work', label: 'Work', key: 'work' },
+    { href: '/consulting', label: 'Consulting', key: 'consulting' },
     { href: '/notes', label: 'Notes', key: 'notes' },
     { href: '/resume', label: 'Résumé', key: 'resume' },
     { href: '/about', label: 'About', key: 'about' },
