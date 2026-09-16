@@ -2,36 +2,41 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
 
+// About = the practice + the person, business-forward (charter). The verified career
+// pedigree serves buyers (trust) and recruiters (via the résumé link) both. No
+// "roles I'm looking for" block here - the recruiter path is the quiet Hiring link
+// to /work (charter §6.3). Open Book look. Identity: Ryan Garver, honest-outsider voice.
 const throughline = [
-  { when: '2004-2015', role: 'Retail management', org: 'Zumiez · Vans · Mainland',
-    work: 'Ran teams of 15 to 35 and set up the hiring, onboarding, and training that got new people up to speed.' },
+  { when: '2004-2015', role: 'Retail management', org: 'Zumiez, Vans, Mainland',
+    work: 'Ran teams of 15 to 35 and built the hiring, onboarding, and training that got new people up to speed.' },
   { when: '2015-2019', role: 'Enterprise technology adoption', org: 'Apple',
     work: 'Helped organizations like St. Luke’s and Dutch Bros move onto new tools, trained more than 22 teammates, and brought NPS from 83 to 92.' },
-  { when: '2019-2022', role: 'SaaS sales & enablement', org: 'Cradlepoint · Intuit · Vacasa',
-    work: 'Moved small businesses onto cloud and SaaS tools, with work on CRM cleanup, onboarding, and training that held up.' },
-  { when: 'Current', role: 'AI product builder', org: 'Smart Business AI',
-    work: 'Build AI products for non-technical business owners, and handle the whole thing myself from research to support.' },
+  { when: '2019-2022', role: 'SaaS sales and enablement', org: 'Cradlepoint, Intuit, Vacasa',
+    work: 'Moved small businesses onto cloud and SaaS tools, with CRM cleanup, onboarding, and training that held up.' },
+  { when: 'Current', role: 'AI product builder', org: 'Smart Business AI LLC',
+    work: 'Build AI systems for non-technical business owners, and handle the whole thing myself, from research to support.' },
 ];
 ---
-<BaseLayout title="About" active="about" description="Ryan Garver. A career spent helping people adopt new technology, now focused on AI.">
+<BaseLayout title="About" active="about" description="Ryan Garver: twenty years helping non-technical teams adopt new technology, at Apple, Intuit, Cradlepoint, and Vacasa, now building AI for small businesses in Boise.">
   <section class="container ab">
     <header class="ab__head">
-      <p class="section-kicker reveal">About</p>
-      <h1 class="ab__title reveal">I help people adopt new technology. I've done it my whole career. Now it's AI.</h1>
-      <p class="ab__lead reveal">
-        I'm {site.firstName}. Across retail, enterprise tech, and SaaS, my work has come down
-        to the same thing: helping people who aren't technical get comfortable with new tools. AI is that job again,
-        and the stakes are higher this time.
+      <p class="kicker" data-in>About</p>
+      <h1 class="ab__title" data-in>I help people adopt new technology. My whole career. Now it's AI.</h1>
+      <p class="ab__lead" data-in>
+        I am {site.firstName}. Across retail, enterprise tech, and SaaS, the work has come down to the
+        same thing: helping people who are not technical get comfortable with new tools. AI is that job
+        again, and the stakes are higher this time. I am not an agency, and I am not pretending to know
+        your trade better than you do. You are the expert on your business. I build the systems.
       </p>
     </header>
 
-    <section class="ab__sec">
-      <h2 class="ab__h reveal">The throughline</h2>
+    <section class="ab__sec" aria-labelledby="tl-h">
+      <h2 class="ab__h" id="tl-h" data-in>The throughline</h2>
       <div class="ab__sec-body">
-        <p class="ab__p reveal">Looking back, every job I've had was really the same problem: getting people to adopt something new.</p>
-        <ol class="ab__time">
+        <p class="ab__p" data-in>Every job I have had was really the same problem: getting people to adopt something new.</p>
+        <ol class="ab__time" data-in>
           {throughline.map((t) => (
-            <li class="ab__item reveal">
+            <li class="ab__item">
               <span class="ab__when">{t.when}</span>
               <div class="ab__item-body">
                 <span class="ab__role">{t.role} <span class="ab__org">· {t.org}</span></span>
@@ -43,37 +48,36 @@ const throughline = [
       </div>
     </section>
 
-    <section class="ab__sec">
-      <h2 class="ab__h reveal">The part that's rare</h2>
+    <section class="ab__sec" aria-labelledby="rare-h">
+      <h2 class="ab__h" id="rare-h" data-in>The part that's rare</h2>
       <div class="ab__sec-body">
-        <div class="ab__combo">
-          <div class="ab__card reveal">
-            <span class="ab__card-k">I lead change</span>
-            <p class="ab__card-p">Years of getting people and teams through new tools and processes: the training, the onboarding, the buy-in conversations. This is the human side of adoption, and it's usually where a rollout lives or dies.</p>
+        <div class="ab__combo" data-in>
+          <div class="ab__card">
+            <span class="ab__card-k">I lead the change</span>
+            <p class="ab__card-p">Years of getting people through new tools and processes: the training, the onboarding, the buy-in. This is the human side of adoption, and it is usually where a rollout lives or dies.</p>
           </div>
-          <div class="ab__card reveal">
-            <span class="ab__card-k">And I build</span>
-            <p class="ab__card-p">I build the AI I talk about. Prompt engineering, workflow automation, an MCP server, a job-search engine, a multi-agent review system. <a class="ab__link" href="/work">See the work</a></p>
+          <div class="ab__card">
+            <span class="ab__card-k">And I build it</span>
+            <p class="ab__card-p">I build the AI I talk about: workflow automation, an MCP server, a job-search engine, a multi-agent review system, and the follow-up systems I sell. <a class="link-green" href="/work">See the work</a></p>
           </div>
         </div>
-        <p class="ab__pull display reveal" data-stretch>The useful part is the combination.</p>
-        <p class="ab__pull-sub reveal">I can run the adoption side and build the tools, and most people only do one.</p>
+        <p class="ab__pull" data-in>The useful part is the combination.</p>
+        <p class="ab__pull-sub" data-in>I can run the adoption side and build the tools. Most people only do one.</p>
       </div>
     </section>
 
-    <section class="ab__sec">
-      <h2 class="ab__h reveal">Where I'm headed</h2>
+    <section class="ab__sec" aria-labelledby="you-h">
+      <h2 class="ab__h" id="you-h" data-in>What that means for you</h2>
       <div class="ab__sec-body">
-        <p class="ab__p reveal">
-          I'm looking for roles where that combination matters: <strong>AI enablement and adoption</strong>,
-          <strong>forward-deployed or solutions engineering</strong>, customer success, or AI training, at companies
-          that take AI seriously. Forward-deployed work is the shape I already fit: sit with the customer, build the
-          tool that matches how they actually work, and stay until it sticks. My AI title is new, and I'm fine with
-          that. I'd rather show the work than pad a résumé.
+        <p class="ab__p" data-in>
+          If you run a business without an engineering department, you get one person who can find what
+          is costing you money, build the fix, and get your people actually using it, with the price on
+          the page before any call. If you are hiring, the work is public and the résumé is one click away.
         </p>
-        <div class="ab__cta reveal">
-          <a href="/resume" class="btn btn--solid">Read the résumé</a>
-          <a href={`mailto:${site.email}`} class="btn btn--line">Get in touch</a>
+        <div class="ab__cta" data-in>
+          <a href="/#start" class="btn" data-magnetic>Start with a diagnostic <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+          <a href="/work" class="link-arrow">See the work <span class="a" aria-hidden="true">&rarr;</span></a>
+          <a href="/resume" class="link-quiet">Résumé</a>
         </div>
       </div>
     </section>
@@ -81,40 +85,37 @@ const throughline = [
 </BaseLayout>
 
 <style>
-  .ab { padding-top: clamp(3.5rem, 8vw, 6rem); }
+  .ab { padding-top: clamp(2.6rem, 5vw, 3.6rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
   .ab__head { max-width: 820px; }
-  .ab__title { font-family: var(--font-display); font-weight: 600; font-variation-settings: 'wdth' 100;
-    font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.02em; margin-top: 1rem; max-width: 20ch; text-wrap: balance; }
-  .ab__lead { font-size: var(--fs-xl); color: var(--text); margin-top: 1.6rem; line-height: 1.55; max-width: 54ch; }
+  .ab__title { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.022em; line-height: 1.06; margin-top: 8px; max-width: 20ch; text-wrap: balance; }
+  .ab__lead { font-size: var(--fs-lead); color: var(--ink-2); margin-top: 1.4rem; line-height: 1.6; max-width: 58ch; }
 
-  .ab__sec { margin-top: clamp(3.5rem, 8vw, 6rem); }
+  .ab__sec { margin-top: clamp(3rem, 7vw, 5rem); }
   .ab__sec-body > :first-child { margin-top: 0; }
   @media (min-width: 880px) {
     .ab__sec { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
   }
-  .ab__h { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-faint); }
-  .ab__p { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.1rem; max-width: 56ch; line-height: 1.7; }
-  .ab__p strong { color: var(--text); font-weight: 600; }
+  .ab__h { font-family: var(--font-slab); font-size: var(--fs-kicker); text-transform: uppercase; letter-spacing: 0.16em; color: var(--burgundy); font-weight: 600; }
+  .ab__p { font-size: var(--fs-body); color: var(--ink-2); margin-top: 1.1rem; max-width: 58ch; line-height: 1.7; }
+  .ab__p strong { color: var(--ink); font-weight: 600; }
 
-  .ab__time { list-style: none; margin-top: 2rem; border-left: 1px solid var(--line-2); }
+  .ab__time { list-style: none; margin-top: 1.8rem; border-left: 1px solid var(--hairline); }
   .ab__item { display: grid; gap: 0.3rem 1.5rem; padding: 0 0 1.8rem 1.6rem; position: relative; }
   .ab__item:last-child { padding-bottom: 0; }
-  .ab__item::before { content: ""; position: absolute; left: -3.5px; top: 0.45rem; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .ab__item::before { content: ""; position: absolute; left: -3.5px; top: 0.45rem; width: 6px; height: 6px; border-radius: 50%; background: var(--burgundy); }
   @media (min-width: 640px) { .ab__item { grid-template-columns: 110px 1fr; } }
-  .ab__when { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); padding-top: 0.15rem; }
-  .ab__role { font-size: var(--fs-lg); color: var(--text); font-weight: 600; }
-  .ab__org { color: var(--accent); font-weight: 400; font-size: var(--fs-sm); }
-  .ab__work { color: var(--text-dim); margin-top: 0.4rem; line-height: 1.6; }
+  .ab__when { font-family: var(--font-slab); font-size: var(--fs-caption); color: var(--muted); padding-top: 0.15rem; }
+  .ab__role { font-size: var(--fs-body); color: var(--ink); font-weight: 600; }
+  .ab__org { color: var(--burgundy); font-weight: 500; font-size: var(--fs-small); }
+  .ab__work { color: var(--ink-2); margin-top: 0.4rem; line-height: 1.6; font-size: var(--fs-small); }
 
-  .ab__combo { display: grid; gap: 1rem; margin-top: 1.8rem; }
+  .ab__combo { display: grid; gap: 1px; margin-top: 1.8rem; background: var(--hairline); border: 1px solid var(--hairline); }
   @media (min-width: 720px) { .ab__combo { grid-template-columns: 1fr 1fr; } }
-  .ab__card { padding: 1.5rem 1.6rem; height: 100%; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-lg); }
-  .ab__card-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); }
-  .ab__card-p { color: var(--text-dim); margin-top: 0.8rem; line-height: 1.65; }
-  .ab__link { color: var(--text); border-bottom: 1px solid var(--accent-line); transition: color var(--t-fast) var(--ease-out); }
-  .ab__link:hover { color: var(--accent); }
-  .ab__pull { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--text); line-height: 1.05; margin-top: 2.4rem; max-width: 22ch; }
-  .ab__pull-sub { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1rem; max-width: 40ch; line-height: 1.4; }
+  .ab__card { padding: 1.5rem 1.6rem; background: var(--blush); }
+  .ab__card-k { font-family: var(--font-slab); font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: 0.14em; color: var(--burgundy); font-weight: 600; }
+  .ab__card-p { color: var(--ink-2); margin-top: 0.8rem; line-height: 1.65; font-size: var(--fs-small); }
+  .ab__pull { font-family: var(--font-slab); font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.4rem); color: var(--ink); line-height: 1.1; margin-top: 2.2rem; max-width: 24ch; letter-spacing: -0.01em; }
+  .ab__pull-sub { font-size: var(--fs-lead); color: var(--ink-2); margin-top: 0.9rem; max-width: 44ch; line-height: 1.45; }
 
-  .ab__cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2rem; }
+  .ab__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 2rem; }
 </style>
