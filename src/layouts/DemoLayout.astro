@@ -1,0 +1,78 @@
+---
+// Standalone shell for the /consulting/web-design example demos. Deliberately NOT the
+// Open Book system: each demo brings its own complete look (that is the whole point of a
+// web-design portfolio - range). This layout only provides the document scaffold, a tiny
+// reset, and a fixed "this is a demo" badge with a back link. Every demo is noindexed and
+// kept out of the sitemap (astro.config filter). The businesses are fictional.
+//
+// CSP note: the live site allows font-src 'self' only, so demos use SYSTEM font stacks
+// (Georgia, system-ui, monospace) for typographic variety - a real client build would
+// self-host the client's own licensed brand fonts.
+interface Props {
+  title: string;
+  description?: string;
+  accent?: string; // page theme-color for the browser chrome
+}
+const { title, description = 'A website demo by Get Smart AI.', accent = '#111111' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- pre-paint: js flag + reduced-motion (lets a demo reveal without FOUC; degrades to fully visible) -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) d.setAttribute('data-reduce', ''); } catch (e) {}
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content={accent} />
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body { margin: 0; }
+      img, svg { max-width: 100%; display: block; }
+      a { color: inherit; }
+      /* demo badge - identifies the page as a Get Smart AI demonstration + back link */
+      .demo-badge {
+        position: fixed; left: 14px; bottom: 14px; z-index: 2147483000;
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 7px 8px 7px 13px; border-radius: 999px;
+        background: rgba(17, 17, 17, 0.92); color: #fff;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 12.5px; line-height: 1; letter-spacing: 0.01em;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28); backdrop-filter: blur(6px);
+      }
+      .demo-badge__dot { width: 7px; height: 7px; border-radius: 50%; background: #7ee787; flex: none; }
+      .demo-badge__txt { white-space: nowrap; }
+      .demo-badge__txt b { font-weight: 600; }
+      .demo-badge__txt span { opacity: 0.66; }
+      .demo-badge__back {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 6px 12px; border-radius: 999px;
+        background: #fff; color: #111; text-decoration: none;
+        font-weight: 600; font-size: 12px; white-space: nowrap;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+      .demo-badge__back:hover { transform: translateX(-2px); background: #f0f0f0; }
+      @media (max-width: 520px) {
+        .demo-badge { left: 10px; bottom: 10px; padding: 6px 7px 6px 11px; font-size: 11.5px; }
+        .demo-badge__txt span { display: none; }
+      }
+      @media print { .demo-badge { display: none; } }
+    </style>
+  </head>
+  <body>
+    <slot />
+    <div class="demo-badge" role="note">
+      <span class="demo-badge__dot" aria-hidden="true"></span>
+      <span class="demo-badge__txt"><b>Website demo</b> <span>· Get Smart AI</span></span>
+      <a class="demo-badge__back" href="/consulting/web-design">&larr; Back</a>
+    </div>
+  </body>
+</html>

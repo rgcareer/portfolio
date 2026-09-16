@@ -9,6 +9,11 @@ export default defineConfig({
   build: { format: 'directory' },
   devToolbar: { enabled: false },
   // Keep noindexed pages out of the sitemap. /shop is held until the FTC/CPA gate
-  // clears (charter §3.5); the proto mockups were deleted after Ryan's sign-off.
-  integrations: [sitemap({ filter: (page) => !page.includes('/shop') })],
+  // clears (charter §3.5); the /consulting/web-design/examples/* demos are noindexed
+  // showcase pages; the proto mockups were deleted after Ryan's sign-off.
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/shop') && !page.includes('/consulting/web-design/examples'),
+    }),
+  ],
 });

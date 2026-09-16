@@ -1,31 +1,82 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { site } from '../../config/site';
+import { websitesOffer } from '../../config/offers';
 
-// The websites sub-page (charter §3.5: websites live here, NOT on the primary
-// ledger). Identity per charter §6.2 on /consulting/*: "Ryan" + Smart Business AI
-// LLC. This site is itself the sample of the work. Open Book look. Indexable.
-const title = 'Small-business websites that book the job, Boise';
+// The websites sub-page (charter §3.5: websites live here, NOT on the primary ledger).
+// Identity per charter §6.2 on /consulting/*: "Ryan" + Smart Business AI LLC. This site is
+// itself a sample of the work. Open Book look. Indexable. SEO + gallery pass 2026-09-16
+// (research: tasks/research; two subagent reports on AI-slop discourse + web-design SEO).
+const title = 'Small Business Website Design in Boise, Idaho';
 const description =
-  'A website that answers the phone when you cannot: it books the job and sends the quote while you are on a ladder. From $1,500, live in about two weeks, and you own it. Get Smart AI, Boise.';
+  "A small-business website that works while you're on the job: answers after hours, books it, sends the quote. From $1,500, hand-built in Boise.";
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent('A website for my business')}`;
+
+// The example demos live at ./examples/* (standalone looks, noindexed, own the sitemap
+// exclusion). Some static, some with motion; the last is the deliberately-generic foil,
+// included so the contrast is DEMONSTRATED (charter: demonstrate, do not assert the
+// category contrast) rather than claimed against a named competitor.
+const examples = [
+  {
+    slug: 'marlow-vale', name: 'Marlow & Vale', kind: 'Bookkeeping practice', mode: 'Static',
+    blurb: 'Editorial and calm, built to earn trust. Loads instantly, reads clean, and needs no motion to do its job.',
+    bg: '#1E4635', fg: '#F4EFE7', accent: '#D9B15E', font: 'Georgia, "Times New Roman", serif',
+  },
+  {
+    slug: 'kestrel', name: 'Kestrel Coffee', kind: 'Neighborhood roaster', mode: 'With motion',
+    blurb: 'Bold and warm, with motion that reveals as you scroll. Still fast, still built for a phone first.',
+    bg: '#2A1A12', fg: '#F4E9D8', accent: '#C8552B', font: '"Helvetica Neue", Arial, sans-serif',
+  },
+  {
+    slug: 'generic-ai', name: 'Nexus AI', kind: 'The generic version', mode: 'Counter-example', foil: true,
+    blurb: 'Built the way an AI tool spits one out: purple gradient, three cards, filler copy. This is the one I do not ship.',
+    bg: 'linear-gradient(135deg, #4338ca, #7c3aed)', fg: '#ffffff', accent: '#c4b5fd', font: 'system-ui, "Segoe UI", sans-serif',
+  },
+];
+
+// Service schema (not the deprecated ProfessionalService). Service-area business: no
+// telephone, no street address. minPrice single-sourced from offers.ts.
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Custom Website Design',
+  serviceType: 'Website design',
+  description,
+  provider: { '@type': 'LocalBusiness', name: 'Get Smart AI', url: site.url },
+  areaServed: [
+    { '@type': 'City', name: 'Boise' },
+    { '@type': 'City', name: 'Meridian' },
+    { '@type': 'City', name: 'Nampa' },
+    { '@type': 'City', name: 'Caldwell' },
+    { '@type': 'City', name: 'Eagle' },
+    { '@type': 'City', name: 'Kuna' },
+    { '@type': 'State', name: 'Idaho' },
+  ],
+  offers: {
+    '@type': 'Offer',
+    priceSpecification: { '@type': 'UnitPriceSpecification', minPrice: websitesOffer.price, priceCurrency: 'USD' },
+    url: new URL('/consulting/web-design', site.url).toString(),
+  },
+  url: new URL('/consulting/web-design', site.url).toString(),
+};
 ---
-<BaseLayout title={title} description={description} active="consulting">
+<BaseLayout title={title} description={description} active="consulting" jsonLd={serviceLd}>
   <article class="wd container">
     <a href="/consulting" class="wd__back">Back to what I do</a>
 
     <header class="wd__head">
-      <p class="kicker" data-in>Websites</p>
+      <p class="kicker" data-in>Website design · Boise, Idaho</p>
       <h1 class="wd__title" data-in>A website that answers the phone when you can't.</h1>
       <p class="wd__lead" data-in>
         Most small-business sites are a brochure that sits there. This one is a worker: it catches the
         after-hours call, books the job, and sends the quote while you are on a ladder or under a truck.
-        You are looking at a sample of the work right now.
+        I hand-build each one for a single business here in Boise and across the Treasure Valley, and you
+        are looking at a sample of the work right now.
       </p>
       <div class="wd__price" data-in>
         <span class="wd__price-name">Website</span>
         <span class="leader" aria-hidden="true"></span>
-        <span class="wd__price-fig"><small>from</small>$1,500</span>
+        <span class="wd__price-fig"><small>from</small>{`$${websitesOffer.price.toLocaleString('en-US')}`}</span>
       </div>
     </header>
 
@@ -37,9 +88,52 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('A website for
         <li><strong>Sends the quote and the follow-up.</strong> The estimate goes out and the reminder fires on its own, instead of sitting in your drafts.</li>
         <li><strong>Works on a phone.</strong> Most of your customers find you on one, so the site is built for that first, not squeezed onto it.</li>
       </ul>
+    </div>
+  </article>
 
+  <section class="wd-ex" aria-labelledby="ex-h">
+    <div class="container">
+      <h2 class="wd-ex__h" id="ex-h" data-in>What it looks like is up to your business</h2>
+      <p class="wd-ex__lead" data-in>
+        Most new sites now come out of the same few AI tools, so they end up looking the same: the purple
+        gradient, the three cards, the same stock photos. I build every site by hand, around one business,
+        so yours looks like yours. The examples below are real pages I built. The last one is the generic
+        version, built on purpose, so you can see the difference.
+      </p>
+
+      <div class="wd-ex__grid">
+        {examples.map((ex) => (
+          <a
+            class:list={['wd-card', { 'is-foil': ex.foil }]}
+            href={`/consulting/web-design/examples/${ex.slug}`}
+            target="_blank"
+            rel="noopener"
+            data-in
+          >
+            <span class="wd-card__panel" style={`background:${ex.bg};color:${ex.fg}`}>
+              <span class="wd-card__name" style={`font-family:${ex.font}`}>{ex.name}</span>
+              <span class="wd-card__mode" style={`color:${ex.accent}`}>{ex.mode}</span>
+            </span>
+            <span class="wd-card__body">
+              <span class="wd-card__kind">{ex.kind}</span>
+              <span class="wd-card__blurb">{ex.blurb}</span>
+              <span class="wd-card__view">View the live demo <span aria-hidden="true">&#8599;</span></span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p class="wd-ex__note" data-in>
+        These are demonstrations of different looks, not client sites. Every real build is designed from
+        scratch for your business, and uses your own photos, brand, and words. Want a look I have not shown
+        here? Ask, and I will mock it up.
+      </p>
+    </div>
+  </section>
+
+  <article class="wd wd--lower container">
+    <div class="wd__body prose">
       <h2 data-in>How it works</h2>
-      <p data-in>A fixed price from $1,500, scoped in writing after we talk, with no hourly meter running. Live in about two weeks. When it is done, the site, the domain, and the accounts are yours: no monthly fee to keep it up, and no lock-in.</p>
+      <p data-in>A fixed price from $1,500, scoped in writing after we talk, with no hourly meter running. Live in about two weeks. When it is done, it is yours for real: the domain is registered in your name, the hosting is your own account, and you get the files. No monthly fee to keep it running, and nothing to cancel if we ever part ways.</p>
 
       <h2 data-in>Where it fits</h2>
       <p data-in>A website is one fix, not the whole answer. If you are not sure it is the fix to make first, start with the <a href="/#start">$750 diagnostic</a>: I find the three places work is leaking out and put a price next to each. A new site might be one of them, or catching the missed call might matter more. Either way you will know before you spend the bigger money.</p>
@@ -53,7 +147,9 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('A website for
 </BaseLayout>
 
 <style>
-  .wd { max-width: 760px; padding-top: clamp(2.4rem, 5vw, 3.4rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
+  .wd { max-width: 760px; }
+  .wd:first-of-type { padding-top: clamp(2.4rem, 5vw, 3.4rem); }
+  .wd--lower { padding-bottom: clamp(4rem, 9vw, 7rem); }
 
   .wd__back {
     display: inline-block; font-family: var(--font-slab); font-size: var(--fs-small); font-weight: 500;
@@ -75,10 +171,39 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('A website for
   .wd__body { margin-top: clamp(2rem, 4vw, 2.8rem); }
   .wd__body h2:first-child { margin-top: 0; }
 
-  .wd__foot {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem;
-    margin-top: clamp(2.6rem, 5vw, 3.6rem); padding-top: 2rem; border-top: 1px solid var(--hairline);
+  /* examples gallery ------------------------------------------------------- */
+  .wd-ex { background: var(--blush); border-block: 1px solid var(--hairline); margin-top: clamp(2.6rem, 5vw, 3.6rem); padding-block: clamp(3rem, 6vw, 5rem); }
+  .wd-ex__h { font-size: var(--fs-h2); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; max-width: 20ch; text-wrap: balance; }
+  .wd-ex__lead { margin-top: 1.1rem; font-size: var(--fs-body); line-height: 1.65; color: var(--ink-2); max-width: 64ch; }
+
+  .wd-ex__grid { margin-top: clamp(1.8rem, 4vw, 2.6rem); display: grid; gap: 1.1rem; }
+
+  .wd-card {
+    display: grid; grid-template-columns: 240px 1fr; align-items: stretch;
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) ease, border-color var(--dur-fast) ease;
   }
+  .wd-card:hover { transform: translateY(-3px); border-color: var(--dot); }
+  @media (max-width: 620px) { .wd-card { grid-template-columns: 1fr; } }
+
+  .wd-card__panel {
+    display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem;
+    padding: 1.4rem 1.5rem; min-height: 148px;
+  }
+  .wd-card__name { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+  .wd-card__mode { font-family: var(--font-slab); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+
+  .wd-card__body { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.3rem 1.5rem; }
+  .wd-card__kind { font-family: var(--font-slab); font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .wd-card__blurb { font-size: var(--fs-small); line-height: 1.55; color: var(--ink-2); }
+  .wd-card__view { margin-top: auto; font-family: var(--font-slab); font-size: var(--fs-small); font-weight: 600; color: var(--burgundy); }
+  .wd-card:hover .wd-card__view { text-decoration: underline; text-underline-offset: 3px; }
+
+  .wd-card.is-foil { border-style: dashed; }
+  .wd-card.is-foil .wd-card__kind { color: var(--burgundy); }
+
+  .wd-ex__note { margin-top: 1.6rem; font-size: var(--fs-small); line-height: 1.6; color: var(--muted); max-width: 60ch; }
 
   @media (max-width: 680px) { .wd__price { flex-wrap: wrap; } .leader { display: none; } .wd__price-fig { margin-left: auto; } }
 </style>

@@ -1,0 +1,220 @@
+---
+import DemoLayout from '../../../../layouts/DemoLayout.astro';
+// THE FOIL. Deliberately generic "AI-built" SaaS page - built WITHOUT the foundry craft
+// skill, on purpose, to show the lookalike default the practice differentiates against.
+// It intentionally hits the documented "AI slop" tells (2024-2026 research): indigo/purple
+// gradient, centered hero with a pill badge, three equal glass feature cards with an icon
+// on top, generic filler copy (streamline/empower/unlock/transform/seamless), placeholder
+// "trusted by" logos, a generic testimonial, 1-2-3 steps. Fictional company. This is the
+// "what we DON'T ship" specimen; the gallery labels it as such.
+---
+<DemoLayout title="Nexus AI: Empower Your Business" accent="#6366f1">
+  <div class="g">
+    <!-- nav -->
+    <header class="g-nav">
+      <span class="g-logo">◆ Nexus<b>AI</b></span>
+      <nav class="g-nav__links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#cta" class="g-nav__cta">Get Started</a>
+      </nav>
+    </header>
+
+    <!-- hero -->
+    <section class="g-hero">
+      <span class="g-badge">✨ AI-Powered Platform</span>
+      <h1>Empower Your Business with AI-Driven Solutions</h1>
+      <p class="g-sub">
+        Streamline your workflow, unlock powerful insights, and transform the way your team works.
+        Our seamless, next-gen platform helps you leverage the full potential of artificial intelligence.
+      </p>
+      <div class="g-hero__cta">
+        <a href="#cta" class="g-btn g-btn--primary">Get Started Free</a>
+        <a href="#how" class="g-btn g-btn--ghost">Book a Demo →</a>
+      </div>
+      <div class="g-hero__glow" aria-hidden="true"></div>
+    </section>
+
+    <!-- trusted by -->
+    <section class="g-logos">
+      <p>Trusted by innovative teams worldwide</p>
+      <div class="g-logos__row">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <!-- three feature cards -->
+    <section class="g-features" id="features">
+      <div class="g-card">
+        <div class="g-card__icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Experience blazing-fast performance that scales effortlessly with your growing business needs.</p>
+      </div>
+      <div class="g-card">
+        <div class="g-card__icon">🔒</div>
+        <h3>Enterprise Secure</h3>
+        <p>Bank-grade security and end-to-end encryption keep your data safe, so you can focus on what matters.</p>
+      </div>
+      <div class="g-card">
+        <div class="g-card__icon">📈</div>
+        <h3>Infinitely Scalable</h3>
+        <p>From startup to enterprise, our robust infrastructure grows with you every step of the way.</p>
+      </div>
+    </section>
+
+    <!-- stats band -->
+    <section class="g-stats">
+      <div><b>10x</b><span>Faster workflows</span></div>
+      <div><b>99.9%</b><span>Uptime SLA</span></div>
+      <div><b>24/7</b><span>Expert support</span></div>
+      <div><b>150+</b><span>Integrations</span></div>
+    </section>
+
+    <!-- 1-2-3 steps -->
+    <section class="g-steps" id="how">
+      <h2>How it works</h2>
+      <div class="g-steps__row">
+        <div class="g-step"><span class="g-step__n">1</span><h4>Connect</h4><p>Integrate your existing tools in minutes with our seamless setup.</p></div>
+        <div class="g-step"><span class="g-step__n">2</span><h4>Automate</h4><p>Let our AI handle the heavy lifting and streamline your operations.</p></div>
+        <div class="g-step"><span class="g-step__n">3</span><h4>Grow</h4><p>Unlock insights and transform your business at scale.</p></div>
+      </div>
+    </section>
+
+    <!-- testimonial -->
+    <section class="g-quote">
+      <p>"Nexus AI has completely transformed the way our team works. It's a total game-changer."</p>
+      <div class="g-quote__by"><span class="g-quote__av" aria-hidden="true"></span><span><b>Jane Doe</b><br />CEO, Acme Corp</span></div>
+    </section>
+
+    <!-- final CTA -->
+    <section class="g-cta" id="cta">
+      <h2>Ready to transform your business?</h2>
+      <p>Join thousands of teams already leveraging the power of AI.</p>
+      <button type="button" class="g-btn g-btn--primary g-btn--lg">Start Your Free Trial</button>
+      <p class="g-cta__fine">No credit card required · Cancel anytime</p>
+    </section>
+
+    <footer class="g-foot">© 2026 Nexus AI, Inc. All rights reserved.</footer>
+  </div>
+</DemoLayout>
+
+<style>
+  .g {
+    --indigo: #6366f1;
+    --indigo-d: #4f46e5;
+    --violet: #8b5cf6;
+    --ink: #0f172a;
+    --slate: #64748b;
+    --line: #e2e8f0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .g h1, .g h2, .g h3, .g h4 { line-height: 1.15; letter-spacing: -0.02em; }
+  .g section { padding-left: 24px; padding-right: 24px; }
+
+  /* nav */
+  .g-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: 0 auto; padding: 20px 24px; }
+  .g-logo { font-weight: 700; font-size: 20px; color: var(--indigo-d); }
+  .g-logo b { color: var(--ink); font-weight: 700; }
+  .g-nav__links { display: flex; align-items: center; gap: 28px; }
+  .g-nav__links a { text-decoration: none; color: var(--slate); font-size: 15px; font-weight: 500; }
+  .g-nav__cta { background: var(--indigo); color: #fff !important; padding: 9px 18px; border-radius: 8px; }
+  @media (max-width: 720px) { .g-nav__links a:not(.g-nav__cta) { display: none; } }
+
+  /* hero */
+  .g-hero { position: relative; max-width: 820px; margin: 0 auto; text-align: center; padding-top: 90px; padding-bottom: 90px; }
+  .g-hero__glow {
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 680px; height: 420px; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(139,92,246,0.28), rgba(99,102,241,0.16) 45%, transparent 70%);
+    filter: blur(20px);
+  }
+  .g-hero > * { position: relative; z-index: 1; }
+  .g-badge {
+    display: inline-block; padding: 7px 16px; border-radius: 999px; margin-bottom: 26px;
+    background: rgba(99,102,241,0.1); color: var(--indigo-d);
+    font-size: 14px; font-weight: 600; border: 1px solid rgba(99,102,241,0.2);
+  }
+  .g-hero h1 {
+    font-size: clamp(38px, 6vw, 60px); font-weight: 800; margin: 0 0 22px;
+    background: linear-gradient(135deg, #1e1b4b 0%, var(--indigo) 55%, var(--violet) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .g-sub { font-size: clamp(17px, 2.4vw, 20px); color: var(--slate); max-width: 620px; margin: 0 auto 34px; }
+  .g-hero__cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .g-btn { display: inline-block; padding: 13px 26px; border-radius: 10px; font-weight: 600; font-size: 16px; text-decoration: none; border: none; cursor: pointer; font-family: inherit; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .g-btn--primary { background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 100%); color: #fff; box-shadow: 0 10px 24px rgba(99,102,241,0.35); }
+  .g-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(99,102,241,0.45); }
+  .g-btn--ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .g-btn--lg { padding: 16px 34px; font-size: 17px; }
+
+  /* logos */
+  .g-logos { max-width: 960px; margin: 0 auto; text-align: center; padding: 30px 24px 70px; }
+  .g-logos p { color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 22px; }
+  .g-logos__row { display: flex; justify-content: center; gap: 44px; flex-wrap: wrap; }
+  .g-logos__row span { width: 108px; height: 30px; border-radius: 6px; background: #eef1f6; }
+
+  /* features */
+  .g-features { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; padding-bottom: 90px; }
+  @media (max-width: 860px) { .g-features { grid-template-columns: 1fr; max-width: 460px; } }
+  .g-card {
+    padding: 34px 28px; border-radius: 16px; border: 1px solid var(--line);
+    background: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(15,23,42,0.05); text-align: center;
+  }
+  .g-card__icon {
+    width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 18px;
+    display: grid; place-items: center; font-size: 26px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
+  }
+  .g-card h3 { font-size: 21px; font-weight: 700; margin: 0 0 10px; }
+  .g-card p { color: var(--slate); font-size: 15.5px; margin: 0; }
+
+  /* stats */
+  .g-stats {
+    max-width: 1000px; margin: 0 auto 90px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    padding: 44px 24px; border-radius: 20px; text-align: center;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #4338ca 100%); color: #fff;
+  }
+  @media (max-width: 640px) { .g-stats { grid-template-columns: repeat(2, 1fr); } }
+  .g-stats b { display: block; font-size: 34px; font-weight: 800; }
+  .g-stats span { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+  /* steps */
+  .g-steps { max-width: 1000px; margin: 0 auto; text-align: center; padding-bottom: 90px; }
+  .g-steps h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 800; margin: 0 0 46px; }
+  .g-steps__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  @media (max-width: 760px) { .g-steps__row { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; } }
+  .g-step__n {
+    display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 16px;
+    border-radius: 50%; font-weight: 700; color: #fff; font-size: 18px;
+    background: linear-gradient(135deg, var(--indigo), var(--violet));
+  }
+  .g-step h4 { font-size: 19px; margin: 0 0 8px; }
+  .g-step p { color: var(--slate); font-size: 15px; margin: 0; }
+
+  /* quote */
+  .g-quote { max-width: 720px; margin: 0 auto; text-align: center; padding: 54px 24px; }
+  .g-quote > p { font-size: clamp(20px, 3vw, 27px); font-weight: 600; color: var(--ink); margin: 0 0 26px; letter-spacing: -0.01em; }
+  .g-quote__by { display: inline-flex; align-items: center; gap: 13px; text-align: left; }
+  .g-quote__av { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--violet)); }
+  .g-quote__by span { font-size: 14px; color: var(--slate); }
+  .g-quote__by b { color: var(--ink); }
+
+  /* final cta */
+  .g-cta {
+    max-width: 1000px; margin: 0 auto 70px; text-align: center; padding: 70px 24px; border-radius: 24px;
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--violet) 100%); color: #fff;
+  }
+  .g-cta h2 { font-size: clamp(28px, 4.4vw, 42px); font-weight: 800; margin: 0 0 14px; }
+  .g-cta p { font-size: 18px; color: rgba(255,255,255,0.85); margin: 0 0 30px; }
+  .g-cta .g-btn--primary { background: #fff; color: var(--indigo-d); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+  .g-cta__fine { font-size: 13px !important; color: rgba(255,255,255,0.7) !important; margin-top: 18px !important; }
+
+  /* foot */
+  .g-foot { text-align: center; padding: 34px 24px 70px; color: #94a3b8; font-size: 13px; border-top: 1px solid var(--line); max-width: 1120px; margin: 0 auto; }
+</style>

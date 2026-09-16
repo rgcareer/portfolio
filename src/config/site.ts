@@ -15,9 +15,13 @@ export const site = {
     "I've spent my career helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
 
   // contact / availability
-  // Business/buyer contact per the charter (WEBSITE-SYNC v1, 2026-09-15). FLAG for Ryan:
-  // confirm hello@getsmartai.ai is provisioned and receiving BEFORE pushing, or it is a
-  // dead contact. Recruiter/portfolio surfaces use careerEmail (below), which is live.
+  // Business/buyer contact per the charter (WEBSITE-SYNC v1, 2026-09-15).
+  // STATUS (2026-09-16, Ryan): hello@getsmartai.ai RECEIVES (inbound routing is live). The
+  // site's contact path is inbound only (mailto target + form recipient), so this is NOT a
+  // dead contact and does NOT block a push. Sending/replying FROM this address is not set up
+  // yet; until it is, Ryan replies to buyers from smartbusinessaillc@gmail.com. (Follow-up,
+  // non-blocking: provision send-from-hello@ with SPF/DKIM/DMARC before outreach so replies
+  // are on-domain.) Recruiter/portfolio surfaces use careerEmail (below), which is live.
   email: 'hello@getsmartai.ai',
   careerEmail: 'ryan.garver.career@gmail.com', // recruiter + resume + case-study contact (live)
   availability: 'Open to work',
