@@ -148,14 +148,27 @@ const description =
     </div>
   </div>
 
-  <!-- 2. THE GUIDE + THE WHY: the belief and the person, up front (the reason to choose us) -->
+  <!-- 2. THE GUIDE + THE WHY: the belief and the person, up front (the reason to choose us).
+       On desktop with motion, #why is a RUNWAY WRAPPER (owns the --why view-timeline) around
+       a STICKY stage; the three beats stack in one grid cell and cross-fade as the scene
+       scrubs, while the daylight keeps journeying (the pinned signature moment). The wrapper
+       is never the pinned element (that would freeze its own timeline). Everywhere the scene
+       gate fails (reduced motion, no-JS, touch, narrow, or no scroll-timeline support) the
+       beats are plain flow, visible at rest, read top to bottom: belief -> origin -> relief
+       + signature. DOM order is that reading order, so AT and no-JS get the whole section. -->
   <section class="guide" id="why" aria-labelledby="why-h">
-    <div class="wrap">
-      <p class="guide__belief" id="why-h" data-in>I spent twenty years getting big companies onto new tools. I started this to do the same for the business down the street.</p>
-      <div class="guide__body">
-        <p data-in>I am Ryan Garver. For twenty years I helped teams adopt new technology, here in the Treasure Valley, at Apple, Intuit, Cradlepoint, and Vacasa. At Apple I got organizations like St. Luke's and Dutch Bros onto new tools. The job, every time, was making technology make sense to people who do not care how it works.</p>
-        <p data-in>The belief behind Get Smart AI is simple: the shop down the street deserves the same competent, measured help those big companies got, without an engineering department and without a leap of faith about what it costs. You are the expert on your business. I build the system, put the price in plain sight, and stand behind the number.</p>
-        <p class="guide__sig" data-in>Ryan Garver · Get Smart AI · Boise, Idaho</p>
+    <div class="why-stage">
+      <div class="wrap">
+        <div class="beat beat--belief">
+          <p class="guide__belief" id="why-h">I spent twenty years getting big companies onto new tools. I started this to do the same for the business down the street.</p>
+        </div>
+        <div class="beat beat--origin">
+          <p class="guide__p">I am Ryan Garver. For twenty years I helped teams adopt new technology, here in the Treasure Valley, at Apple, Intuit, Cradlepoint, and Vacasa. At Apple I got organizations like St. Luke's and Dutch Bros onto new tools. The job, every time, was making technology make sense to people who do not care how it works.</p>
+        </div>
+        <div class="beat beat--relief">
+          <p class="guide__p">The belief behind Get Smart AI is simple: the shop down the street deserves the same competent, measured help those big companies got, without an engineering department and without a leap of faith about what it costs. You are the expert on your business. I build the system, put the price in plain sight, and stand behind the number.</p>
+          <p class="guide__sig">Ryan Garver · Get Smart AI · Boise, Idaho</p>
+        </div>
       </div>
     </div>
   </section>
@@ -403,9 +416,78 @@ const description =
     text-wrap: balance;
   }
   .guide__belief::first-line { color: var(--burgundy); }
-  .guide__body { margin-top: clamp(1.8rem, 4vw, 2.6rem); max-width: 60ch; display: grid; gap: 1.2rem; }
-  .guide__body p { font-size: var(--fs-body); line-height: 1.7; color: var(--ink-2); }
+  .guide__p { font-size: var(--fs-body); line-height: 1.7; color: var(--ink-2); max-width: 60ch; }
   .guide__sig { font-family: var(--font-slab); font-weight: 600; font-size: var(--fs-small); color: var(--burgundy); letter-spacing: 0.02em; }
+  /* Ungated (no-JS / reduced / touch / narrow / no scroll-timeline): beats are plain flow,
+     stacked top to bottom, all visible at rest. The belief keeps its CP2 overhang. */
+  .beat--origin { margin-top: clamp(1.8rem, 4vw, 2.6rem); }
+  .beat--relief { margin-top: clamp(1.4rem, 3vw, 2rem); }
+  .beat--relief .guide__sig { margin-top: 1.1rem; }
+
+  /* ---- Pinned belief scene (the signature moment) ---------------------------------
+     THE binding gate: desktop pointer + tall-enough viewport + motion allowed + JS +
+     scroll-timeline support. Everything geometric (runway height, sticky, grid-stack,
+     the scrubbed opacity) lives ONLY here, so every other engine/state renders the calm
+     flowing section above with its natural height (no runway, no sticky, no blank band).
+     #why owns the --why view-timeline but is NEVER the pinned element (pinning the
+     timeline owner freezes its own progress = deadlock); the .why-stage child pins.
+     The beats are descendants, so `--why` resolves without timeline-scope. Beat base
+     opacity stays 1: if the name ever failed to resolve, the animation just would not
+     apply and all beats would show (overlapping, but present) rather than stranding. */
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) and (min-width: 1180px) and (min-height: 740px) {
+    @supports (animation-timeline: view()) {
+      html.js:not([data-reduce]) #why {
+        min-height: 300svh;               /* runway: 100svh stage + 200svh (2 viewports) of scrub */
+        view-timeline-name: --why;
+        view-timeline-axis: block;
+        padding-block: 0;                 /* the stage owns the vertical rhythm now */
+      }
+      html.js:not([data-reduce]) #why .why-stage {
+        position: sticky; top: 0;
+        min-height: 100svh;
+        display: grid; place-items: center;
+      }
+      html.js:not([data-reduce]) #why .wrap {
+        display: grid; grid-template-areas: "stack";
+      }
+      html.js:not([data-reduce]) #why .beat {
+        grid-area: stack; align-self: center;
+        will-change: opacity, transform;
+      }
+      /* Scrubbed by --why over the full `contain` range (== exactly the pinned duration
+         for a 300svh wrapper), so keyframe % maps 1:1 to scene progress. Holds are wide,
+         crosses short, centred so PageDown stops (~0 / 45 / 90%) land on a legible beat. */
+      html.js:not([data-reduce]) #why .beat--belief { animation: why-belief both linear; animation-timeline: --why; animation-range: contain; }
+      html.js:not([data-reduce]) #why .beat--origin { animation: why-origin both linear; animation-timeline: --why; animation-range: contain; }
+      html.js:not([data-reduce]) #why .beat--relief { animation: why-relief both linear; animation-timeline: --why; animation-range: contain; }
+    }
+  }
+  /* Sequential hand-off (NOT a cross-dissolve): a big pull-quote dissolving THROUGH a
+     paragraph in one cell is illegible mush, so each beat clears before the next lands,
+     with only a ~2% offset overlap (the beats are translateY-separated there, and the
+     daylight carries the breath between them). Holds: belief 0-26, origin 40-60, relief
+     74-100 - so both the checkpoints (10/25 belief, 40/60 origin, 80 relief) and the
+     PageDown stops (~0/45/90) land on a legible hold, never a cross. */
+  @keyframes why-belief {
+    0%   { opacity: 1; transform: none; }
+    30%  { opacity: 1; transform: none; }
+    37%  { opacity: 0; transform: translateY(-22px); }
+    100% { opacity: 0; transform: translateY(-22px); }
+  }
+  @keyframes why-origin {
+    0%   { opacity: 0; transform: translateY(26px); }
+    35%  { opacity: 0; transform: translateY(26px); }
+    42%  { opacity: 1; transform: none; }
+    66%  { opacity: 1; transform: none; }
+    73%  { opacity: 0; transform: translateY(-22px); }
+    100% { opacity: 0; transform: translateY(-22px); }
+  }
+  @keyframes why-relief {
+    0%   { opacity: 0; transform: translateY(26px); }
+    71%  { opacity: 0; transform: translateY(26px); }
+    78%  { opacity: 1; transform: none; }
+    100% { opacity: 1; transform: none; }
+  }
 
   /* 3. How: three numbered principles. Distinct layout (index numeral + text), not cards. */
   .principles { list-style: none; margin: clamp(1.8rem, 4vw, 2.6rem) 0 0; padding: 0; display: grid; gap: 0; counter-reset: none; }
