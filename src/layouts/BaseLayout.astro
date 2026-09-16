@@ -3,17 +3,21 @@ import '../styles/global.css';
 import { site } from '../config/site';
 
 interface Props {
-  title?: string;
-  description?: string;
-  active?: string;
-  jsonLd?: Record<string, unknown>; // per-page schema override (home passes ProfessionalService/LocalBusiness)
+  title?: string;         // page-specific title (keyword-forward); becomes "<title> · Get Smart AI"
+  description?: string;    // page meta description (~155 chars)
+  active?: string;         // nav key to highlight
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[]; // per-page schema (home: ProfessionalService + FAQ graph)
+  ogImage?: string;        // override the default social image
+  noindex?: boolean;       // opt a page out of indexing
 }
-const { title, description, active, jsonLd } = Astro.props;
+const { title, description, active, jsonLd, ogImage, noindex } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
 const desc = description ?? site.blurb;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
-const ogImage = new URL('/og.png', site.url).toString();
+const ogImg = new URL(ogImage ?? '/og.png', site.url).toString();
 
+// Default JSON-LD: the named principal (recruiter surfaces). The home + commercial
+// surfaces override this with a ProfessionalService graph (see src/pages/index.astro).
 const sameAs = [site.links.linkedin, site.links.github].filter((u) => u && !u.includes('REPLACE'));
 const personLd = {
   '@context': 'https://schema.org',
@@ -21,10 +25,10 @@ const personLd = {
   name: site.name,
   jobTitle: site.role,
   url: site.url,
-  email: `mailto:${site.email}`,
   ...(sameAs.length ? { sameAs } : {}),
 };
 const ld = jsonLd ?? personLd;
+const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
 ---
 
 <!doctype html>
@@ -32,28 +36,49 @@ const ld = jsonLd ?? personLd;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <!-- set the js flag + optional ?reduce override before first paint (no-FOUC; reveal gate) -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try { if (new URLSearchParams(location.search).has('reduce')) d.setAttribute('data-reduce', ''); } catch (e) {}
+      })();
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={desc} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#0A1015" />
+    <meta name="author" content={site.name} />
+    <meta name="geo.region" content="US-ID" />
+    <meta name="geo.placename" content="Boise" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#FDFBF8" />
+
+    <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImg} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${site.name}, ${site.role}`} />
+    <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImg} />
 
-    <link rel="preload" href="/fonts/unbounded-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- self-hosted Open Book faces (CSP: no third-party origins; font-src 'self') -->
+    <link rel="preload" href="/fonts/familjen-grotesk-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/zilla-slab-latin-700.woff2" as="font" type="font/woff2" crossorigin />
 
-    <noscript><style>[data-in], [data-hero-in] { opacity: 1 !important; transform: none !important; }</style></noscript>
+    <noscript><style>
+      [data-in], [data-hero-in] { opacity: 1 !important; transform: none !important; }
+      .line-in { transform: none !important; }
+      .daylight { display: none !important; }
+    </style></noscript>
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ld)} />
   </head>
   <body>
@@ -62,8 +87,9 @@ const ld = jsonLd ?? personLd;
     <header class="topbar">
       <div class="wrap topbar__in">
         <a class="brand" href="/" aria-label={`${site.name}, led by Ryan Garver`}>
-          <span class="wm" aria-hidden="true">get smart ai<span class="disc"></span></span>
+          <span class="wm" aria-hidden="true">get smart ai</span>
           <small>led by Ryan Garver</small>
+          <span class="sr-only">Get Smart AI, led by Ryan Garver</span>
         </a>
         <nav aria-label="Primary">
           <ul class="nav__links">
@@ -78,7 +104,7 @@ const ld = jsonLd ?? personLd;
             ))}
           </ul>
         </nav>
-        <a class="hire" href="/work">Hiring for AI enablement? See the work</a>
+        <a class="hire" href="/work">Hiring?</a>
       </div>
     </header>
 
@@ -89,8 +115,7 @@ const ld = jsonLd ?? personLd;
     <footer class="foot" aria-label="Footer">
       <div class="wrap">
         <div class="foot__col">
-          <span class="wm" aria-hidden="true">get smart ai<span class="disc"></span></span>
-          <span class="sr-only">Get Smart AI</span>
+          <span class="wm">get smart ai</span>
           <p class="foot__entity">{site.legalEntity} · {site.legalLocation}</p>
           <p class="foot__meta">© {site.year} Smart Business AI LLC</p>
         </div>
@@ -101,7 +126,7 @@ const ld = jsonLd ?? personLd;
             <a href="/accessibility">Accessibility</a>
           </div>
           <div class="foot__links">
-            <a href={`mailto:${site.email}`}>Email</a>
+            <a href="/work">Hiring? See the work</a>
             <a href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
             {site.links.github && <a href={site.links.github} rel="me noopener" target="_blank">GitHub</a>}
           </div>

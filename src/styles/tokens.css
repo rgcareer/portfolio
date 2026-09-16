@@ -1,121 +1,172 @@
 /* ============================================================================
-   Overvolt x Aurora - design tokens (getsmartai.ai revamp)
-   Flat, solid, cinematic: a deep cool-ink ground, ONE warm electric-gold accent
-   (foundry LILA: neutral base + a single high-contrast accent, no gradients, no
-   glow). Billboard display type (Unbounded) over airy body (Manrope), self-hosted
-   latin-subset variable faces (CSP: no third-party origins). Approved direction:
-   Overvolt x Aurora, accent "Ember" (Ryan, 2026-09-12). Supersedes Green Light.
-   Backward-compat aliases at the end keep not-yet-reskinned inner pages (B-later)
-   on-palette and readable.
+   OPEN BOOK - design tokens (getsmartai.ai)
+   A warm daylight ledger: banker's burgundy on warm near-white, one hard-edged
+   sun patch, ledger geometry, self-hosted latin-subset faces (CSP: no third-party
+   origins). Single light theme by design ("no black boxes / daylight" is the
+   positioning made literal). Design authority: docs/design/open-book-handoff.md
+   (+ the 2026-09-15 council addendum, s0). Supersedes the Ember/Overvolt system.
+   The alias block at the end keeps not-yet-reskinned inner pages (about, work/*,
+   notes/*, consulting, resume) legible in daylight until their rebuild slice.
    ============================================================================ */
 
-/* ---- self-hosted variable fonts (latin subset) ---------------------------
-   Unbounded = the billboard display voice (geometric, loud, confident);
-   Manrope = the airy body + UI workhorse. No serif, no third-party origins. */
+/* ---- self-hosted fonts (latin subset) ------------------------------------
+   Familjen Grotesk = display + body + UI. Zilla Slab = ledger labels, numerals,
+   the "money" voice (tabular figures required wherever numbers appear). */
 @font-face {
-  font-family: 'Unbounded';
-  font-style: normal; font-weight: 400 800; font-display: swap;
-  src: url('/fonts/unbounded-latin-wght.woff2') format('woff2');
+  font-family: 'Familjen Grotesk';
+  font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url('/fonts/familjen-grotesk-latin-wght.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Manrope';
-  font-style: normal; font-weight: 300 700; font-display: swap;
-  src: url('/fonts/manrope-latin-wght.woff2') format('woff2');
+  font-family: 'Familjen Grotesk';
+  font-style: italic; font-weight: 400 700; font-display: swap;
+  src: url('/fonts/familjen-grotesk-latin-wght-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('/fonts/zilla-slab-latin-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: italic; font-weight: 500; font-display: swap;
+  src: url('/fonts/zilla-slab-latin-500-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url('/fonts/zilla-slab-latin-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url('/fonts/zilla-slab-latin-700.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* solid grounds (no gradients anywhere) */
-  --ground: #0A1015;       /* deep cool-ink, the page ground */
-  --ground-2: #0E161D;     /* recessed / alternate section */
-  --surface: #121D25;      /* raised frames, figure mats, inputs */
-  --ink: #EFF3F1;          /* text (~16:1 on ground) */
-  --ink-soft: #A7B6B8;     /* secondary text (~9:1) */
-  --ink-muted: #7E9092;    /* labels, meta (~5.2:1) */
-  --line: #1C2A2E;         /* hairline */
-  --line-strong: #2E4247;
+  /* ---- color roles (AA computed; re-verify in-browser per the standing gate) */
+  --ground:        #FDFBF8;  /* page bg - warm near-white; NOT cream/bone */
+  --surface:       #FDFBF8;  /* cards/surfaces ARE the ground; separation = rules */
+  --ink:           #1B1B1F;  /* primary text (16.4:1 on ground) */
+  --ink-2:         #43403A;  /* long-form body / secondary (~9:1) */
+  --muted:         #6E6A63;  /* meta, labels, captions (5.1:1 on ground) */
+  --burgundy:      #6E1F2E;  /* THE accent: prices, numerals, kickers, CTAs, links (10.5:1) */
+  --burgundy-deep: #571825;  /* hover/active of the accent */
+  --on-burgundy:   #FFFDFB;  /* text on burgundy (11.0:1) */
+  --hairline:      #E6E1D9;  /* 1px rules, borders */
+  --dot:           #C9C2B6;  /* dotted leaders, secondary rules */
+  --blush:         #F7F0EC;  /* warm section fill (rhythm ground) */
+  --sun:           #FFD9B0;  /* sun patch fill - the light itself */
+  /* Committed-color evolution (Ryan, 2026-09-15 "warm & premium, alive"): the
+     sanctioned apricot elevated to a real color, burgundy allowed to drench a
+     whole band. amber is a FIELD / graphic color on dark grounds (not AA as body
+     text on white - never set small light text on white in amber). */
+  --amber:         #E8A54D;  /* graphic color: figures/rules on the deep band, accents */
+  --amber-soft:    #F6C98A;  /* softer amber for large fills / glows on dark */
+  --on-deep:       #FBEDE4;  /* warm-white text on the drenched burgundy band (11:1) */
+  --deep-line:     #8E3B48;  /* hairline/rule on the burgundy band */
 
-  /* the ONE accent: warm electric gold (high contrast on the cool ink) */
-  --gold: #FFA733;         /* accent: underlines, CTA fill, evidence numbers (~9.8:1) */
-  --gold-bright: #FFB84D;
-  --gold-deep: #E8912A;    /* CTA hover */
-  --btn-ink: #0A1015;      /* near-black text on the gold button */
+  /* ---- type ---------------------------------------------------------------- */
+  --font-display: 'Familjen Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-slab:    'Zilla Slab', 'Rockwell', Georgia, serif;
+  --font-mono:    ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, monospace;
 
-  /* proof / evidence moment lives in gold TEXT on the dark ground, not a gold field */
-  --num: #FFA733;          /* evidence numbers, solid gold */
+  /* ---- type scale ---------------------------------------------------------- */
+  --fs-h1:     clamp(38px, 6vw, 66px);   /* 700, ls -0.022em, lh 1.04 */
+  --fs-h2:     clamp(28px, 4vw, 40px);   /* 700, ls -0.015em */
+  --fs-figure: clamp(46px, 6vw, 66px);   /* slab 700, tabular */
+  --fs-poster: clamp(54px, 8vw, 96px);   /* the ONE buyer-computed estimator figure */
+  --fs-lead:   19px;
+  --fs-body:   17px;
+  --fs-small:  15.5px;
+  --fs-caption:13.5px;
+  --fs-kicker: 13px;                      /* slab 600, caps, ls 0.18em */
+  --fs-eyebrow:12px;                      /* display 600, caps, ls 0.15em */
 
-  --display: 'Unbounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-
-  --fs-display: clamp(2.6rem, 8.4vw, 7rem);
-  --fs-h1: clamp(2rem, 4.6vw, 3.6rem);
-  --fs-h2: clamp(1.55rem, 3vw, 2.5rem);
-  --fs-lead: clamp(1.1rem, 1.5vw, 1.4rem);
-  --fs-body: 1.0625rem;
-  --fs-small: 0.9375rem;
-  --fs-eyebrow: 0.8rem;
-
+  /* ---- spacing / layout / radius ------------------------------------------- */
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px;
-  --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px; --space-32: 128px;
-  --container: 1200px; --measure: 40rem; --gutter: clamp(1.25rem, 4vw, 3.5rem);
-  --radius: 4px; --radius-lg: 10px;
+  --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 84px; --space-32: 112px;
+  --wrap: 940px; --gutter: 28px; --measure: 56ch;
+  --sect-pad: 84px;         /* 64px at <=680px */
+  --radius: 3px; --radius-pill: 999px;
 
+  /* ---- motion -------------------------------------------------------------- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-sweep: cubic-bezier(0.7, 0, 0.2, 1);
+  --enter-dur: 640ms;
+  --stagger: 90ms;
+  --drift-dur: 42s;
+  --daylight: 1;            /* 0..1 living-light intensity */
+  --dur-tally: 900ms; --dur-fast: 160ms;
 
-  /* motion timing (baked; no runtime dial UI) */
-  --charge-dur: 720ms;
-  --charge-stagger: 120ms;   /* JS-only */
-  --entrance-pace: 1;
-
-  /* ---- backward-compat aliases (v3 / Green Light names -> Ember) ------------ */
+  /* ============================================================================
+     Backward-compat aliases (Ember/v3 token names -> Open Book).
+     Keep not-yet-reskinned inner pages readable in daylight. Removed as each
+     inner page is rebuilt (slices 2-3).
+     ========================================================================== */
   --bg: var(--ground);
-  --bg-1: var(--ground-2);
-  --bg-2: var(--surface);
-  --card: var(--ground-2);
-  --card-2: var(--surface);
+  --ground-2: var(--blush);
+  --card: var(--blush);
+  --card-2: var(--blush);
   --stone: var(--ground);
-  --stone-2: var(--ground-2);
-  --paper: var(--surface);
-  --line-1: var(--line);
-  --line-2: var(--line);
-  --line-3: var(--line-strong);
-  --inset-hi: var(--line);
+  --stone-2: var(--blush);
+  --paper: var(--ground);
+  --line: var(--hairline);
+  --line-1: var(--hairline);
+  --line-2: var(--hairline);
+  --line-3: var(--dot);
+  --line-strong: var(--dot);
+  --inset-hi: var(--hairline);
   --text: var(--ink);
-  --text-dim: var(--ink-soft);
-  --text-faint: var(--ink-muted);
-  --dim: var(--ink-soft);
+  --text-dim: var(--ink-2);
+  --text-faint: var(--muted);
+  --dim: var(--ink-2);
+  --ink-soft: var(--ink-2);
+  --ink-muted: var(--muted);
   --ink-strong: var(--ink);
-  --accent: var(--gold);
-  --accent-press: var(--gold-deep);
-  --accent-soft: color-mix(in srgb, var(--gold) 15%, transparent);
-  --accent-line: color-mix(in srgb, var(--gold) 42%, transparent);
-  --accent-text: var(--btn-ink);
-  --accent-up: var(--gold-bright);
-  --go: var(--gold);
-  --action: var(--gold);
-  --action-ink: var(--gold-bright);
-  --action-deep: var(--gold-deep);
+  --accent: var(--burgundy);
+  --accent-press: var(--burgundy-deep);
+  --accent-soft: color-mix(in srgb, var(--burgundy) 10%, transparent);
+  --accent-line: color-mix(in srgb, var(--burgundy) 38%, transparent);
+  --accent-text: var(--on-burgundy);
+  --accent-up: var(--burgundy);
+  --gold: var(--burgundy);
+  --gold-bright: var(--burgundy);
+  --gold-deep: var(--burgundy-deep);
+  --btn-ink: var(--on-burgundy);
+  --num: var(--burgundy);
+  --go: var(--burgundy);
+  --action: var(--burgundy);
+  --action-ink: var(--burgundy);
+  --action-deep: var(--burgundy-deep);
   --mist: var(--ink);
-  --font-display: var(--display);
-  --font-sans: var(--sans);
-  --font-body: var(--sans);
-  --font-mono: var(--sans);
+  --display: var(--font-display);
+  --sans: var(--font-display);
+  --font-body: var(--font-display);
   --fs-sm: var(--fs-small);
   --fs-base: var(--fs-body);
   --fs-lg: 1.15rem;
   --fs-xl: var(--fs-lead);
   --fs-2xl: var(--fs-h2);
   --fs-3xl: var(--fs-h1);
-  --fs-hero: var(--fs-display);
-  --section-y: clamp(4rem, 11vw, 8rem);
-  --r-sm: 4px; --r-md: 8px; --r-lg: 10px; --r-xl: 14px; --r-pill: 999px; --bezel: 0.25rem;
+  --fs-hero: var(--fs-h1);
+  --fs-display: var(--fs-h1);
+  --container: var(--wrap);
+  --section-y: clamp(4rem, 11vw, 7rem);
+  --radius-lg: 8px;
+  --r-sm: 3px; --r-md: 6px; --r-lg: 8px; --r-xl: 12px; --r-pill: 999px; --bezel: 0.25rem;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --t-fast: 0.18s; --t: 0.4s; --t-slow: 0.8s;
-  --z-nav: 100; --z-overlay: 200;
-  --arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
-  --arrow-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E");
+  --ease-sweep: cubic-bezier(0.7, 0, 0.2, 1);
+  --t-fast: 0.16s; --t: 0.4s; --t-slow: 0.8s;
+  --charge-dur: 620ms; --charge-stagger: 90ms; --entrance-pace: 1;
+  --z-nav: 60; --z-overlay: 200;
+  --arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E1F2E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+  --arrow-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E1F2E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E");
 }

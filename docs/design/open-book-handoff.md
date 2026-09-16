@@ -9,6 +9,115 @@ positioning brief lives in `~/.claude/plans/read-claude-plans-getsmartai-positio
 (Deliverable A). Approved reference artifact (the look to match): scratchpad `open-book.html`,
 published at https://claude.ai/code/artifact/2507caef-bc8f-4500-b617-9d655c5a67b3.
 
+---
+
+## 0. ADDENDUM — competitive-council sharpening (2026-09-15, SUPERSEDES conflicting sections below)
+
+The 2026-09-15 competitive council (verdict archive:
+`tasks/research/competitive-council-2026-09-15.md`; wedge in memory
+`getsmartai-competitive-wedge.md`) sharpened the wedge to **priced accountability at entry**
+and rejected the poster-scale numbers-hero. Where this addendum conflicts with §3/§4/§8 below,
+**this addendum wins.** The tokens (§2), component mechanics (§4 line-item/total/sun-patch),
+motion stance (§7), and AA discipline (§6) are unchanged and still authoritative.
+
+**A. Hero pattern — SUPERSEDES §3's hero pattern.** The hero leads with **ONE named buyer
+situation** (the beachhead: the missed call that never gets a callback), not a breadth promise.
+Pattern: eyebrow (identity + Boise) → H1 (the situation, plain-English, no fabricated number) →
+lead sub (what the practice builds + named principal + "every price is on this page") → CTA row
+(primary "Start with the diagnostic" → intake; secondary "See the rate card" → #rates). ONE sun
+patch behind the H1. The full 5-line breadth lives in the ledger, not the hero.
+
+**B. Recruiter chip — REMOVED from the hero. SUPERSEDES §4 (`.chip` in hero) and §8 (chip as a
+hard hero requirement).** All six council seats found the chip beside buyer prices reads as "the
+principal is leaving" — it turns the practice's best trust asset into its worst objection.
+Recruiter routing is now a **quiet "Hiring?" item in the nav/footer → /work**; the flight-risk
+answer and the role claim live once on /work, never on the buyer hero. The `.chip` component may
+still be used for non-recruiter pills elsewhere.
+
+**C. Proof block — re-ranked, NOT poster-scale. SUPERSEDES the "hero receipts" idea in
+`read-claude...firefly.md`'s proto4 phase.** Rank the proof `0 re-score errors · 616 tests ·
+$0 marginal`, each with a plain-English bridge, and **14,851 as scope context in smaller type** —
+never the largest element on the page. A ledger-voice link ("Method and results — open the file")
+goes to the recomputable method page at `/work/operation-hired/method`. "$0 marginal cost per
+posting" is **translated on buyer surfaces** ("the ten-thousandth costs the same as the first")
+and kept verbatim only on /work. Operation Hired is framed as **self-operated production** (real
+load, kept receipts), never a "personal project."
+
+**D. The estimator (NEW component; the ONLY poster-scale number).** A 3-input client-side
+calculator (missed calls/week × average job value × jobs won) whose OUTPUT is the one figure
+allowed at large scale — legitimate because the buyer supplied the inputs. Spec: real `<label>`s
+(never placeholder-as-label); recompute on `input`; output element carries `aria-live="polite"`
+and a visible caption **"Your numbers, multiplied. Nothing here is my estimate."**; the output is
+**never persisted, transmitted, or repeated** elsewhere (not in `<title>`, meta, OG, or JSON-LD).
+No-JS: a static sentence showing the arithmetic with labeled EXAMPLE inputs and **no bare
+number**. Reduced-motion: inputs work, the count-up does not (value sets instantly).
+
+**E. Form fields (NEW component; §4 has no field spec).** Intake = 3 fields (name, email,
+one-line "what's slow"). Real `<label>` per field (visible, not placeholder). Field: 1px
+`--hairline` border, 3px radius, `--ground` fill, 14px padding, ink text; `:focus-visible` =
+2px burgundy outline, offset 2px; error state = `--burgundy` 1.5px border + a burgundy helper
+line (`role="alert"`). **CSP `form-action 'self'` forbids `<form action="mailto:">`** — the
+no-JS fallback is a plain prefilled `mailto:` LINK; JS may compose `location.href`. The real
+Worker POST is wired later at the machinery gate.
+
+**F. Guarantee — mechanical, at the diagnostic line. SUPERSEDES §8's soft "if the report isn't
+worth the fee" phrasing as the sole statement.** State it as mechanics: the buyer decides, within
+a stated window, and the money is not taken; **AND the $750 is credited in full against any build
+within 90 days.** The exact strings live in `src/config/offers.ts` and are reused verbatim in
+`/terms`.
+
+**G. Continuity + cost-of-ownership (NEW).** Publish a continuity clause (code and credentials in
+the client's own accounts, written handoff, 30-day transition) and a recurring-cost row
+(**"$0/mo — you own it"**). Answers the bus-factor objection the council called binding above $199.
+
+**H. Data-handling line (NEW).** One plain-English line: what the practice connects to, what it
+never touches, that a BAA is available, and the contract entity (Smart Business AI LLC). Without
+it the dental/medical vertical cannot convert.
+
+**I. Copy bans (council must_avoid).** Never write the category contrast ("others hide prices",
+"unlike most agencies") — demonstrate transparency, never claim it. No multiplier / percentage /
+hours-saved / payback headline; every number real or absent. Give each ledger line one concrete
+mechanism with a time and a place. Add a pricing-basis line (why the floors are low: solo, no
+sales team, the named principal does the work).
+
+**J. Color evolution — "warm & premium, alive" (Ryan, 2026-09-15 feel-gate PASS; ENRICHES §2, does
+not replace it).** After the Slice 0+1 home rebuild Ryan flagged three-plus times that the page still
+read as a static/plain site. foundry diagnosis (BRAND register): the home was colored with a
+RESTRAINED strategy (one accent held under ~10% on warm white) — the product/minimalism FLOOR, wrong
+for a brand surface. Fix = a COMMITTED color strategy (foundry `color.md`), not more motion. Approved
+and shipped:
+- **Amber elevated to a real graphic color** (`--amber #E8A54D`, `--amber-soft #F6C98A`): figures,
+  rules, glows ON DARK GROUNDS only. NEVER small light text on white (fails AA there). This is the
+  "second warm accent" done honestly — the sanctioned apricot promoted, NOT a banned second ochre
+  (cream + ochre + oxblood is a foundry slop reflex, and burgundy already sits next to it).
+- **Burgundy drenches a whole band** (`.proof`): the proof section inverts to a deep `--burgundy`
+  ground with `--on-deep #FBEDE4` text (9.66:1) and glowing `--amber` figures (5.23:1). The color
+  centerpiece / annual-report moment; the one section that flips to a dark ground.
+- **Section color rhythm** (`--blush #F7F0EC` via `.sec-blush` on estimator/compare/faq/close):
+  warm-white → blush → wine-band alternation instead of one flat white sheet.
+- **The daylight field enlarged and made present** in the hero (`min(660px, 68vw)`), animating live
+  (WebGL2, full fallback ladder intact) — `--deep-line #8E3B48` rules the burgundy band.
+- **Bolder numerals** as anchors throughout.
+Tokens source of truth = `tokens.css` (the Committed-color block). AA re-verified in-browser
+(on-deep/burgundy 9.66, amber/burgundy 5.23, muted/blush 4.77). The ledger DNA and the two signature
+elements (line item + sun patch) are unchanged: this enriches color and life, it does not rethink the
+direction. Ryan's four push options were read as "evolve boldly, keep the ledger" (the ledger is the
+wedge). Inner-page slices (2-3) inherit this palette; the drenched-band treatment is reserved for
+genuine proof/total moments, not decoration.
+
+**Owner deviations from the council (Ryan, 2026-09-15 — recorded so no future pass "fixes" them):**
+1. **No phone number published** (council wanted a header phone) — the header carries Boise +
+   named principal, no number.
+2. **The websites line STAYS in the primary ledger** (council suggested demoting it) — the
+   itemized menu is the moat; all five lines remain.
+
+**Superseded copy (do NOT reuse the pre-council strings):** old H1 "AI that pays for itself.
+Here's the math." (breadth-led) · the recruiter chip string · the bare "If the report isn't worth
+the fee, you don't pay it." as the only guarantee wording (keep the sentiment, state the
+mechanics per F).
+
+---
+
 ## 1. Direction summary
 - **Concept:** radical financial transparency AS the brand — the site is set like a beautifully
   typeset statement of account: offers as ledger line items with dotted leaders and published

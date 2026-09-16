@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import { products } from '../config/shop';
+
+const kit = products[0];
+const title = 'The follow-up kit, $199';
+const description =
+  'The scripts, templates, and setup guide for catching the calls, quotes, and follow-ups that fall through. Install it yourself. One time, $199, no subscription.';
+
+// Product schema only when there is a real checkout (never claim buyable with no way to buy).
+const shopLd = kit.buyUrl
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: kit.name,
+      description: kit.summary,
+      brand: { '@type': 'Brand', name: 'Get Smart AI' },
+      offers: {
+        '@type': 'Offer',
+        price: String(kit.price),
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: kit.buyUrl,
+      },
+    }
+  : undefined;
+---
+<BaseLayout title={title} description={description} active="shop" jsonLd={shopLd}>
+  <section aria-labelledby="shop-h">
+    <div class="wrap">
+      <p class="kicker" data-in>The shelf</p>
+      <h2 class="sec-title" id="shop-h" data-in>{kit.name}</h2>
+      <div class="ledger" data-in style="margin-top: 28px;">
+        <div class="line-item is-start">
+          <div class="li-row">
+            <span class="li-name">{kit.name}</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="li-price">{kit.priceLabel}</span>
+          </div>
+          <p class="li-sub">{kit.summary}</p>
+        </div>
+      </div>
+
+      <h3 class="shop-sub" data-in>What is inside</h3>
+      <ul class="prose" data-in>
+        {kit.inside.map((item) => <li>{item}</li>)}
+      </ul>
+
+      <div class="form-actions" data-in style="margin-top: 32px;">
+        {kit.buyUrl ? (
+          <a class="btn" href={kit.buyUrl} rel="noopener" target="_blank" data-magnetic>Buy it, {kit.priceLabel} <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+        ) : (
+          <a class="btn" href={`mailto:${site.email}?subject=${encodeURIComponent('The follow-up kit')}`} data-magnetic>Request it <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+        )}
+        <span class="form-note">{kit.buyUrl ? 'One time. No subscription, no upsells.' : 'Checkout is being set up. Email me and I will send it over.'}</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .shop-sub { margin-top: 44px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .shop-sub + .prose { margin-top: 16px; }
+</style>

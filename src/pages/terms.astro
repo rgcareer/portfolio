@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import { offerCopy } from '../config/offers';
+const title = 'Terms';
+const description = 'The terms behind the published prices and the diagnostic guarantee at Get Smart AI. Plain language, no fine print traps.';
+---
+<BaseLayout title={title} description={description} active={undefined}>
+  <section aria-labelledby="t-h">
+    <div class="wrap" style="max-width: 720px;">
+      <p class="kicker" data-in>Terms</p>
+      <h1 class="sec-title" id="t-h" data-in>The terms, in plain language</h1>
+      <div class="prose" data-in style="margin-top: 24px;">
+        <p class="lead">Every price on this site is a real starting point, and the guarantee below is a commitment, not a slogan.</p>
+
+        <h2>The diagnostic guarantee</h2>
+        <p>{offerCopy.guaranteeFull}</p>
+        <p>In practice: you tell me at the end of the diagnostic whether it was worth the fee. If you say it was not, I do not charge you, and I do not ask you to justify it. If you go ahead with a build within 90 days, the $750 is subtracted from that build's price.</p>
+
+        <h2>About the prices</h2>
+        <p>Prices shown with "from" are starting points. The final number is fixed and agreed in writing after the diagnostic, based on the scope we define together. There are no hidden fees, and nothing recurring unless you ask for it. {offerCopy.retainerNote}</p>
+
+        <h2>What you own</h2>
+        <p>When a build is delivered, the code and accounts are yours. There is no monthly fee to keep it running and no lock-in. If we ever part ways, you get a written handoff and a 30-day transition.</p>
+
+        <h2>Who you are contracting with</h2>
+        <p>All engagements are with {site.legalEntity}, {site.legalLocation}. A written agreement covers the scope, price, and any data handling before work begins.</p>
+
+        <p class="foot__meta">{site.legalEntity} · {site.legalLocation}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

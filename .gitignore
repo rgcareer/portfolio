@@ -9,6 +9,11 @@ node_modules/
 .DS_Store
 *.log
 
+# local tooling scratch + stray capture output (never commit)
+.playwright-mcp/
+/proto*.png
+/*-hero*.png
+
 # env / secrets — never commit
 .env
 .env.*

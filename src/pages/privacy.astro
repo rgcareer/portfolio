@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const title = 'Privacy';
+const description = 'How Get Smart AI handles your information. Short version: no cookies, no tracking, no third-party scripts. You email me, I reply.';
+---
+<BaseLayout title={title} description={description} active={undefined}>
+  <section aria-labelledby="p-h">
+    <div class="wrap" style="max-width: 720px;">
+      <p class="kicker" data-in>Privacy</p>
+      <h1 class="sec-title" id="p-h" data-in>What I do with your information</h1>
+      <div class="prose" data-in style="margin-top: 24px;">
+        <p class="lead">Short version: this site sets no cookies, runs no analytics, and loads no third-party scripts. There is nothing tracking you here.</p>
+
+        <h2>What this site collects</h2>
+        <p>Nothing automatically. The site is static and cookieless. It does not use Google Analytics or any tracking pixel, and it embeds no third-party code.</p>
+
+        <h2>When you contact me</h2>
+        <p>The contact form opens your own email app with a message addressed to me. When you send it, I receive your name, email, and whatever you chose to write, the same as any email. I use it only to reply and to help you. I do not sell it, share it, or add you to any marketing list.</p>
+
+        <h2>If that changes</h2>
+        <p>If I later add an on-site form or a checkout, I will name every service that processes your data (an email service, a payment processor) on this page before turning it on. Client project data is governed by the engagement contract with {site.legalEntity}, including a BAA where dental or medical work requires one.</p>
+
+        <h2>Your choices</h2>
+        <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> to ask what I hold about you or to have it deleted, and I will.</p>
+
+        <p class="foot__meta">{site.legalEntity} · {site.legalLocation}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,24 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Not found" description="That page doesn't exist.">
+<BaseLayout title="Page not found" description="That page does not exist. The work and the rate card are one click away." noindex={true}>
   <section class="wrap nf" aria-label="Page not found">
-    <span class="nf__disc" aria-hidden="true"></span>
     <p class="eyebrow">Error 404</p>
-    <h1 class="nf__big">Nothing here.</h1>
-    <p class="nf__sub">This page moved or never existed. The work is still where it should be.</p>
+    <h1 class="nf__big">This line item does not exist.</h1>
+    <p class="nf__sub">The page moved or was never here. Everything else is still on the books.</p>
     <div class="nf__cta">
-      <a class="btn" href="/">Back to the home</a>
-      <a class="link-quiet" href="/work">See the work</a>
+      <a class="btn" href="/" data-magnetic>Back to the home <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="link-arrow" href="/work">See the work <span class="a" aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* "Empty" per contract: the green light, off (an unlit outline disc). */
-  .nf { min-height: 72svh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--space-24); }
-  .nf__disc { width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 2px solid var(--line-strong); }
-  .nf__big { font-family: var(--display); font-size: var(--fs-display); font-weight: 720; margin-top: var(--space-6); max-width: 14ch; }
-  .nf__sub { font-size: var(--fs-lead); color: var(--ink-soft); margin-top: var(--space-6); max-width: 40ch; }
-  .nf__cta { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-6); align-items: center; margin-top: var(--space-12); }
+  .nf { min-height: 66svh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--sect-pad); }
+  .nf__big { font-family: var(--font-display); font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.022em; margin-top: 20px; max-width: 16ch; }
+  .nf__sub { font-size: var(--fs-lead); color: var(--ink-2); margin-top: 20px; max-width: 44ch; }
+  .nf__cta { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; margin-top: 40px; }
 </style>

@@ -28,9 +28,9 @@ export const site = {
   domain: 'getsmartai.ai',
   url: 'https://getsmartai.ai',
 
-  // primary nav (7, at the ceiling but within it; no hamburger, wrap rule). Services + Shop are B5' pages.
+  // primary nav (no hamburger, wrap rule). Services is added back in Slice 3 when
+  // /services ships - never point the nav at a 404 (the pages exist as of their slice).
   nav: [
-    { href: '/services', label: 'Services', key: 'services' },
     { href: '/work', label: 'Work', key: 'work' },
     { href: '/shop', label: 'Shop', key: 'shop' },
     { href: '/notes', label: 'Notes', key: 'notes' },

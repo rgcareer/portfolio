@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const title = 'Accessibility';
+const description = 'Get Smart AI is built to WCAG 2.2 AA: real contrast, full keyboard access, and motion that respects your settings. Tell me if anything gets in your way.';
+---
+<BaseLayout title={title} description={description} active={undefined}>
+  <section aria-labelledby="a-h">
+    <div class="wrap" style="max-width: 720px;">
+      <p class="kicker" data-in>Accessibility</p>
+      <h1 class="sec-title" id="a-h" data-in>Built to be usable by everyone</h1>
+      <div class="prose" data-in style="margin-top: 24px;">
+        <p class="lead">Making technology legible to people is the whole point of this practice, so the site holds itself to the same standard.</p>
+
+        <h2>What that means here</h2>
+        <ul>
+          <li>Text and color meet WCAG 2.2 AA contrast, verified in a browser, not assumed.</li>
+          <li>Every interactive element works with a keyboard, with a visible focus outline.</li>
+          <li>If your system asks for reduced motion, the site turns the movement off and shows every number in place.</li>
+          <li>With scripts disabled, the whole page still reads, and every real number is still there.</li>
+          <li>Structure uses real headings and landmarks so screen readers can navigate it.</li>
+        </ul>
+
+        <h2>If something gets in your way</h2>
+        <p>If any part of this site is hard to use, email <a href={`mailto:${site.email}`}>{site.email}</a> and tell me what happened. I will fix it, and I would genuinely like to know.</p>
+
+        <p class="foot__meta">{site.legalEntity} · {site.legalLocation}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
