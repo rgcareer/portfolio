@@ -3,7 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
 import { offers, offerCopy, continuity, dataHandling, kit } from '../config/offers';
 
-// FAQ = one source, rendered visibly AND as FAQPage schema (must match; 2026 spam filter).
+// FAQ = rendered visibly for readers. No FAQPage schema: Google removed FAQ rich results
+// for all sites (2026-05), so the JSON-LD wrapper is dead weight (and a sync liability).
 const faqs = [
   {
     q: 'How much does this cost?',
@@ -31,53 +32,66 @@ const faqs = [
   },
 ];
 
-const homeLd = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${site.url}/#practice`,
-    name: 'Get Smart AI',
-    alternateName: 'Get Smart AI, led by Ryan Garver',
-    description:
-      'AI consulting, automation builds, team training, and websites for small businesses without an engineering department. Published prices, a named principal, and a diagnostic that is free if it is not worth the fee.',
-    url: site.url,
-    image: new URL('/og.png', site.url).toString(),
-    areaServed: [
-      { '@type': 'City', name: 'Boise' },
-      { '@type': 'AdministrativeArea', name: 'Treasure Valley' },
-      { '@type': 'Country', name: 'United States' },
-    ],
-    address: { '@type': 'PostalAddress', addressLocality: 'Boise', addressRegion: 'ID', addressCountry: 'US' },
-    founder: { '@type': 'Person', name: site.name, jobTitle: site.role },
-    knowsAbout: ['AI automation', 'AI consulting', 'business process automation', 'AI adoption', 'small business AI'],
-    sameAs: [site.links.linkedin, site.links.github].filter(Boolean),
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Services and prices',
-      itemListElement: [
-        { name: 'AI diagnostic', price: 750 },
-        { name: 'Automation build', price: 2000 },
-        { name: 'Team training', price: 900 },
-        { name: 'Enablement program', price: 2500 },
-        { name: 'Website', price: 1500 },
-        { name: 'Contractor AI Follow-Up Revenue Kit', price: 199 },
-      ].map((o) => ({
-        '@type': 'Offer',
-        name: o.name,
-        priceSpecification: { '@type': 'PriceSpecification', minPrice: o.price, priceCurrency: 'USD' },
-      })),
+// One @graph: the business entity (LocalBusiness - ProfessionalService is deprecated on
+// schema.org "due to confusion with Service") + the named principal as a linked Person.
+// SAB: locality-only address + areaServed, no telephone. Fixed prices use bare `price`;
+// "starting at" prices use UnitPriceSpecification.minPrice (never both on one Offer).
+// NOTE: no FAQPage node - Google removed FAQ rich results for all sites (2026-05); the
+// visible FAQ below stays for readers, but the schema wrapper is dead weight now.
+const sameAs = [site.links.linkedin, site.links.github].filter(Boolean);
+const fixed = (name: string, price: number) => ({ '@type': 'Offer', name, price, priceCurrency: 'USD' });
+const from = (name: string, min: number) => ({
+  '@type': 'Offer',
+  name,
+  priceSpecification: { '@type': 'UnitPriceSpecification', minPrice: min, priceCurrency: 'USD' },
+});
+const homeLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'LocalBusiness',
+      '@id': `${site.url}/#business`,
+      name: site.brand,
+      alternateName: 'Get Smart AI, led by Ryan Garver',
+      legalName: site.legalEntity,
+      description:
+        'AI consulting, automation builds, team training, and websites for small businesses without an engineering department. Published prices, a named principal, and a diagnostic that is free if it is not worth the fee.',
+      url: site.url,
+      image: new URL('/og.png', site.url).toString(),
+      priceRange: '$199-$2,500',
+      address: { '@type': 'PostalAddress', addressLocality: 'Boise', addressRegion: 'ID', addressCountry: 'US' },
+      areaServed: [
+        { '@type': 'City', name: 'Boise' },
+        { '@type': 'AdministrativeArea', name: 'Treasure Valley' },
+        { '@type': 'Country', name: 'United States' },
+      ],
+      founder: { '@id': `${site.url}/#ryan-garver` },
+      knowsAbout: ['AI automation', 'AI consulting', 'business process automation', 'AI adoption', 'small business AI'],
+      sameAs,
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Services and prices',
+        itemListElement: [
+          fixed('AI diagnostic', 750),
+          from('Automation build', 2000),
+          from('Team training', 900),
+          from('Enablement program', 2500),
+          from('Website', 1500),
+          fixed('Contractor AI Follow-Up Revenue Kit', 199),
+        ],
+      },
     },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  },
-];
+    {
+      '@type': 'Person',
+      '@id': `${site.url}/#ryan-garver`,
+      name: site.name,
+      jobTitle: site.role,
+      url: site.url,
+      worksFor: { '@id': `${site.url}/#business` },
+      sameAs,
+    },
+  ],
+};
 
 const title = 'AI Automation & Consulting for Small Business, Boise';
 const description =
