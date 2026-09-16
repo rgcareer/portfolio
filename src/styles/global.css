@@ -410,6 +410,16 @@ section { padding: var(--sect-pad) 0; }
 html.js[data-reduce] .leader { clip-path: inset(0 0 0 0); animation: none; }
 html.js[data-reduce] .sun-patch { animation: none; }
 
+/* ---- page-to-page: native cross-document View Transitions (no router, so motion.ts
+   still boots on a normal navigation). Opt-in lives on every page via this sitewide file.
+   Media-gated: reduced-motion + non-supporting browsers get an ordinary instant nav.
+   Exit fast, enter a touch slower, so a click reads as arrival, not a blink. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation-duration: 150ms; }
+  ::view-transition-new(root) { animation-duration: 240ms; animation-delay: 30ms; }
+}
+
 /* ---- print: clean, ink-friendly, chrome-free (sitewide baseline) -----------
    Research 2026-09-16: hide the positioned wrapper (not just its contents),
    break-inside on blocks, expand only external prose links (never nav/anchors/

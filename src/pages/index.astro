@@ -116,6 +116,20 @@ const description =
   'Practical AI for Boise small businesses without an engineering department: automation, consulting, training, and websites. Published prices, a real named principal, and a diagnostic that is free if it is not worth the fee.';
 ---
 <BaseLayout title={title} description={description} active="home" jsonLd={homeLd}>
+  <!-- Daylight Journey (home only): a continuous warm light behind the page that drifts as
+       you scroll, a daylight progress thread, and a chapter rail for wayfinding. All are
+       decorative or supplementary and degrade to the calm static page under reduced-motion,
+       no-JS, or no scroll-timeline support. -->
+  <div class="sky" aria-hidden="true"></div>
+  <div class="thread" aria-hidden="true"><span class="thread__fill"></span></div>
+  <nav class="rail" aria-label="Sections on this page">
+    <a class="rail__item" href="#why" data-rail><span class="rail__label">Why</span><span class="rail__dot" aria-hidden="true"></span></a>
+    <a class="rail__item" href="#how" data-rail><span class="rail__label">How</span><span class="rail__dot" aria-hidden="true"></span></a>
+    <a class="rail__item" href="#proof" data-rail><span class="rail__label">Proof</span><span class="rail__dot" aria-hidden="true"></span></a>
+    <a class="rail__item" href="#rates" data-rail><span class="rail__label">Rates</span><span class="rail__dot" aria-hidden="true"></span></a>
+    <a class="rail__item" href="#start" data-rail><span class="rail__label">Start</span><span class="rail__dot" aria-hidden="true"></span></a>
+  </nav>
+
   <!-- 1. HERO: the missed-call scene = the compressed Why, told as the customer's problem -->
   <div class="hero">
     <div class="sun-patch" aria-hidden="true"><canvas class="daylight" aria-hidden="true"></canvas></div>
@@ -385,4 +399,43 @@ const description =
   .faq summary::after { content: '+'; position: absolute; right: 2px; top: 14px; font-family: var(--font-slab); font-size: 22px; color: var(--burgundy); line-height: 1; }
   .faq[open] summary::after { content: '\2212'; }
   .faq p { padding: 0 0 18px; color: var(--ink-2); max-width: 64ch; }
+
+  /* ---- Daylight Journey: through-line light + progress thread + chapter rail ----
+     Content sits above the sky; transparent sections let it glow through, blush is
+     translucent so it tints, the burgundy proof band stays solid (the sun behind it). */
+  .hero, section { position: relative; z-index: 1; }
+  .sec-blush { background: color-mix(in srgb, var(--blush) 88%, transparent); }
+
+  .sky {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85;
+    background: radial-gradient(115% 75% at 78% -8%, color-mix(in srgb, var(--sun) 60%, transparent) 0%, transparent 55%);
+  }
+  /* animate only on a fine pointer (desktop) + no reduced-motion: keeps the fixed layer
+     from repainting during touch momentum-scroll (the known iOS jank). */
+  @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+    html.js:not([data-reduce]) .sky { will-change: transform, opacity; animation: sky-drift linear both; animation-timeline: scroll(root); }
+  }
+  @keyframes sky-drift {
+    from { transform: translate3d(0, -3vh, 0); opacity: 0.95; }
+    to   { transform: translate3d(-5vw, 20vh, 0); opacity: 0.55; }
+  }
+
+  .thread { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: calc(var(--z-nav) + 1); pointer-events: none; }
+  .thread__fill { display: block; height: 100%; transform-origin: left center; transform: scaleX(0); background: linear-gradient(90deg, var(--amber, #E8A54D), var(--burgundy)); }
+  html.js:not([data-reduce]) .thread__fill { animation: thread-grow linear both; animation-timeline: scroll(root); }
+  @keyframes thread-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @supports not (animation-timeline: scroll()) { .thread { display: none; } }
+
+  /* chapter rail: desktop wayfinding. Real anchor links; active state from motion.ts (IO). */
+  .rail { display: none; }
+  @media (min-width: 1180px) {
+    .rail { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: var(--z-nav); display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+    .rail__item { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 5px 2px; color: var(--muted); font-family: var(--font-slab); font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .rail__label { opacity: 0; transform: translateX(6px); transition: opacity var(--dur-fast) ease, transform var(--dur-fast) ease, color var(--dur-fast) ease; }
+    .rail__dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--dot); background: transparent; flex: none; transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) ease; }
+    .rail__item:hover .rail__label, .rail__item:focus-visible .rail__label, .rail__item.is-active .rail__label { opacity: 1; transform: none; color: var(--burgundy); }
+    .rail__item:hover .rail__dot, .rail__item:focus-visible .rail__dot { border-color: var(--burgundy); }
+    .rail__item.is-active .rail__dot { background: var(--burgundy); border-color: var(--burgundy); transform: scale(1.2); }
+    .rail__item:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 3px; border-radius: 3px; }
+  }
 </style>

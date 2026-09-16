@@ -269,6 +269,40 @@ function copyToClipboard() {
   });
 }
 
+/* ---- chapter rail: highlight the section the reader is in (wayfinding). IO-driven;
+   sets .is-active + aria-current on the matching rail link. No-op if the rail is absent
+   (home only) or IO is unsupported. Works under reduced motion too (it is not motion). */
+function chapterRail() {
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-rail]'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  const pairs: { sec: Element; link: HTMLAnchorElement }[] = []; // document order
+  links.forEach((a) => {
+    const id = a.getAttribute('href')?.slice(1);
+    const sec = id ? document.getElementById(id) : null;
+    if (sec) pairs.push({ sec, link: a });
+  });
+  if (!pairs.length) return;
+  const inBand = new Set<Element>();
+  const render = () => {
+    // active = the topmost section in the center band; none if we are above/below all of them
+    const active = pairs.find((p) => inBand.has(p.sec))?.link || null;
+    links.forEach((l) => {
+      const on = l === active;
+      l.classList.toggle('is-active', on);
+      if (on) l.setAttribute('aria-current', 'true');
+      else l.removeAttribute('aria-current');
+    });
+  };
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => (e.isIntersecting ? inBand.add(e.target) : inBand.delete(e.target)));
+      render();
+    },
+    { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+  );
+  pairs.forEach((p) => io.observe(p.sec));
+}
+
 /* ---- boot ----------------------------------------------------------------- */
 function revealAllStatic() {
   $('[data-count]').forEach((el) => {
@@ -288,6 +322,7 @@ function boot() {
     intake();
     backToTop();
     copyToClipboard();
+    chapterRail();
     if (reduced) { revealAllStatic(); return; }
     magnetic();
     wireTally();
