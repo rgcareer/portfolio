@@ -276,6 +276,45 @@ All: zero horizontal overflow at 375/390 (hard gate); touch targets ≥44px; `ov
   patches/leaders `aria-hidden`.
 
 ## 7. Motion spec
+
+> **AMENDMENT — HOME level-2 immersion (Ryan-sanctioned, 2026-09-16/17; SUPERSEDES the
+> "whole budget" cap below and §11's "no motion beyond §7" FOR THE HOME PAGE ONLY).**
+> Ryan reviewed the calm v1 as too static ("no discernible change, still PowerPoint
+> slides") and directed a level-2 ramp: pin the signature moment, make the daylight the
+> wow factor, rethink the transition grammar. Inner pages keep the original §7 budget
+> below unchanged. The sanctioned HOME budget is exactly:
+> 1. **Continuous scroll-driven daylight field.** The WebGL2 canvas moves from the hero
+>    sun-patch into a fixed full-page `.sky` layer and is fed a scroll-progress uniform,
+>    so one warm light journeys dawn(top-right) -> high wash -> settled gold as you
+>    scroll. Stays inside the warm family (ground/sun/amber + burgundy); no new hue.
+> 2. **ONE pinned scene** — the belief (`#why`): a 300svh runway wrapper owning a named
+>    `view-timeline` around a sticky 100svh stage; three beats (belief / origin / relief
+>    + signature) stacked in one grid cell, cross-scrubbed sequentially over the
+>    `contain` range while the daylight keeps moving. Exactly one pin on the page. No
+>    stacked-card system, no parallax planes (both were considered and rejected as
+>    "slides advancing").
+> 3. **Seam-crossing static composition** (motion-independent): the proof band is a
+>    hard-edged parallelogram (both color seams diagonal, sun-patch family); three
+>    section overlaps (rate card under the estimator, close into the answers, belief
+>    toward the hero); kicker cull to <=3 section micro-labels so sections stop opening
+>    identically.
+> 4. **Retuned scroll-reveal range** (`entry 8% entry 55%`, transform-only) so the
+>    existing `[data-in]` rises land in the reading zone. Sitewide, benign.
+>
+> **Degrade contract (binding).** ALL pin/runway geometry sits behind ONE gate:
+> `@media (prefers-reduced-motion: no-preference) and (hover:hover) and (pointer:fine)
+> and (min-width:1180px) and (min-height:740px)` x `@supports (animation-timeline:
+> view())` x `html.js:not([data-reduce])`. The canvas is separately JS-gated to fine
+> pointers, degrading to today's static sun gradient on touch. So reduced-motion,
+> no-JS, touch, short/narrow viewports, and non-supporting engines (Firefox stable)
+> ALL render the calm flowing document at its natural height: no sticky, no runway, no
+> blank band, nothing gated invisible. Beats are visible-at-rest (base opacity 1); the
+> only opacity:0 lives in keyframes on a timeline guaranteed to resolve, so a failure
+> degrades to all-visible, never stranded. DOM order = reading order, so AT and no-JS
+> read the whole belief section. Every number stays real or absent; zero dashes in
+> dist; `--muted` contrast re-verified over the brightest daylight frame. Full plan +
+> checkpoint evidence: `~/.claude/plans/you-are-picking-up-transient-kettle.md`.
+
 - **What animates and why:** (1) one entrance choreography on the hero (eyebrow→H1→sub→
   ledger-voice→CTAs→chip, 90ms stagger, `--dur-enter` `--ease-out`) — the page "sets" like a
   document; (2) proof figures tally once on first view (`--dur-tally`, cubic ease-out; final
@@ -333,7 +372,8 @@ public-facing surface). Evidence per `~/.claude/rules/verification.md`: rendered
 ## 11. Out of scope — do not invent
 Build exactly this brief. No new colors (burgundy is the ONLY accent; no second accent ever),
 no gradients, no shadows, no cards, no dark sections, no extra sun patches, no icon set, no
-illustration, no monospace, no serif beyond Zilla Slab's specified roles, no motion beyond §7.
-The formal brand mark is an OPEN item (wordmark-only for now; a mark exploration needs Ryan's
+illustration, no monospace, no serif beyond Zilla Slab's specified roles, no motion beyond §7
+(which, for the HOME page, now includes the Ryan-sanctioned level-2 budget recorded in the §7
+amendment; inner pages keep the original budget). The formal brand mark is an OPEN item (wordmark-only for now; a mark exploration needs Ryan's
 separate go — do not sneak one in). A gap in this brief is a question to Ryan, never an
 invitation to improvise.
