@@ -1,10 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
-import { offers, offerCopy, continuity, dataHandling, kit } from '../config/offers';
+import { offers, offerCopy, dataHandling, kit } from '../config/offers';
 
-// FAQ = rendered visibly for readers. No FAQPage schema: Google removed FAQ rich results
-// for all sites (2026-05), so the JSON-LD wrapper is dead weight (and a sync liability).
+// Home = the buyer surface (RELIEF). Redesigned 2026-09-16 into a Start-with-Why arc
+// (Why -> How -> What -> proof -> act), reconciled with the charter: the missed-call scene
+// IS the compressed Why, told as the customer's problem; the belief + the person move up
+// front (the reason to choose us); the "How" (priced accountability) does double duty as the
+// proof a skeptical, price-focused buyer needs (Sinek's small-unknown-vendor synthesis).
+// Copy is charter-approved (site-copy-drafts.md); no category contrast; every number real or
+// absent; no em/en dashes. Motion is the existing calm system (daylight/reveals/tally),
+// motivated by the narrative, reduced-motion + no-JS safe.
+
+// FAQ is visible-only now (Google retired FAQ rich results 2026-05). Trimmed to the four not
+// already answered by the substitute answers below.
 const faqs = [
   {
     q: 'How much does this cost?',
@@ -15,20 +24,29 @@ const faqs = [
     a: 'No. My whole job is to make AI make sense and make money for people who do not care how it works. I speak plain English and I put the numbers where you can see them.',
   },
   {
-    q: 'How are you different from a $95 automation gig online?',
-    a: 'A gig builds the one thing you already know you want. I start by finding what is actually costing you money, then build and stand behind the fix. You get a named person who diagnoses first, not a checkout cart.',
-  },
-  {
-    q: 'Why not just use ChatGPT myself?',
-    a: 'ChatGPT can draft the follow-up text. It cannot notice the missed call at 6:40 and send it for you. The gap between a smart chat window and a system wired into your phone, calendar, and CRM is the part I build.',
-  },
-  {
     q: 'What happens if you are not available later?',
     a: 'The code and logins live in your accounts, you get a written handoff, and there is a named backup. It costs $0 a month to keep running because you own it. No lock-in.',
   },
   {
     q: 'Which businesses do you work with?',
     a: 'Small businesses that run without an engineering department, in and around Boise and remote: trades, dental and medical practices, restaurants, retail, and professional services.',
+  },
+];
+
+// The How = priced accountability, shown as three principles. For a small unknown vendor the
+// How layer is also the proof (a named process, a mechanical guarantee, a real price).
+const principles = [
+  {
+    k: 'Diagnose first',
+    v: 'We start with a $750 diagnostic: your own numbers, counted with you, plus one working automation on the tools you already pay for, delivered on a set date. Decide inside 30 days it was not worth it and the invoice is voided. Sign a build within 90 days and the $750 comes off it.',
+  },
+  {
+    k: 'Every price in plain sight',
+    v: 'The whole menu is on this page. Fixed fees, scoped in writing after the diagnostic. No hourly meter, no retainer required, and no number you have to book a call to hear.',
+  },
+  {
+    k: 'You own what I build',
+    v: 'Code, logins, and documents live in your accounts. $0 a month to keep it running, a written handoff, and a named backup, so it never depends on one person being reachable in October.',
   },
 ];
 
@@ -98,6 +116,7 @@ const description =
   'Practical AI for Boise small businesses without an engineering department: automation, consulting, training, and websites. Published prices, a real named principal, and a diagnostic that is free if it is not worth the fee.';
 ---
 <BaseLayout title={title} description={description} active="home" jsonLd={homeLd}>
+  <!-- 1. HERO: the missed-call scene = the compressed Why, told as the customer's problem -->
   <div class="hero">
     <div class="sun-patch" aria-hidden="true"><canvas class="daylight" aria-hidden="true"></canvas></div>
     <div class="wrap">
@@ -107,26 +126,96 @@ const description =
         <span class="line"><span class="line-in" style="--line-step: 2">is a job gone by 6:41.</span></span>
       </h1>
       <p class="hero-sub" data-hero-step style="--step: 3">A call comes in while you are on a roof. Nobody answers, and that customer calls the next company on the list. I build the system that catches the call and follows up, so the job does not walk.</p>
-      <p class="hero-ledger" data-hero-step style="--step: 4">Every price here is published. Every number is real.</p>
-      <div class="cta-row" data-hero-step style="--step: 5">
+      <div class="cta-row" data-hero-step style="--step: 4">
         <a class="btn" href="#start" data-magnetic>Start with a diagnostic <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
-        <a class="link-arrow" href="#rates">See the rate card <span class="a" aria-hidden="true">&rarr;</span></a>
+        <a class="link-arrow" href="#how">See how it works <span class="a" aria-hidden="true">&rarr;</span></a>
       </div>
-      <p class="hero-certainty" data-hero-step style="--step: 6">You will know by a set date what it costs to fix.</p>
+      <p class="hero-certainty" data-hero-step style="--step: 5">You will know by a set date what it costs to fix.</p>
     </div>
   </div>
 
-  <section id="estimate" class="sec-blush" aria-labelledby="estimate-h">
+  <!-- 2. THE GUIDE + THE WHY: the belief and the person, up front (the reason to choose us) -->
+  <section class="guide" id="why" aria-labelledby="why-h">
+    <div class="wrap">
+      <p class="kicker" data-in>Why I do this</p>
+      <p class="guide__belief" data-in>I spent twenty years getting big companies onto new tools. I started this to do the same for the business down the street.</p>
+      <div class="guide__body">
+        <p data-in>I am Ryan Garver. For twenty years I helped teams adopt new technology, here in the Treasure Valley, at Apple, Intuit, Cradlepoint, and Vacasa. At Apple I got organizations like St. Luke's and Dutch Bros onto new tools. The job, every time, was making technology make sense to people who do not care how it works.</p>
+        <p data-in>The belief behind Get Smart AI is simple: the shop down the street deserves the same competent, measured help those big companies got, without an engineering department and without a leap of faith about what it costs. You are the expert on your business. I build the system, put the price in plain sight, and stand behind the number.</p>
+        <p class="guide__sig" data-in>Ryan Garver · Get Smart AI · Boise, Idaho</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. HOW I WORK: priced accountability, three principles (the How that is also the proof) -->
+  <section class="how sec-blush" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <p class="kicker" data-in>How I work</p>
+      <h2 class="sec-title" id="how-h" data-in>Three promises, before you spend a dollar.</h2>
+      <ol class="principles" data-in>
+        {principles.map((p, i) => (
+          <li class="principle">
+            <span class="principle__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="principle__text">
+              <h3 class="principle__k">{p.k}</h3>
+              <p class="principle__v">{p.v}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="notice" data-in><b>Your data stays yours.</b> {dataHandling}</p>
+    </div>
+  </section>
+
+  <!-- 4. PROOF: moved up (a skeptical buyer needs proof next to the belief), the burgundy band -->
+  <section class="proof" id="proof" aria-labelledby="proof-h">
+    <div class="wrap">
+      <p class="kicker" data-in>The proof</p>
+      <h2 class="sec-title" id="proof-h" data-in>I measure my own work. You can check it.</h2>
+      <p class="sec-intro" data-in>I run a system in real production and keep the receipts. Here is how it holds up, ranked the way it actually matters, and I will hold your business to the same standard.</p>
+
+      <div class="totals" data-in>
+        <div class="total">
+          <div class="total-figure" data-count="0">0</div>
+          <p class="total-label">re-score errors on the audited pass</p>
+          <p class="total-bridge">Run it twice, get the same answer twice. That is the standard I hold my own system to, and the one I will hold yours to.</p>
+        </div>
+        <div class="total">
+          <div class="total-figure" data-count="616">616</div>
+          <p class="total-label">tests keeping the scoring honest</p>
+          <p class="total-bridge">Before it touches real work, 616 separate checks have to pass. Your phone system gets the same discipline.</p>
+        </div>
+        <div class="total">
+          <div class="total-figure" data-count="0" data-prefix="$">$0</div>
+          <p class="total-label">extra cost to score one more</p>
+          <p class="total-bridge">The ten-thousandth one costs the same as the first: nothing extra.</p>
+        </div>
+      </div>
+
+      <p class="scope-context" data-in>That same system, Operation Hired, has scored <span class="num">14,851</span> job postings in total, each one reproducible from its source.</p>
+      <p class="thesis-line" data-in>The point is not the size of the number. It is that <b>you can open the file and check it.</b></p>
+
+      <div class="case-line" data-in>
+        <p><strong>Operation Hired.</strong> Real production I designed, built, and ran myself, with real load and kept receipts. I will measure your business the same way.</p>
+        <a class="link-arrow" href="/work/operation-hired/method">Method and results, open the file <span class="a" aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="slot-empty" data-in>
+        Local client work is not published here yet. When it is, it will be a named business in your trade with real before and after numbers, not a logo wall. Until then, the system above is the receipt I can show you.
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WHAT IT COSTS: now that trust is built. Your number (estimator), then the menu -->
+  <section id="estimate" aria-labelledby="estimate-h">
     <div class="wrap">
       <p class="kicker" data-in>Your number</p>
       <h2 class="sec-title" id="estimate-h" data-in>What is a missed call actually costing you?</h2>
       <div class="estimator" data-estimator data-in>
         <p class="est-lead">Use your own numbers.</p>
-
         <p class="est-static" data-est-static>
           A worked example: miss 10 calls a week, an average job is worth $400, and you win 3 of every 10 good leads. That is about <b>$5,200 a month</b> walking to whoever answers first. Turn on scripts to run your own numbers.
         </p>
-
         <div class="est-live" data-est-live hidden>
           <div class="est-inputs">
             <div class="est-field">
@@ -151,7 +240,7 @@ const description =
     </div>
   </section>
 
-  <section id="rates" aria-labelledby="rates-h">
+  <section id="rates" class="sec-blush" aria-labelledby="rates-h">
     <div class="wrap">
       <p class="kicker" data-in>The rate card</p>
       <h2 class="sec-title" id="rates-h" data-in>What it costs, in plain sight</h2>
@@ -183,10 +272,11 @@ const description =
     </div>
   </section>
 
-  <section id="compare" class="sec-blush" aria-labelledby="compare-h">
+  <!-- 6. STRAIGHT ANSWERS: the cheaper options + the questions, consolidated -->
+  <section id="answers" aria-labelledby="answers-h">
     <div class="wrap">
       <p class="kicker" data-in>The cheaper options, honestly</p>
-      <h2 class="sec-title" id="compare-h" data-in>What the quick fixes leave you holding</h2>
+      <h2 class="sec-title" id="answers-h" data-in>What the quick fixes leave you holding</h2>
       <div class="subs" data-in>
         <div class="panel">
           <h3>A chatbot</h3>
@@ -201,70 +291,8 @@ const description =
           <p>An answering service answers the phone. It does not fix what happens after: the quote that goes cold, the follow-up nobody sends.</p>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="proof" id="proof" aria-labelledby="proof-h">
-    <div class="wrap">
-      <p class="kicker" data-in>The proof</p>
-      <h2 class="sec-title" id="proof-h" data-in>I measure my own work. You can check it.</h2>
-      <p class="sec-intro" data-in>I run a system in real production and keep the receipts. Here is how it holds up, ranked the way it actually matters.</p>
-
-      <div class="totals" data-in>
-        <div class="total">
-          <div class="total-figure" data-count="0">0</div>
-          <p class="total-label">re-score errors on the audited pass</p>
-          <p class="total-bridge">Run it twice, get the same answer twice. That is the standard I hold my own system to, and the one I will hold yours to.</p>
-        </div>
-        <div class="total">
-          <div class="total-figure" data-count="616">616</div>
-          <p class="total-label">tests keeping the scoring honest</p>
-          <p class="total-bridge">Before it touches real work, 616 separate checks have to pass. Your phone system gets the same discipline.</p>
-        </div>
-        <div class="total">
-          <div class="total-figure" data-count="0" data-prefix="$">$0</div>
-          <p class="total-label">extra cost to score one more</p>
-          <p class="total-bridge">The ten-thousandth one costs the same as the first: nothing extra.</p>
-        </div>
-      </div>
-
-      <p class="scope-context" data-in>That same system, Operation Hired, has scored <span class="num">14,851</span> job postings in total, each one reproducible from its source.</p>
-
-      <p class="thesis-line" data-in>The point is not the size of the number. It is that <b>you can open the file and check it.</b></p>
-
-      <div class="case-line" data-in>
-        <p><strong>Operation Hired.</strong> Real production I designed, built, and ran myself, with real load and kept receipts. I will measure your business the same way.</p>
-        <a class="link-arrow" href="/work/operation-hired/method">Method and results, open the file <span class="a" aria-hidden="true">&rarr;</span></a>
-      </div>
-
-      <div class="slot-empty" data-in>
-        Local client work is not published here yet. When it is, it will be a named business in your trade with real before and after numbers, not a logo wall. Until then, the system above is the receipt I can show you.
-      </div>
-    </div>
-  </section>
-
-  <section id="own" aria-labelledby="own-h">
-    <div class="wrap">
-      <p class="kicker" data-in>What you own afterward</p>
-      <h2 class="sec-title" id="own-h" data-in>One person built it. You are not locked to one person.</h2>
-      <p class="sec-intro" data-in>The honest answer to "what happens if you get hit by a bus," on the page, before you ask.</p>
-      <div class="rows" data-in>
-        {continuity.map((row) => (
-          <div class="row-item">
-            <span class="r-k">{row.k}</span>
-            <span class="r-v">{row.v}</span>
-          </div>
-        ))}
-      </div>
-      <p class="notice" data-in><b>Your data stays yours.</b> {dataHandling}</p>
-    </div>
-  </section>
-
-  <section id="faq" class="sec-blush" aria-labelledby="faq-h">
-    <div class="wrap">
-      <p class="kicker" data-in>Straight answers</p>
-      <h2 class="sec-title" id="faq-h" data-in>The questions everyone asks first</h2>
-      <div class="rows" data-in>
+      <div class="faqs" data-in>
         {faqs.map((f) => (
           <details class="faq">
             <summary>{f.q}</summary>
@@ -275,16 +303,7 @@ const description =
     </div>
   </section>
 
-  <section id="principal" aria-labelledby="principal-h">
-    <div class="wrap">
-      <p class="kicker" data-in>The principal</p>
-      <h2 class="sec-title" id="principal-h" data-in>The person who answers is the person who builds it</h2>
-      <p class="principal-body" data-in>I am Ryan Garver. I have spent twenty years in the Treasure Valley teaching non-technical teams to use new tools, at Apple, Intuit, Cradlepoint, and Vacasa. I run this practice to keep that work current and measurable.</p>
-      <p class="principal-body" data-in>You are the expert on your business. I build the follow-up system. When I say a tool pays for itself, it is because I <span class="em">built it, ran it, and kept the receipts.</span></p>
-      <p class="signature" data-in>Ryan Garver · Get Smart AI · Boise, Idaho</p>
-    </div>
-  </section>
-
+  <!-- 7. ACT: the close -->
   <section class="close-cta sec-blush" id="start" aria-labelledby="start-h">
     <div class="wrap">
       <p class="kicker" data-in>The next line item</p>
@@ -316,12 +335,50 @@ const description =
 </BaseLayout>
 
 <style>
-  .hero-ledger { margin-top: 18px; font-family: var(--font-slab); font-weight: 600; font-size: var(--fs-small); color: var(--burgundy); letter-spacing: 0.01em; }
-  .hero-certainty { margin-top: 14px; font-size: var(--fs-small); color: var(--muted); }
+  .hero-certainty { margin-top: 16px; font-size: var(--fs-small); color: var(--muted); }
+
+  /* 2. Guide + Why: a warm, spacious break from the ledger rhythm. The belief is the one
+     large pull-quote on the page; the body sits in a narrow, readable measure. */
+  .guide .wrap { max-width: 900px; }
+  .guide__belief {
+    font-family: var(--font-slab); font-weight: 600; letter-spacing: -0.015em; line-height: 1.14;
+    font-size: clamp(1.7rem, 3.8vw, 2.9rem); color: var(--ink); margin-top: 0.9rem; max-width: 22ch;
+    text-wrap: balance;
+  }
+  .guide__belief::first-line { color: var(--burgundy); }
+  .guide__body { margin-top: clamp(1.8rem, 4vw, 2.6rem); max-width: 60ch; display: grid; gap: 1.2rem; }
+  .guide__body p { font-size: var(--fs-body); line-height: 1.7; color: var(--ink-2); }
+  .guide__sig { font-family: var(--font-slab); font-weight: 600; font-size: var(--fs-small); color: var(--burgundy); letter-spacing: 0.02em; }
+
+  /* 3. How: three numbered principles. Distinct layout (index numeral + text), not cards. */
+  .principles { list-style: none; margin: clamp(1.8rem, 4vw, 2.6rem) 0 0; padding: 0; display: grid; gap: 0; counter-reset: none; }
+  .principle {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.2rem 1.6rem; align-items: start;
+    padding: clamp(1.4rem, 3vw, 2rem) 0; border-top: 1px solid var(--hairline);
+  }
+  .principle:last-child { border-bottom: 1px solid var(--hairline); }
+  .principle__n {
+    font-family: var(--font-slab); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--burgundy); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .principle__k { font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: -0.01em; }
+  .principle__v { margin-top: 0.55rem; font-size: var(--fs-body); line-height: 1.65; color: var(--ink-2); max-width: 62ch; }
+  .how .notice { margin-top: clamp(1.8rem, 4vw, 2.4rem); }
+  @media (min-width: 780px) {
+    .principle { grid-template-columns: 3.4rem minmax(0, 1fr); }
+  }
+
   .line-item.is-flagship { border-top: 2px solid var(--burgundy); }
+
+  /* estimator gets a touch more room now that it lands after the trust build */
+  #estimate .estimator { margin-top: clamp(1.4rem, 3vw, 2rem); }
+
   .subs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; margin-top: 30px; }
   @media (max-width: 800px) { .subs { grid-template-columns: 1fr; } }
+
+  .faqs { margin-top: clamp(2.4rem, 5vw, 3.4rem); border-top: 2px solid var(--ink); padding-top: 0.5rem; }
   .faq { border-top: 1px solid var(--hairline); padding: 4px 0; }
+  .faq:first-child { border-top: none; }
   .faq:last-child { border-bottom: 1px solid var(--hairline); }
   .faq summary { list-style: none; cursor: pointer; padding: 16px 28px 16px 0; font-weight: 600; font-size: 17px; position: relative; }
   .faq summary::-webkit-details-marker { display: none; }
