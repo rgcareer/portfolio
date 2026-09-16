@@ -115,7 +115,7 @@ section { padding: var(--sect-pad) 0; }
 @media (pointer: coarse) { .nav__link { min-height: 44px; display: inline-flex; align-items: center; } }
 
 /* ---- footer --------------------------------------------------------------- */
-.foot { border-top: 1px solid var(--hairline); margin-top: 40px; }
+.foot { border-top: 1px solid var(--hairline); margin-top: 40px; position: relative; z-index: 1; background: var(--ground); }
 .foot .wrap { display: flex; flex-wrap: wrap; gap: 24px 48px; justify-content: space-between; align-items: flex-start; padding-block: 40px; }
 .foot__col { display: flex; flex-direction: column; gap: 10px; }
 .foot__col .wm { font-size: 17px; }
@@ -428,7 +428,7 @@ html.js[data-reduce] .sun-patch { animation: none; }
 @media print {
   @page { margin: 1.5cm 1.2cm; }
   html, body { background: #fff !important; color: #000 !important; }
-  .topbar, .foot, .skip, .sun-patch, .daylight, .estimator, .form, .btn, .to-top,
+  .topbar, .foot, .skip, .sun-patch, .daylight, .sky, .thread, .rail, .estimator, .form, .btn, .to-top,
   video, iframe, .no-print { display: none !important; }
   main { padding: 0 !important; }
   * { box-shadow: none !important; text-shadow: none !important; }

@@ -120,7 +120,7 @@ const description =
        you scroll, a daylight progress thread, and a chapter rail for wayfinding. All are
        decorative or supplementary and degrade to the calm static page under reduced-motion,
        no-JS, or no scroll-timeline support. -->
-  <div class="sky" aria-hidden="true"></div>
+  <div class="sky" aria-hidden="true"><canvas class="daylight" aria-hidden="true"></canvas></div>
   <div class="thread" aria-hidden="true"><span class="thread__fill"></span></div>
   <nav class="rail" aria-label="Sections on this page">
     <a class="rail__item" href="#why" data-rail><span class="rail__label">Why</span><span class="rail__dot" aria-hidden="true"></span></a>
@@ -132,7 +132,7 @@ const description =
 
   <!-- 1. HERO: the missed-call scene = the compressed Why, told as the customer's problem -->
   <div class="hero">
-    <div class="sun-patch" aria-hidden="true"><canvas class="daylight" aria-hidden="true"></canvas></div>
+    <div class="sun-patch" aria-hidden="true"></div>
     <div class="wrap">
       <p class="eyebrow" data-hero-step style="--step: 0">Get Smart AI · Boise and the Treasure Valley · led by <b>Ryan Garver</b></p>
       <h1>
@@ -410,15 +410,18 @@ const description =
     position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85;
     background: radial-gradient(115% 75% at 78% -8%, color-mix(in srgb, var(--sun) 60%, transparent) 0%, transparent 55%);
   }
-  /* animate only on a fine pointer (desktop) + no reduced-motion: keeps the fixed layer
-     from repainting during touch momentum-scroll (the known iOS jank). */
+  .sky .daylight { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* CSS gradient drift = the fallback when WebGL is absent but scroll-timeline exists.
+     :not(.gl) so it never fights the live canvas (which must not be transform-drifted). */
   @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
-    html.js:not([data-reduce]) .sky { will-change: transform, opacity; animation: sky-drift linear both; animation-timeline: scroll(root); }
+    html.js:not([data-reduce]):not(.gl) .sky { will-change: transform, opacity; animation: sky-drift linear both; animation-timeline: scroll(root); }
   }
   @keyframes sky-drift {
     from { transform: translate3d(0, -3vh, 0); opacity: 0.95; }
     to   { transform: translate3d(-5vw, 20vh, 0); opacity: 0.55; }
   }
+  /* WebGL success (motion.ts adds html.gl): the canvas IS the living daylight ground. */
+  html.gl .sky { opacity: 1; background: var(--ground); }
 
   .thread { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: calc(var(--z-nav) + 1); pointer-events: none; }
   .thread__fill { display: block; height: 100%; transform-origin: left center; transform: scaleX(0); background: linear-gradient(90deg, var(--amber, #E8A54D), var(--burgundy)); }

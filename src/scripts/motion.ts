@@ -86,6 +86,11 @@ function daylight() {
   (window as any).__daylight = { mode: 'none', frames: 0 };
   if (!canvas) return;
   if (reduced) { canvas.remove(); (window as any).__daylight.mode = 'reduced-static'; return; }
+  // Full-page living light is desktop-only: a fixed, continuously-repainting layer is the
+  // known iOS momentum-scroll jank. Touch/coarse keeps the static .sky gradient.
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    canvas.remove(); (window as any).__daylight.mode = 'touch-static'; return;
+  }
 
   let gl: WebGL2RenderingContext | null = null;
   try { gl = canvas.getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: true }); } catch (e) { gl = null; }
@@ -94,22 +99,28 @@ function daylight() {
   const VS = `#version 300 es
   precision highp float; const vec2 P[3] = vec2[3](vec2(-1.,-1.), vec2(3.,-1.), vec2(-1.,3.));
   void main(){ gl_Position = vec4(P[gl_VertexID],0.,1.); }`;
+  // The daylight JOURNEYS with scroll (uniform S, 0..1 over doc height): a warm sun glow
+  // that crosses from dawn (top-right) to a high wide wash to a settled low gold, over a
+  // LIGHT warm ground so text contrast holds. Stays in the ground/sun/amber family: no new
+  // hues, no blue night, no aurora mesh (the project OFF-TABLE list).
   const FS = `#version 300 es
-  precision highp float; out vec4 o; uniform vec2 R; uniform float T;
+  precision highp float; out vec4 o; uniform vec2 R; uniform float T; uniform float S;
   float h(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
   float n(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);
     return mix(mix(h(i),h(i+vec2(1,0)),u.x), mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x), u.y); }
   float fbm(vec2 p){ float v=0., a=.5; for(int i=0;i<5;i++){ v+=a*n(p); p*=2.02; a*=.5; } return v; }
   void main(){
-    vec2 uv = gl_FragCoord.xy / R; vec2 q = uv * vec2(R.x/R.y, 1.);
+    vec2 uv = gl_FragCoord.xy / R; float ar = R.x / R.y; vec2 q = uv * vec2(ar, 1.);
     float f = fbm(q*1.7 + vec2(T*.018, -T*.012) + fbm(q*3.0 - T*.01));
-    vec3 warm  = vec3(0.949, 0.784, 0.604);
-    vec3 sunny = vec3(1.000, 0.851, 0.690);
-    vec3 bright= vec3(1.000, 0.945, 0.870);
-    vec3 rose  = vec3(1.000, 0.827, 0.788);
-    vec3 c = mix(warm, sunny, smoothstep(0.22, 0.58, f));
-    c = mix(c, bright, smoothstep(0.62, 0.96, f) * 0.85);
-    c = mix(c, rose, smoothstep(0.30, 0.05, f) * 0.30);
+    vec3 base = vec3(0.988, 0.973, 0.945);
+    vec2 sunA = vec2(0.84, 0.90), sunB = vec2(0.60, 0.82), sunC = vec2(0.34, 0.24);
+    vec2 sun = mix(mix(sunA, sunB, smoothstep(0.0,0.5,S)), mix(sunB, sunC, smoothstep(0.5,1.0,S)), step(0.5,S));
+    float rad = mix(0.5, 0.95, S);
+    float glow = smoothstep(rad, 0.0, distance(q, sun * vec2(ar,1.)));
+    vec3 dawn = vec3(1.000,0.858,0.772), day = vec3(1.000,0.914,0.796), gold = vec3(1.000,0.859,0.639);
+    vec3 g = mix(mix(dawn, day, smoothstep(0.0,0.5,S)), mix(day, gold, smoothstep(0.5,1.0,S)), step(0.5,S));
+    vec3 c = mix(base, g, glow * (0.55 + 0.35*f));
+    c = mix(c, vec3(1.0,0.94,0.86), f*0.05);
     o = vec4(c, 1.0);
   }`;
   const sh = (type: number, src: string) => { const s = gl!.createShader(type)!; gl!.shaderSource(s, src); gl!.compileShader(s); return s; };
@@ -119,34 +130,44 @@ function daylight() {
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.remove(); (window as any).__daylight.mode = 'link-fail-static'; return; }
   gl.useProgram(prog);
-  const uR = gl.getUniformLocation(prog, 'R'), uT = gl.getUniformLocation(prog, 'T');
+  const uR = gl.getUniformLocation(prog, 'R'), uT = gl.getUniformLocation(prog, 'T'), uS = gl.getUniformLocation(prog, 'S');
 
-  const touch = window.matchMedia('(pointer: coarse)').matches;
-  const DPR = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.5), RES = 0.75; // low-frequency glow: CSS upscales, halves fill
   const size = () => {
-    const w = Math.max(1, Math.round(canvas.clientWidth * DPR));
-    const hgt = Math.max(1, Math.round(canvas.clientHeight * DPR));
+    const w = Math.max(1, Math.round(canvas.clientWidth * DPR * RES));
+    const hgt = Math.max(1, Math.round(canvas.clientHeight * DPR * RES));
     if (canvas.width !== w || canvas.height !== hgt) { canvas.width = w; canvas.height = hgt; gl!.viewport(0, 0, w, hgt); }
   };
-  const draw = (t: number) => { size(); gl!.uniform2f(uR, canvas.width, canvas.height); gl!.uniform1f(uT, t / 1000); gl!.drawArrays(gl!.TRIANGLES, 0, 3); (window as any).__daylight.frames++; };
+  // scroll progress: passive cache, read by the EXISTING rAF (no second ticker). range
+  // recomputed on resize + once after fonts/layout settle (the page grows post-load).
+  let sy = window.scrollY;
+  let range = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  const recomputeRange = () => { range = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); };
+  window.addEventListener('scroll', () => { sy = window.scrollY; }, { passive: true });
+  window.addEventListener('resize', () => { size(); recomputeRange(); }, { passive: true });
+  setTimeout(recomputeRange, 1200);
+  const draw = (t: number) => {
+    size();
+    gl!.uniform2f(uR, canvas.width, canvas.height);
+    gl!.uniform1f(uT, t / 1000);
+    gl!.uniform1f(uS, Math.min(sy / range, 1));
+    gl!.drawArrays(gl!.TRIANGLES, 0, 3);
+    (window as any).__daylight.frames++;
+  };
   size();
-  window.addEventListener('resize', size, { passive: true });
   draw(0);
   (window as any).__daylight.mode = 'animated';
+  root.classList.add('gl');
 
-  let visible = true, raf: number | null = null, last = 0;
+  let raf: number | null = null, last = 0;
   const THROTTLE = 1000 / 30;
   const loop = (t: number) => {
     raf = null;
-    if (!visible || document.hidden) return;
+    if (document.hidden) return;
     if (t - last >= THROTTLE) { last = t; draw(t); }
     raf = requestAnimationFrame(loop);
   };
-  const start = () => { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop); };
-  const patch = document.querySelector('.hero') || canvas.parentElement;
-  if (patch && 'IntersectionObserver' in window) {
-    new IntersectionObserver((e) => { visible = e[0].isIntersecting; if (visible) start(); }, { threshold: 0.01 }).observe(patch);
-  }
+  const start = () => { if (!raf && !document.hidden) raf = requestAnimationFrame(loop); };
   document.addEventListener('visibilitychange', start);
   start();
 }
