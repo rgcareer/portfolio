@@ -6,7 +6,12 @@
 
 export const site = {
   // identity (fully named — this is the named portfolio)
-  name: 'Ryan Garver',
+  name: 'Ryan Garver', // the PERSON: Person JSON-LD, author, résumé headline. Do not use for brand.
+  // Visible BRAND wrapper (browser-tab titles, og:site_name, brand aria-label). Ryan's call
+  // (2026-09-16): lead with "Get Smart AI" now (business-first); switch this to "Ryan Garver"
+  // (personal brand) once traffic picks up and there is a marketing budget to build the name.
+  // One-line flip when that day comes. `name` stays the person regardless.
+  brand: 'Get Smart AI',
   firstName: 'Ryan',
   initials: 'RG',
   role: 'AI Enablement & Adoption',
