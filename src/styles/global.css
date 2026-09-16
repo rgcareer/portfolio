@@ -131,6 +131,11 @@ section { padding: var(--sect-pad) 0; }
   letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
 }
 .eyebrow b { color: var(--burgundy); font-weight: 700; }
+/* Hero eyebrow overlaps the hard sun-patch (#FFD9B0) on desktop, where --muted lands
+   at 4.05:1 (under AA). --ink-2 is 7.77:1 over the sun and 10:1 over ground, and
+   honors the design's own "only ink text may sit over the sun" note. Hero-scoped so
+   other eyebrows stay muted. */
+.hero .eyebrow { color: var(--ink-2); }
 .kicker {
   font-family: var(--font-slab); font-size: var(--fs-kicker); font-weight: 600;
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--burgundy); margin-bottom: 14px;
