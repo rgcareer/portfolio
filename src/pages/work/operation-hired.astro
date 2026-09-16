@@ -55,10 +55,12 @@ if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)
   <h2 class="reveal">A human approves every send</h2>
   <p class="reveal">Nothing goes out on its own. Drafted packages sit in a submission ledger behind a funnel view, and every send is a deliberate human action: I read it, I approve it, it logs. The automation makes the human faster; it never replaces the human. That line, drawn on purpose, is what keeps the whole thing trustworthy:</p>
   <ul class="reveal">
-    <li>A <strong>re-score pipeline</strong> re-ran every row (5,905 at the time) against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
+    <li>A <strong>re-score pipeline</strong> re-ran every row (5,905 at the time, in June 2026) against the corrected model in one pass with <strong>zero errors</strong>, after backing up first.</li>
     <li>A <strong>test suite</strong> covers the scoring edges, the geo logic, and the fraud heuristics, and it's green before anything ships.</li>
     <li><strong>Data-hygiene guards</strong> clear out orphaned rows and stop half-formed records from moving down the pipeline.</li>
   </ul>
+
+  <p class="reveal">Every figure on this page is defined and dated on one sheet, including what "zero errors" does and does not mean and how the $0 holds up: <a href="/work/operation-hired/method">how each number is produced and checked</a>.</p>
 
   <h2 class="reveal">A follow-up ladder that never nags</h2>
   <p class="reveal">Applying is the first move; the follow-through is where most searches go quiet. Once a package is sent, the system opens a follow-up ladder anchored to that submission: a hiring-manager note on day zero, a check-in around day five, another near day fourteen. It logs only the touches I actually make, and when a window passes it marks it closed instead of firing a reminder on its own. The tool keeps the schedule; I make the contact.</p>

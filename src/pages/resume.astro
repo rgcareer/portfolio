@@ -101,15 +101,15 @@ const education = [
         <p class="rs__role">{site.role}</p>
         <p class="rs__contact">
           <span>{site.location}</span>
-          <a class="link-quiet" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="link-quiet" href={`mailto:${site.careerEmail}`}>{site.careerEmail}</a>
           <a class="link-quiet" href={site.links.linkedin} target="_blank" rel="me noopener">LinkedIn</a>
           {site.links.github && <a class="link-quiet" href={site.links.github} target="_blank" rel="me noopener">GitHub</a>}
         </p>
-        <p class="rs__print-contact">{site.location} · {site.email} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}{site.links.github ? ` · ${site.links.github.replace(/^https?:\/\/(www\.)?/, '')}` : ''}</p>
+        <p class="rs__print-contact">{site.location} · {site.careerEmail} · {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}{site.links.github ? ` · ${site.links.github.replace(/^https?:\/\/(www\.)?/, '')}` : ''}</p>
       </div>
       <div class="rs__actions">
-        <a class="btn btn--solid" href="/resume.pdf" download="Ryan-Garver-Resume.pdf">Download PDF</a>
-        <a class="btn btn--line" href="/work">See the work</a>
+        <a class="btn" href="/resume.pdf" download="Ryan-Garver-Resume.pdf" data-magnetic>Download PDF <span class="chip-arrow" aria-hidden="true">&darr;</span></a>
+        <a class="btn btn--ghost" href="/work">See the work <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
         <button class="rs__print-btn link-quiet" id="rs-print" type="button">or print this page</button>
       </div>
     </header>
@@ -158,61 +158,62 @@ const education = [
 </BaseLayout>
 
 <style>
-  .rs { padding-top: clamp(3.5rem, 8vw, 5.5rem); padding-bottom: 2rem; }
+  .rs { padding-top: clamp(2.6rem, 5vw, 3.6rem); padding-bottom: 2rem; }
   .rs__head { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; justify-content: space-between; }
-  .rs__name { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-top: 0.7rem; }
-  .rs__role { color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-base); margin-top: 0.6rem; }
-  .rs__contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.9rem; font-size: var(--fs-sm); color: var(--text-dim); }
+  .rs__name { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; letter-spacing: -0.022em; line-height: 1.02; margin-top: 0.6rem; }
+  .rs__role { color: var(--burgundy); font-family: var(--font-slab); font-weight: 600; font-size: var(--fs-body); margin-top: 0.6rem; }
+  .rs__contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.9rem; font-size: var(--fs-small); color: var(--ink-2); }
   .rs__print-contact { display: none; }
   .rs__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
-  .rs__print-btn { font-family: var(--font-mono); font-size: var(--fs-eyebrow); letter-spacing: 0.02em; }
+  .rs__print-btn { font-family: var(--font-slab); font-size: var(--fs-caption); }
 
-  .rs__summary { max-width: 70ch; color: var(--text-dim); font-size: var(--fs-lg); line-height: 1.75;
-    margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .rs__summary { max-width: 70ch; color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.7;
+    margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }
 
   .rs__grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); margin-top: clamp(2.5rem, 5vw, 3.5rem); }
   @media (min-width: 880px) { .rs__grid { grid-template-columns: 1.7fr 1fr; } }
 
-  .rs__h { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--text-faint); margin-bottom: 1.3rem; }
+  .rs__h { font-family: var(--font-slab); font-size: var(--fs-kicker); text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--burgundy); font-weight: 600; margin-bottom: 1.3rem; }
 
   .rs__exp { list-style: none; display: grid; gap: 1.8rem; }
-  .rs__role-item { padding-bottom: 1.8rem; border-bottom: 1px solid var(--line); }
+  .rs__role-item { padding-bottom: 1.8rem; border-bottom: 1px solid var(--hairline); }
   .rs__role-item:last-child { border-bottom: 0; }
   .rs__role-top { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; justify-content: space-between; }
-  .rs__role-name { font-size: var(--fs-lg); font-weight: 600; color: var(--text); }
-  .rs__role-when { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint); }
-  .rs__role-org { color: var(--accent); font-size: var(--fs-sm); margin-top: 0.3rem; }
+  .rs__role-name { font-size: var(--fs-lead); font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .rs__role-when { font-family: var(--font-slab); font-size: var(--fs-caption); font-weight: 500; color: var(--muted); white-space: nowrap; }
+  .rs__role-org { color: var(--burgundy); font-family: var(--font-slab); font-weight: 500; font-size: var(--fs-small); margin-top: 0.3rem; }
   .rs__bullets { list-style: none; display: grid; gap: 0.6rem; margin-top: 0.9rem; }
-  .rs__bullets li { position: relative; padding-left: 1.3rem; color: var(--text-dim); font-size: var(--fs-base); line-height: 1.65; }
-  .rs__bullets li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .rs__bullets li { position: relative; padding-left: 1.3rem; color: var(--ink-2); font-size: var(--fs-body); line-height: 1.65; }
+  .rs__bullets li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--burgundy); }
 
   .rs__side { display: grid; gap: 2.2rem; align-content: start; }
   .rs__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.45rem; }
-  .rs__chips li { font-size: var(--fs-sm); color: var(--text-dim); border: 1px solid var(--line-2); border-radius: var(--r-pill); padding: 0.3rem 0.7rem; }
-  .rs__line { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .rs__chips li { font-size: var(--fs-small); color: var(--ink-2); background: var(--blush); border: 1px solid var(--hairline); border-radius: var(--radius-pill); padding: 0.32rem 0.75rem; }
+  .rs__line { padding: 0.6rem 0; border-bottom: 1px solid var(--hairline); }
   .rs__line:last-child { border-bottom: 0; }
-  .rs__line-t { display: block; color: var(--text); font-size: var(--fs-sm); }
-  .rs__line-s { display: block; color: var(--text-faint); font-family: var(--font-mono); font-size: var(--fs-eyebrow); margin-top: 0.2rem; }
+  .rs__line-t { display: block; color: var(--ink); font-size: var(--fs-small); font-weight: 600; }
+  .rs__line-s { display: block; color: var(--muted); font-family: var(--font-slab); font-size: var(--fs-caption); margin-top: 0.2rem; }
 </style>
 
 <style is:global>
   @media print {
     /* ATS-clean: single column, plain text, full contact, real selectable text. */
-    .nav-wrap, .foot, .preloader, .cursor, .wipe, .progress, .hud, #cmdk, .rs__actions, .skip, .rs__contact { display: none !important; }
+    .topbar, .foot, .hire, .skip, .rs__actions, .rs__contact { display: none !important; }
     html, body { background: #fff !important; }
     body, .rs__name, .rs__role-name, .rs__line-t { color: #000 !important; }
-    .rs__name { text-transform: none !important; font-variation-settings: 'wdth' 100 !important; }
+    .rs__name { text-transform: none !important; }
     .rs__summary, .rs__bullets li, .rs__role-org, .rs__role-when, .rs__line-s, .rs__h, .rs__print-contact { color: #222 !important; }
     .rs__role { color: #000 !important; }
     .rs { padding: 0 !important; }
     .rs__grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
     .rs__side { gap: 1.3rem !important; }
-    .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
-    .rs__role-item, .rs__summary, .rs__line { border-color: #ccc !important; }
+    .reveal, [data-in] { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .rs__role-item, .rs__line { border-color: #ccc !important; }
+    .rs__summary { border-color: #000 !important; }
     .rs__print-contact { display: block !important; font-size: 12px; margin-top: 6px; }
     .rs__chips { gap: 0 !important; }
-    .rs__chips li { border: 0 !important; padding: 0 !important; color: #222 !important; font-size: 12px; }
+    .rs__chips li { border: 0 !important; background: none !important; padding: 0 !important; color: #222 !important; font-size: 12px; }
     .rs__chips li:not(:last-child)::after { content: " · "; color: #999; }
     a { color: #000 !important; text-decoration: none; }
   }

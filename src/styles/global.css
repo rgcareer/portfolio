@@ -63,7 +63,7 @@ section { padding: var(--sect-pad) 0; }
     animation-delay: calc(var(--stagger) * var(--line-step, 1));
   }
   @supports (animation-timeline: view()) {
-    html.js:not([data-reduce]) [data-in] {
+    html.js:not([data-reduce]) :is([data-in], .reveal) {
       animation: rise-in both var(--ease-out);
       animation-timeline: view();
       animation-range: entry 4% entry 40%;
@@ -106,6 +106,12 @@ section { padding: var(--sect-pad) 0; }
   white-space: nowrap; transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 .hire:hover { color: var(--burgundy); border-color: var(--burgundy); }
+.topmail {
+  font-size: 14.5px; font-weight: 600; color: var(--burgundy);
+  text-decoration: none; border-bottom: 1.5px solid var(--burgundy); padding-bottom: 2px;
+  white-space: nowrap; transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.topmail:hover { color: var(--burgundy-deep); border-color: var(--burgundy-deep); }
 @media (pointer: coarse) { .nav__link { min-height: 44px; display: inline-flex; align-items: center; } }
 
 /* ---- footer --------------------------------------------------------------- */

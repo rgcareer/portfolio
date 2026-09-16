@@ -88,7 +88,7 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
       <div class="wrap topbar__in">
         <a class="brand" href="/" aria-label={`${site.name}, led by Ryan Garver`}>
           <span class="wm" aria-hidden="true">get smart ai</span>
-          <small>led by Ryan Garver</small>
+          <small>led by Ryan Garver · Boise, Idaho</small>
           <span class="sr-only">Get Smart AI, led by Ryan Garver</span>
         </a>
         <nav aria-label="Primary">
@@ -104,6 +104,7 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
             ))}
           </ul>
         </nav>
+        <a class="topmail" href={`mailto:${site.email}`}>Email Ryan</a>
         <a class="hire" href="/work">Hiring?</a>
       </div>
     </header>
@@ -116,10 +117,14 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
       <div class="wrap">
         <div class="foot__col">
           <span class="wm">get smart ai</span>
-          <p class="foot__entity">{site.legalEntity} · {site.legalLocation}</p>
-          <p class="foot__meta">© {site.year} Smart Business AI LLC</p>
+          <p class="foot__entity">{site.dba}</p>
+          <p class="foot__meta">{site.legalLocation} · © {site.year} Smart Business AI LLC</p>
         </div>
         <div class="foot__col">
+          <div class="foot__links">
+            <a href="/contact">Contact</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
           <div class="foot__links">
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>

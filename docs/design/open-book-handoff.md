@@ -108,13 +108,41 @@ genuine proof/total moments, not decoration.
 **Owner deviations from the council (Ryan, 2026-09-15 — recorded so no future pass "fixes" them):**
 1. **No phone number published** (council wanted a header phone) — the header carries Boise +
    named principal, no number.
-2. **The websites line STAYS in the primary ledger** (council suggested demoting it) — the
-   itemized menu is the moat; all five lines remain.
+2. **The websites line STAYS in the primary ledger** (council suggested demoting it). **REVERSED
+   2026-09-15 by the business-OS charter (see K):** websites moved OFF the primary ledger to a
+   `/consulting/web-design` sub-page. This deviation is retired.
 
 **Superseded copy (do NOT reuse the pre-council strings):** old H1 "AI that pays for itself.
 Here's the math." (breadth-led) · the recruiter chip string · the bare "If the report isn't worth
 the fee, you don't pay it." as the only guarantee wording (keep the sentiment, state the
 mechanics per F).
+
+**K. Business-OS charter is the SUBSTANCE authority (2026-09-15, later; supersedes conflicting
+menu / identity / copy above).** A company business-OS now governs positioning, brand, voice, the
+priced menu, guarantee mechanics, and identity, synced via
+`smart-business-ai/business-os/WEBSITE-SYNC.md` (v1). Division of authority: the charter wins on
+SUBSTANCE, this handoff (Open Book) wins on LOOK. Re-read WEBSITE-SYNC at the start of each session
+and before each major section. What the 2026-09-15 reconciliation changed on the built site:
+- **Priced menu (charter §3):** the ledger leads with the $750 diagnostic (START HERE), then
+  automation $2,000, team training $900, **Keep it running $0/mo** (plus optional office hours from
+  $1,500/mo; no separate monitoring line), and the **Enablement program $2,500 to $5,000 flagship**.
+  The $199 kit sits UNDER the ledger, never the headline. **Websites left the ledger** (own
+  `/consulting/web-design` sub-page) - this REVERSES owner-deviation 2 above.
+- **Guarantee (charter §3.3):** invoiced on delivery, VOIDED if the buyer decides within 30 days it
+  was not worth it, credited in full against any build within 90 days (`offerCopy.guaranteeFull`).
+- **Identity (charter §6.2):** full name "Ryan Garver" on root + /work; the footer always shows the
+  dba "Get Smart AI, a dba of Smart Business AI LLC"; the principal block carries the verified
+  Apple / Intuit / Cradlepoint / Vacasa pedigree and the honest-outsider division of labor.
+- **Contact (locked, no phone):** NO phone anywhere; buyer contact = hello@getsmartai.ai + the site
+  form; the header carries Boise + the named principal + an "Email Ryan" CTA. Recruiter / portfolio
+  surfaces (resume, case studies, notes) use the live careerEmail. FLAG: hello@ deliverability is a
+  Ryan-side gate.
+- **/shop blocked:** noindexed and off the nav until the FTC flags clear and a CPA confirms kit
+  taxability.
+- **Data-handling (charter §6.5):** "ask me about a BAA" (never "BAA available") until Legal confirms.
+- **Voice / proof:** copy adopted from the marketing seat's `site-copy-drafts.md`; no category
+  contrast; every number real or absent; the buyer estimator carries "illustrative, your results
+  will vary." Single price source = `src/config/offers.ts`; emails / dba / nav = `src/config/site.ts`.
 
 ---
 

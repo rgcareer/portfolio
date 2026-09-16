@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { site } from '../../../config/site';
+
+// The recomputable backing for the home proof block and the Operation Hired case
+// study. Deep-linked from both; not a nav item. Every number here is dated at its
+// point in time and defined precisely (what it means AND what it does not).
+// Honesty constraint: the tool is private (it holds a real job search's data), so
+// this page defines the mechanism and offers the artifacts on request; it never
+// implies a public clone-and-run. Person JSON-LD (BaseLayout default), indexable.
+
+const title = 'Operation Hired: the method behind the numbers';
+const description =
+  'Exactly how Operation Hired produces and checks its numbers: what 0 re-score errors, 616 tests, 14,851 postings scored, and $0 per scored posting each mean, and how each one is verified.';
+
+// The headline numbers, each with a precise definition, its point in time, and how
+// it is produced or checked. Rendered visibly (this IS the proof); no schema markup
+// here (the ProfessionalService/FAQ graph lives on the home; this stays a Person page).
+const numbers = [
+  {
+    n: '14,851',
+    label: 'postings scored',
+    means:
+      'Every posting pulled into the local database is scored by deterministic code before I ever see it. This is the running total as of July 2026; it grows each time the pipeline runs.',
+    check: 'A COUNT over the scored rows in the database. Each score can be reproduced from the same source row.',
+  },
+  {
+    n: '0',
+    label: 're-score errors, on the audited pass',
+    means:
+      'In June 2026 I corrected the scoring model and re-ran every row then in the database, 5,905 of them, through the corrected model in a single batch, after backing up first. Every row re-scored and stored without a single failure.',
+    check: 'Re-run the batch against the backup, then diff the row counts and read the error log. Zero failed rows.',
+  },
+  {
+    n: '616',
+    label: 'automated tests passing',
+    means:
+      'Tests cover the scoring edges, the geo logic, and the fraud heuristics. They are green before anything ships, so a change that breaks a rule is caught before it touches data.',
+    check: 'The test runner in the project. The count is what the last run reported.',
+  },
+  {
+    n: '$0',
+    label: 'to score one more posting',
+    means:
+      'Scoring is deterministic code, weighted rules over a local database, with no model call. The ten-thousandth posting costs the same as the first: nothing.',
+    check: 'Read the scoring code: no network client, no API call. The cost is structural, not a rounded estimate.',
+  },
+  {
+    n: '~$0.04',
+    label: 'per drafted application',
+    means:
+      'The only model spend is drafting an application I have chosen to pursue, never across the whole pool. This is the mean of 76 logged Claude Opus calls, about 3,100 input and 1,060 output tokens each.',
+    check: 'The logged token counts for those 76 calls, priced at the published per-token rate. Read straight off the usage field.',
+  },
+];
+---
+<BaseLayout title={title} description={description} active="work">
+  <article class="mth container">
+    <a href="/work/operation-hired" class="mth__back" data-in>Back to Operation Hired</a>
+
+    <header class="mth__head">
+      <p class="kicker" data-in>Operation Hired · Method and results</p>
+      <h1 class="mth__title" data-in>The method behind the numbers</h1>
+      <p class="mth__lead" data-in>
+        This is the worksheet behind the receipts. Operation Hired is not a demo I spun up to look
+        busy: it is the system I actually built and ran to manage a real job search, under real load,
+        with real consequences when it got something wrong. So I kept the receipts. Here is exactly
+        what each number means, when it was true, and how it is checked.
+      </p>
+    </header>
+
+    <section class="mth__nums" aria-labelledby="nums-h">
+      <h2 class="sec-title" id="nums-h" data-in>The numbers, defined</h2>
+      <div class="numgrid" data-in>
+        {numbers.map((row) => (
+          <div class="numrow">
+            <div class="numrow__fig">
+              <span class="numrow__n">{row.n}</span>
+              <span class="numrow__l">{row.label}</span>
+            </div>
+            <div class="numrow__body">
+              <p class="numrow__means">{row.means}</p>
+              <p class="numrow__check"><span class="numrow__ck">How it is checked</span> {row.check}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="mth__prose prose">
+      <h2 data-in>What "0 re-score errors" does not mean</h2>
+      <p data-in>
+        Zero errors is not zero bugs. It means the re-score batch processed all 5,905 rows without a
+        single failure, backed up first so it was reversible. It does <strong>not</strong> mean the
+        scoring model is perfect or that every score is the final word on a job. The score is a
+        heuristic; what I stand behind is that it is deterministic, reproducible from the source row,
+        and reversible. A number I could not explain or reproduce would not be on this page.
+      </p>
+
+      <h2 data-in>Why the $0 is real, not rounding</h2>
+      <p data-in>
+        Scoring never calls a model. It is weighted rules running over a local <code>SQLite</code>
+        database, so a posting scores for zero tokens whether it is the first or the fifteen-thousandth.
+        The only place money is spent is drafting an application, and only for a job I have approved,
+        which is where the <strong>~$0.04</strong> comes from. That figure is measured from real logged
+        calls, not a projection, which is why it carries a tilde: real usage varies call to call.
+      </p>
+
+      <h2 data-in>One honest approximation</h2>
+      <p data-in>
+        The fraud heuristics cut the flagged-noise in the board by roughly 80% in early runs. I keep
+        that one as an approximate operational figure, not a precise metric, because the denominator
+        shifts as listings appear and expire. When a number is an estimate, I say so and round it down;
+        when it is exact, I give it exactly. The difference is the whole point of the page.
+      </p>
+
+      <h2 data-in>Can you see it?</h2>
+      <p data-in>
+        The tool runs on a real job search, so the database holds personal data and the code is not
+        public. What I can do is walk you through it live: the scoring rules, the test run, the re-score
+        log, and the token usage behind the per-draft figure. The evidence is real and it is on hand;
+        it is just not something I will paste on the open web with my own applications inside it.
+      </p>
+
+      <h2 data-in>What this proves, and what it does not</h2>
+      <p data-in>
+        This does not prove your business will see these numbers. Yours would be different, and the
+        specific figures here are point-in-time, dated on purpose. What transfers is the
+        <strong>method</strong>: measure your own work, define every number so it means one thing,
+        keep the receipts, and make the result reproducible and reversible. That is how I would build
+        and measure a system inside your business, and it is why I point to this one.
+      </p>
+    </div>
+
+    <nav class="mth__foot" aria-label="Related">
+      <a href="/work/operation-hired" class="link-arrow" data-in>Read the full case study <span class="a" aria-hidden="true">&rarr;</span></a>
+      <a href={`mailto:${site.email}?subject=${encodeURIComponent('Walk me through the Operation Hired numbers')}`} class="btn" data-in data-magnetic>Ask me to walk you through it <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .mth { padding-top: clamp(2.4rem, 5vw, 3.4rem); padding-bottom: clamp(4rem, 9vw, 7rem); max-width: 820px; }
+
+  .mth__back {
+    display: inline-block; font-family: var(--font-slab); font-size: var(--fs-small);
+    font-weight: 500; color: var(--muted); text-decoration: none;
+    border-bottom: 1.5px solid var(--dot); padding-bottom: 2px;
+    transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  }
+  .mth__back::before { content: '\2190'; margin-right: 8px; color: var(--burgundy); }
+  .mth__back:hover { color: var(--burgundy); border-color: var(--burgundy); }
+
+  .mth__head { margin-top: 2rem; padding-bottom: clamp(1.4rem, 3vw, 2rem); border-bottom: 2px solid var(--ink); }
+  .mth__title { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.022em; line-height: 1.05; margin-top: 6px; text-wrap: balance; }
+  .mth__lead { margin-top: 1.3rem; font-size: var(--fs-lead); line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+
+  .mth__nums { padding-block: clamp(2.4rem, 5vw, 3.4rem); }
+  .numgrid { margin-top: 1.8rem; border-top: 1px solid var(--hairline); }
+  .numrow {
+    display: grid; grid-template-columns: 200px minmax(0, 1fr);
+    gap: 1rem 2.4rem; padding: 1.6rem 0; border-bottom: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .numrow__fig { display: flex; flex-direction: column; gap: 4px; }
+  .numrow__n {
+    font-family: var(--font-slab); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem);
+    line-height: 1; color: var(--burgundy); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .numrow__l { font-size: var(--fs-caption); color: var(--muted); font-weight: 500; max-width: 22ch; }
+  .numrow__means { color: var(--ink-2); font-size: var(--fs-small); line-height: 1.6; }
+  .numrow__check { margin-top: 0.7rem; color: var(--ink-2); font-size: var(--fs-caption); line-height: 1.55; }
+  .numrow__ck {
+    display: inline-block; font-family: var(--font-slab); font-weight: 600; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--burgundy); margin-right: 8px;
+  }
+
+  .mth__prose { margin-top: 1rem; }
+  .mth__prose h2 { margin-top: 2.6rem; }
+
+  .mth__foot {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2rem; border-top: 1px solid var(--hairline);
+  }
+
+  @media (max-width: 640px) {
+    .numrow { grid-template-columns: 1fr; gap: 0.6rem; }
+    .numrow__n { font-size: 2.4rem; }
+  }
+</style>

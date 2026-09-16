@@ -77,7 +77,10 @@ function estimator() {
 
 /* ---- living daylight: ONE vanilla-WebGL2 sun-patch (warm, never neon) ------
    DPR clamp, 30fps throttle, pause off-screen + hidden tab, and every failure
-   path removes the canvas so the flat --sun fill stands. Reduced motion: removed. */
+   path removes the canvas so the flat --sun fill stands. Reduced motion: removed.
+   The context is alpha:true so a GL that links but never rasterizes (software
+   renderers, flaky drivers) composites as TRANSPARENT and the warm --sun fill
+   shows through - never an opaque-black clear. On success the shader is opaque. */
 function daylight() {
   const canvas = document.querySelector('.daylight') as HTMLCanvasElement | null;
   (window as any).__daylight = { mode: 'none', frames: 0 };
@@ -85,7 +88,7 @@ function daylight() {
   if (reduced) { canvas.remove(); (window as any).__daylight.mode = 'reduced-static'; return; }
 
   let gl: WebGL2RenderingContext | null = null;
-  try { gl = canvas.getContext('webgl2', { antialias: false, alpha: false }); } catch (e) { gl = null; }
+  try { gl = canvas.getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: true }); } catch (e) { gl = null; }
   if (!gl) { canvas.remove(); (window as any).__daylight.mode = 'static-fallback'; return; }
 
   const VS = `#version 300 es

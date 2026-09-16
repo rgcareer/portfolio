@@ -1,97 +1,124 @@
-// Single source of truth for the rate card. Consumed by the home ledger, the
-// /services pages, /shop, and /terms (the guarantee wording must match verbatim
-// wherever it appears - one fact, not four copies). Council authority:
-// tasks/research/competitive-council-2026-09-15.md + open-book-handoff.md s0.
+// Single source of truth for the priced menu. AUTHORITY: the business-OS charter
+// (smart-business-ai/business-os/00-positioning-and-brand-charter.md §3), reached via
+// WEBSITE-SYNC.md (v1, 2026-09-15). The charter governs SUBSTANCE (prices, guarantee,
+// what may be claimed); Open Book governs LOOK. Copy adopted verbatim from the
+// marketing seat's site-copy-drafts.md §3/§4/§10; prices are the charter's, not reworded.
 //
-// Copy discipline (binding): every number real or absent; no multiplier /
-// percentage / hours-saved / payback claim; each line names one concrete
-// mechanism with a time and a place; plain English; no em/en dashes.
+// Locked decisions (2026-09-15): no monitoring line ("$0/mo you own it" + optional
+// office hours only); websites is NOT in the primary ledger (its own
+// /consulting/web-design sub-page); the $199 kit sits UNDER the ledger, never the
+// headline. Copy discipline (binding): every number real or absent; no em/en dashes;
+// each line names one concrete mechanism; never write the category contrast.
 
 export interface Offer {
   key: string;
   name: string;
-  price: number;          // numeric, for JSON-LD PriceSpecification.minPrice
-  priceLabel: string;     // display, e.g. "$750"
-  from: boolean;          // show the "from" prefix (scoped after diagnosis)
+  price: number;          // numeric floor, for JSON-LD PriceSpecification.minPrice
+  priceLabel: string;     // display, verbatim from the charter
   startHere?: boolean;    // the explicit funnel entry (the diagnostic)
-  mechanism: string;      // the sub-line: one concrete mechanism, a time and a place
-  href: string;           // its /services child (Slice 3)
+  flagship?: boolean;     // the top line (the enablement program)
+  mechanism: string;      // one concrete sub-line
+  href: string;
 }
 
+// The primary ledger, in the marketing seat's drafted order (site-copy-drafts §3):
+// diagnostic (start here) -> automation -> training -> keep it running -> enablement (flagship).
 export const offers: Offer[] = [
   {
     key: 'diagnostic',
     name: 'The diagnostic',
     price: 750,
     priceLabel: '$750',
-    from: true,
     startHere: true,
     mechanism:
-      'I spend a day inside your business and find the three places work leaks out: the call that went to voicemail at 6:40 on a Friday, the quote still sitting in drafts, the recall nobody sent. You get a written fix list with a price next to each line.',
-    href: '/services/ai-consulting',
+      'Your own numbers, counted with you, plus one working automation installed on the tools you already pay for. Delivered on a set date.',
+    href: '/#start',
   },
   {
     key: 'automation',
-    name: 'Automation builds',
+    name: 'Automation build',
     price: 2000,
     priceLabel: '$2,000',
-    from: true,
     mechanism:
-      'The missed call at 6:40 gets a text back by 6:41. The report that eats your Friday builds itself overnight. Built, tested, and handed over running, with the instructions.',
-    href: '/services/automation',
-  },
-  {
-    key: 'websites',
-    name: 'Websites',
-    price: 1500,
-    priceLabel: '$1,500',
-    from: true,
-    mechanism:
-      'A site that answers the phone when you cannot: it books the job and sends the quote while you are on a ladder. Live in two weeks. This one is the sample.',
-    href: '/services/web-design',
+      'One fix from your list, built and running in your accounts. One integration. A handoff doc.',
+    href: '/#rates',
   },
   {
     key: 'training',
     name: 'Team training',
     price: 900,
     priceLabel: '$900',
-    from: true,
     mechanism:
-      'A working session with your people and your actual tools. They leave already using it on Monday, not holding a manual they will never open.',
-    href: '/services/training',
+      'One live session on your real workflow. Your team keeps the SOP and the prompt sheet.',
+    href: '/#rates',
   },
   {
-    key: 'kit',
-    name: 'The follow-up kit',
-    price: 199,
-    priceLabel: '$199',
-    from: false,
+    key: 'keep-running',
+    name: 'Keep it running',
+    price: 0,
+    priceLabel: '$0/mo',
     mechanism:
-      'The follow-up scripts, templates, and the setup guide, ready to install yourself this weekend. The one thing on this list you can start without me.',
-    href: '/shop',
+      'You own it outright: code, credentials, and documents live in your accounts. A written handoff and a named backup contractor. If you want me on call, office hours are from $1,500/mo, scoped in your SOW.',
+    href: '/#rates',
+  },
+  {
+    key: 'enablement',
+    name: 'Enablement program',
+    price: 2500,
+    priceLabel: '$2,500 to $5,000',
+    flagship: true,
+    mechanism:
+      'A 60 to 90 day arc: the builds from your list, about four live sessions, the SOP and prompt library you keep, and office hours. Quoted in the diagnostic.',
+    href: '/#rates',
   },
 ];
 
-export const offerCopy = {
-  // The guarantee, stated as mechanics (addendum s0.F). Reused verbatim in /terms.
-  guaranteeShort: 'You decide if it was worth it. If it was not, you do not pay.',
-  guaranteeFull:
-    'You decide whether the diagnostic was worth the fee. If it was not, you do not pay it, no argument. And the $750 comes off the price of any build you start within 90 days, so the diagnosis is free the moment you go ahead.',
-  // Why the floors are low (addendum s0.I) - turns the price-as-quality worry into proof.
-  pricingBasis:
-    'The prices are low because the overhead is: one person, no sales team, no account managers. You are paying for the work, not the org chart.',
-  // Retainers: mentioned, never marketed.
-  retainerNote: 'Retainers exist. They are offered after an engagement, never sold cold.',
+// The kit sits UNDER the ledger, never the headline price (charter §3.5). /shop is
+// blocked until the FTC flags clear + a CPA confirms taxability (Ryan-GUI gate), so the
+// kit is MENTIONED here but not linked to a live store yet.
+export const kit = {
+  name: 'The follow-up kit',
+  price: 199,
+  priceLabel: '$199',
+  line:
+    'There is also a $199 kit: the nine-PDF Contractor AI Follow-Up Revenue Kit, the first working object if you want to see one thing work before you spend $750.',
 };
 
-// Continuity + cost-of-ownership (addendum s0.G) - answers the bus-factor objection.
+// Websites are a real offering but NOT on the primary ledger (charter §3.5; locked
+// 2026-09-15). Its own /consulting/web-design sub-page ships in a later slice.
+export const websitesOffer = {
+  name: 'Website',
+  price: 1500,
+  priceLabel: 'from $1,500',
+  line: 'A sample of the work. An on-ramp, not the main event.',
+  href: '/consulting/web-design',
+};
+
+export const offerCopy = {
+  // The guarantee, stated as mechanics (charter §3.3; site-copy-drafts §4). Reused
+  // verbatim in /terms. 30-day void window + 90-day full credit.
+  guaranteeFull:
+    'The diagnostic is invoiced when it is delivered, not before. If you decide inside 30 days that it was not worth it, the invoice is voided. Nothing was taken. And the $750 is credited in full against any build you sign within 90 days. You decide, not me.',
+  guaranteeShort:
+    'Invoiced on delivery, voided if you decide inside 30 days it was not worth it, and credited in full against any build within 90 days.',
+  // Pricing basis + why the floors are low (charter §3.2; site-copy-drafts §3).
+  pricingBasis: 'Fixed fee, scoped after the diagnostic. No hourly, no retainer required.',
+  floorsLow:
+    'Solo practice. No sales team, no account managers. The person who quotes the work does the work.',
+  sampleLine:
+    'A redacted sample diagnostic is available on request, so you can see exactly what you are buying before you book.',
+};
+
+// Continuity + cost-of-ownership (charter §6.3; site-copy-drafts §10) - the bus-factor answer.
 export const continuity: { k: string; v: string }[] = [
   { k: 'Where the code and logins live', v: 'Your accounts' },
-  { k: 'If I am ever unavailable', v: 'Written handoff, named backup' },
-  { k: 'Transition, if you leave', v: '30 days, no lock-in' },
+  { k: 'If I am ever unreachable', v: 'Written handoff, named backup' },
+  { k: 'To move on, whenever you want', v: 'No lock-in' },
   { k: 'Monthly cost to keep it running', v: '$0, you own it' },
 ];
 
-// Data-handling line (addendum s0.H) - without it the dental/medical vertical cannot convert.
+// Data-handling line (charter §6.5; site-copy-drafts §10). NOTE: the phrasing is "ask
+// me about a BAA," NOT "BAA available" - Legal has not confirmed a BAA can be offered.
+// Do not change to "available" without Legal + Ryan.
 export const dataHandling =
-  'You name what I connect to, and I never move your customer data anywhere you have not approved. A BAA is available for dental and medical work. Every engagement is with Smart Business AI LLC on the contract.';
+  'What I connect to, I connect to with your accounts and paid, commercial tiers that do not train on your data. What I never touch, I will tell you up front. The contract is with Smart Business AI LLC. Ask me about a BAA.';

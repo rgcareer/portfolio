@@ -1,74 +1,129 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { work } from '../../config/work';
-const pad = (n: number) => String(n + 1).padStart(2, '0');
+import { getCase } from '../../config/work';
+
+// /work = the recruiter proof surface (reached via the quiet "Hiring?" link, and
+// indexable). Open Book ledger casebook. Order per the flagship-signal memory:
+// ENABLEMENT LEADS (public, verifiable tools first), then the systems I ran. The
+// role claim and the flight-risk answer live here ONCE, never on the buyer hero.
+const lanes = [
+  {
+    label: 'Enablement and adoption',
+    note: 'Tools that help people actually use AI, shipped in public so you can check them yourself: install them, read the source, run the tests.',
+    slugs: ['should-i-automate-this', 'evalcard', 'sop-mcp', 'cs-prompt-field-kit'],
+  },
+  {
+    label: 'Systems I built and ran',
+    note: 'Production I designed, ran, and measured myself, under real load, with the receipts kept and reproducible.',
+    slugs: ['operation-hired', 'ai-ops-workflow', 'victoria-reliability-layer', 'competitor-intel-mcp', 'product-generation-pipeline'],
+  },
+];
+
+const title = 'Work: AI enablement tools and systems I have built';
+const description =
+  'Selected work by Ryan Garver: AI adoption and enablement tools shipped in public, plus production systems built, run, and measured firsthand. Real code, real numbers, verifiable.';
 ---
-<BaseLayout title="Work" active="work" description="A few working projects with real code behind them: AI tools, automation, and systems I built to solve my own problems.">
-  <section class="container wkx">
-    <header class="wkx__head">
-      <p class="section-kicker reveal">Selected work</p>
-      <h1 class="wkx__title display reveal" data-stretch>A few things I've built</h1>
-      <p class="wkx__sub reveal">Working projects with code behind them. Mostly AI tools and automation, plus a couple of systems I built to fix my own problems.</p>
+<BaseLayout title={title} description={description} active="work">
+  <section class="container wk">
+    <header class="wk__head">
+      <p class="kicker" data-in>Selected work</p>
+      <h1 class="wk__title" data-in>I build AI tools, and the layer that gets them adopted.</h1>
+      <p class="wk__sub" data-in>
+        My work is AI enablement: the tools that make a model useful to a real team, and the systems
+        that keep it honest once it is running. Below are the ones I can show. The enablement tools are
+        public: installable, source-readable, tested. The systems I built and ran myself, and I kept
+        the numbers.
+      </p>
+      <p class="wk__flight" data-in>
+        A fair question from a hiring manager: I run a small practice, so am I about to leave? No. The
+        practice is the workshop where I keep this work current and measured on real problems. A role
+        is where it runs at the scale one person cannot reach, with a team and stakes bigger than a
+        client list. The practice is how I stay sharp for the job, not an exit from it.
+      </p>
     </header>
 
-    <ol class="wkx__list">
-      {work.map((c, i) => (
-        <li class="wkx__row reveal">
-          <a href={`/work/${c.slug}`} class="wkx__link" data-cursor="View">
-            <span class="wkx__no">{pad(i)}</span>
-            <span class="wkx__name display">{c.title}</span>
-            <span class="wkx__body">
-              <span class="wkx__tagline">{c.tagline}</span>
-              <span class="wkx__detail">{c.status} · {c.tags.join(' · ')}</span>
-            </span>
-            <span class="wkx__metric">{c.metrics[0].value}<em>{c.metrics[0].label}</em></span>
-            <span class="wkx__arrow" aria-hidden="true"></span>
-          </a>
-        </li>
-      ))}
-    </ol>
+    {lanes.map((lane) => (
+      <div class="wk-lane" data-in>
+        <p class="wk-lane__label">{lane.label}</p>
+        <p class="wk-lane__note">{lane.note}</p>
+        <div class="ledger wk-list">
+          {lane.slugs.map((slug) => {
+            const c = getCase(slug)!;
+            return (
+              <a class="line-item wk-item" href={`/work/${c.slug}`}>
+                <div class="li-row">
+                  <span class="li-name wk-name">{c.title}</span>
+                  <span class="leader" aria-hidden="true"></span>
+                  <span class="wk-fig">{c.metrics[0].value}<small>{c.metrics[0].label}</small></span>
+                  <span class="wk-go" aria-hidden="true">&rarr;</span>
+                </div>
+                <p class="li-sub wk-tag">{c.tagline}</p>
+                <p class="wk-meta">{c.status} · {c.tags.join(' · ')}</p>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+
+    <div class="wk-foot" data-in>
+      <p class="wk-foot__lead">Want the version wired into your own business, with the price next to each line?</p>
+      <a class="btn" href="/#rates" data-magnetic>See the rate card <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .wkx { padding-top: clamp(3.5rem, 8vw, 6rem); }
-  .wkx__head { max-width: 780px; }
-  .wkx__title { font-size: clamp(2.4rem, 6vw, 4.6rem); margin-top: 0.8rem; }
-  .wkx__sub { font-size: var(--fs-lg); color: var(--text-dim); margin-top: 1.2rem; max-width: 50ch; }
-
-  .wkx__list { list-style: none; margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line-3); }
-  .wkx__link {
-    display: grid; align-items: center; gap: 0.3rem 1.5rem;
-    grid-template-columns: auto 1fr auto auto;
-    grid-template-areas: 'no name metric arrow' 'no body body arrow';
-    padding: clamp(1.4rem, 3vw, 2.2rem) 0.2rem;
-    border-bottom: 1px solid var(--line);
-    transition: padding-left var(--t) var(--ease-out);
+  .wk { padding-top: clamp(2.6rem, 5vw, 3.6rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
+  .wk__head { max-width: 720px; }
+  .wk__title { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.022em; line-height: 1.05; margin-top: 8px; text-wrap: balance; }
+  .wk__sub { margin-top: 1.3rem; font-size: var(--fs-lead); line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+  .wk__flight {
+    margin-top: 1.4rem; padding: 1rem 1.2rem; background: var(--blush);
+    border-left: 3px solid var(--dot); font-size: var(--fs-small); line-height: 1.6;
+    color: var(--ink-2); max-width: 62ch;
   }
-  .wkx__row:last-child .wkx__link { border-bottom: 1px solid var(--line-3); }
-  .wkx__link:hover { padding-left: 0.6rem; }
 
-  .wkx__no { grid-area: no; font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
-    letter-spacing: 0.1em; color: var(--accent); align-self: start; padding-top: 0.5rem; }
-  .wkx__name { grid-area: name; font-size: clamp(1.7rem, 4.2vw, 3.2rem); color: var(--text);
-    font-variation-settings: 'wdth' 100; transition: font-variation-settings var(--t) var(--ease-out), color var(--t) var(--ease-out); }
-  .wkx__link:hover .wkx__name { color: var(--accent); font-variation-settings: 'wdth' 125; }
-  .wkx__body { grid-area: body; display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
-  .wkx__tagline { color: var(--text-dim); font-size: var(--fs-base); max-width: 52ch; }
-  .wkx__detail { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-faint);
-    text-transform: uppercase; letter-spacing: 0.1em; }
-  .wkx__metric { grid-area: metric; justify-self: end; text-align: right; font-family: var(--font-mono);
-    font-size: var(--fs-lg); color: var(--text); white-space: nowrap; }
-  .wkx__metric em { display: block; font-style: normal; font-size: 0.6rem; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--text-faint); margin-top: 0.3rem; }
-  .wkx__arrow { grid-area: arrow; width: 1.5rem; height: 1.5rem; flex: none; background-color: var(--text-dim);
-    -webkit-mask: var(--arrow-right) center / contain no-repeat; mask: var(--arrow-right) center / contain no-repeat;
-    transition: transform var(--t) var(--ease-out), background-color var(--t) var(--ease-out); }
-  .wkx__link:hover .wkx__arrow { transform: translateX(6px); background-color: var(--accent); }
+  .wk-lane { margin-top: clamp(2.8rem, 6vw, 4.2rem); }
+  .wk-lane__label {
+    font-family: var(--font-slab); font-size: var(--fs-kicker); font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--burgundy);
+  }
+  .wk-lane__note { margin-top: 8px; color: var(--ink-2); font-size: var(--fs-small); max-width: 58ch; }
+  .wk-list { margin-top: 1.5rem; }
 
-  @media (max-width: 700px) {
-    .wkx__link { grid-template-columns: auto 1fr auto;
-      grid-template-areas: 'no name arrow' 'no body body' 'no metric metric'; }
-    .wkx__metric { justify-self: start; text-align: left; margin-top: 0.4rem; }
+  /* .line-item / .li-row / .li-name / .leader / .li-sub are the Open Book ledger classes */
+  .wk-item { display: block; text-decoration: none; color: inherit; transition: padding-left var(--dur-fast) var(--ease-out); }
+  .wk-item:hover { padding-left: 8px; }
+  .wk-name { color: var(--ink); transition: color var(--dur-fast) ease; white-space: normal; }
+  .wk-item:hover .wk-name { color: var(--burgundy); }
+  .wk-fig {
+    font-family: var(--font-slab); font-weight: 600; font-size: 19px; color: var(--burgundy);
+    font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; display: inline-flex;
+    flex-direction: column; align-items: flex-end; line-height: 1.15;
+  }
+  .wk-fig small {
+    font-family: var(--font-display); font-size: 11.5px; font-weight: 500; color: var(--muted);
+    letter-spacing: 0.02em; margin-top: 2px;
+  }
+  .wk-go { flex: none; color: var(--dot); font-size: 18px; align-self: center; transition: transform var(--dur-fast) var(--ease-out), color var(--dur-fast) ease; margin-left: 4px; }
+  .wk-item:hover .wk-go { color: var(--burgundy); transform: translateX(4px); }
+  .wk-tag { margin-top: 8px; }
+  .wk-meta {
+    margin-top: 7px; font-family: var(--font-slab); font-size: var(--fs-caption); font-weight: 500;
+    letter-spacing: 0.03em; color: var(--muted);
+  }
+
+  .wk-foot {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.8rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2rem; border-top: 2px solid var(--ink);
+  }
+  .wk-foot__lead { font-family: var(--font-slab); font-weight: 500; font-size: var(--fs-lead); color: var(--ink); max-width: 40ch; }
+
+  @media (max-width: 640px) {
+    .li-row { flex-wrap: wrap; align-items: baseline; }
+    .wk-fig { flex-direction: row; align-items: baseline; gap: 6px; text-align: left; margin-left: auto; }
+    .wk-fig small { margin-top: 0; }
+    .wk-go { display: none; }
   }
 </style>

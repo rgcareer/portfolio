@@ -12,13 +12,13 @@ const dateText = new Date(n.date + 'T00:00:00Z').toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
 });
 ---
-<BaseLayout title={n.title} description={n.summary}>
+<BaseLayout title={n.title} description={n.summary} active="notes">
   <article class="nt container">
-    <a href="/notes" class="nt__back reveal"><span class="nt__back-ic" aria-hidden="true"></span> All notes</a>
+    <a href="/notes" class="nt__back reveal">All notes</a>
 
     <header class="nt__head reveal">
-      <p class="section-kicker">Note · {dateText} · {n.readingTime}</p>
-      <h1 class="nt__title display" data-stretch>{n.title}</h1>
+      <p class="kicker">Note · {dateText} · {n.readingTime}</p>
+      <h1 class="nt__title">{n.title}</h1>
       <p class="nt__summary">{n.summary}</p>
     </header>
 
@@ -28,40 +28,47 @@ const dateText = new Date(n.date + 'T00:00:00Z').toLocaleDateString('en-US', {
 
     <nav class="nt__next" aria-label="Keep reading">
       {notes.length > 1 && (
-        <a href={`/notes/${next.slug}`} class="nt__next-card" data-cursor="Read">
+        <a href={`/notes/${next.slug}`} class="nt__next-card">
           <span class="nt__next-k">Another note</span>
           <span class="nt__next-t">{next.title}</span>
         </a>
       )}
-      <a href={`mailto:${site.email}`} class="btn btn--solid nt__next-cta">Get in touch</a>
+      <a href={`mailto:${site.careerEmail}`} class="btn nt__next-cta" data-magnetic>Get in touch <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
     </nav>
   </article>
 </BaseLayout>
 
 <style>
-  .nt { padding-top: clamp(3rem, 7vw, 5rem); }
-  .nt__back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono);
-    font-size: var(--fs-sm); color: var(--text-dim); letter-spacing: 0.02em;
-    transition: color var(--t-fast) var(--ease-out); }
-  .nt__back:hover { color: var(--accent); }
-  .nt__back-ic { width: 1em; height: 1em; flex: none; background-color: currentColor;
-    -webkit-mask: var(--arrow-left) center / contain no-repeat; mask: var(--arrow-left) center / contain no-repeat;
-    transition: transform var(--t) var(--ease-out); }
-  .nt__back:hover .nt__back-ic { transform: translateX(-3px); }
+  .nt { padding-top: clamp(2.4rem, 5vw, 3.4rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
 
-  .nt__head { margin-top: 2rem; border-bottom: 1px solid var(--line-3); padding-bottom: clamp(1.6rem, 4vw, 2.4rem); max-width: 760px; }
-  .nt__title { font-size: clamp(2.2rem, 5.5vw, 4rem); margin-top: 0.9rem; }
-  .nt__summary { font-size: var(--fs-xl); color: var(--text-dim); margin-top: 1rem; max-width: 52ch; line-height: 1.5; }
+  .nt__back {
+    display: inline-block; font-family: var(--font-slab); font-size: var(--fs-small); font-weight: 500;
+    color: var(--muted); text-decoration: none; border-bottom: 1.5px solid var(--dot); padding-bottom: 2px;
+    transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  }
+  .nt__back::before { content: '\2190'; margin-right: 8px; color: var(--burgundy); }
+  .nt__back:hover { color: var(--burgundy); border-color: var(--burgundy); }
+
+  .nt__head { margin-top: 1.8rem; border-bottom: 2px solid var(--ink); padding-bottom: clamp(1.4rem, 4vw, 2.2rem); max-width: 760px; }
+  .nt__title { font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: -0.022em; line-height: 1.06; margin-top: 0.7rem; text-wrap: balance; }
+  .nt__summary { font-size: var(--fs-lead); color: var(--ink-2); margin-top: 1rem; max-width: 54ch; line-height: 1.5; }
 
   .nt__body { max-width: 680px; margin-top: clamp(2.4rem, 5vw, 3.4rem); }
 
-  .nt__next { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; justify-content: space-between;
-    max-width: 680px; margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: 2.5rem; border-top: 1px solid var(--line-3); }
-  .nt__next-card { flex: 1 1 260px; border: 1px solid var(--line-2); border-radius: var(--r-md);
-    background: var(--card); padding: 1.2rem 1.4rem;
-    transition: border-color var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out); }
-  .nt__next-card:hover { border-color: var(--accent-line); background: var(--bg-2); }
-  .nt__next-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
-  .nt__next-t { display: block; font-size: var(--fs-lg); font-weight: 600; margin-top: 0.35rem; }
+  .nt__next {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; justify-content: space-between;
+    max-width: 680px; margin-top: clamp(3.5rem, 8vw, 6rem); padding-top: 2rem; border-top: 1px solid var(--hairline);
+  }
+  .nt__next-card {
+    flex: 1 1 260px; text-decoration: none; color: inherit;
+    border-left: 2px solid var(--dot); padding: 0.4rem 0 0.4rem 1rem;
+    transition: border-color var(--dur-fast) ease;
+  }
+  .nt__next-card:hover { border-color: var(--burgundy); }
+  .nt__next-k {
+    font-family: var(--font-slab); font-size: var(--fs-kicker); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--burgundy);
+  }
+  .nt__next-t { display: block; font-size: var(--fs-lead); font-weight: 600; margin-top: 0.35rem; color: var(--ink); }
+  .nt__next-card:hover .nt__next-t { color: var(--burgundy); }
 </style>

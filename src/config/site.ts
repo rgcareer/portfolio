@@ -15,7 +15,11 @@ export const site = {
     "I've spent my career helping people get comfortable with new technology, across retail, enterprise tech, and SaaS. These days that work is all about AI, and I build the tools as well as run the rollouts.",
 
   // contact / availability
-  email: 'ryan.garver.career@gmail.com', // dedicated career email (current résumé). Business surfaces move to ryan@getsmartai.ai at B3' (domain-email gate).
+  // Business/buyer contact per the charter (WEBSITE-SYNC v1, 2026-09-15). FLAG for Ryan:
+  // confirm hello@getsmartai.ai is provisioned and receiving BEFORE pushing, or it is a
+  // dead contact. Recruiter/portfolio surfaces use careerEmail (below), which is live.
+  email: 'hello@getsmartai.ai',
+  careerEmail: 'ryan.garver.career@gmail.com', // recruiter + resume + case-study contact (live)
   availability: 'Open to work',
   year: '2026',
   location: 'Boise, ID · Remote',
@@ -23,16 +27,17 @@ export const site = {
   // legal entity (footer + JSON-LD; brand "Get Smart AI · led by Ryan Garver" leads, LLC is the entity)
   legalEntity: 'Smart Business AI LLC',
   legalLocation: 'Boise, ID',
+  dba: 'Get Smart AI, a dba of Smart Business AI LLC', // always show the dba (charter §6.2)
 
   // domain (short-term)
   domain: 'getsmartai.ai',
   url: 'https://getsmartai.ai',
 
-  // primary nav (no hamburger, wrap rule). Services is added back in Slice 3 when
-  // /services ships - never point the nav at a 404 (the pages exist as of their slice).
+  // primary nav (no hamburger, wrap rule). Shop is OFF the nav until the FTC flags clear
+  // and a CPA confirms kit taxability (charter §3.5; /shop is noindexed until then).
+  // Services returns in a later slice. Never point the nav at a 404.
   nav: [
     { href: '/work', label: 'Work', key: 'work' },
-    { href: '/shop', label: 'Shop', key: 'shop' },
     { href: '/notes', label: 'Notes', key: 'notes' },
     { href: '/resume', label: 'Résumé', key: 'resume' },
     { href: '/about', label: 'About', key: 'about' },

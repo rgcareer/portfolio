@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
-import { offers, offerCopy, continuity, dataHandling } from '../config/offers';
+import { offers, offerCopy, continuity, dataHandling, kit } from '../config/offers';
 
 // FAQ = one source, rendered visibly AND as FAQPage schema (must match; 2026 spam filter).
 const faqs = [
   {
     q: 'How much does this cost?',
-    a: 'Every price is on this page. The diagnostic starts at $750, automation builds from $2,000, websites from $1,500, training from $900, and the follow-up kit is $199. Nothing is hidden behind a call.',
+    a: 'Every price is on this page. The diagnostic is $750, an automation build is $2,000, team training is $900, and the full enablement program runs $2,500 to $5,000. Keeping it running is $0 a month, because you own it. There is a $199 starter kit under the rate card, and websites have their own page. Nothing is hidden behind a call.',
   },
   {
     q: 'Do I need to understand AI to work with you?',
@@ -54,11 +54,17 @@ const homeLd = [
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Services and prices',
-      itemListElement: offers.map((o) => ({
+      itemListElement: [
+        { name: 'AI diagnostic', price: 750 },
+        { name: 'Automation build', price: 2000 },
+        { name: 'Team training', price: 900 },
+        { name: 'Enablement program', price: 2500 },
+        { name: 'Website', price: 1500 },
+        { name: 'Contractor AI Follow-Up Revenue Kit', price: 199 },
+      ].map((o) => ({
         '@type': 'Offer',
         name: o.name,
         priceSpecification: { '@type': 'PriceSpecification', minPrice: o.price, priceCurrency: 'USD' },
-        url: new URL(o.href, site.url).toString(),
       })),
     },
   },
@@ -81,16 +87,18 @@ const description =
   <div class="hero">
     <div class="sun-patch" aria-hidden="true"><canvas class="daylight" aria-hidden="true"></canvas></div>
     <div class="wrap">
-      <p class="eyebrow" data-hero-step style="--step: 0">Get Smart AI · led by <b>Ryan Garver</b> · Boise, Idaho + remote</p>
+      <p class="eyebrow" data-hero-step style="--step: 0">Get Smart AI · Boise and the Treasure Valley · led by <b>Ryan Garver</b></p>
       <h1>
         <span class="line"><span class="line-in" style="--line-step: 1">The call you miss at 6:40</span></span>
         <span class="line"><span class="line-in" style="--line-step: 2">is a job gone by 6:41.</span></span>
       </h1>
-      <p class="hero-sub" data-hero-step style="--step: 3">I am Ryan Garver, and I build the small AI systems that catch what falls through the cracks of a busy business: the missed call, the quote still in drafts, the follow-up that never goes out. No engineering department required. Every price is on this page.</p>
-      <div class="cta-row" data-hero-step style="--step: 4">
-        <a class="btn" href="#start" data-magnetic>Start with the diagnostic <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
+      <p class="hero-sub" data-hero-step style="--step: 3">A call comes in while you are on a roof. Nobody answers, and that customer calls the next company on the list. I build the system that catches the call and follows up, so the job does not walk. Every price is on this page.</p>
+      <p class="hero-ledger" data-hero-step style="--step: 4">Every price here is published. Every number is real.</p>
+      <div class="cta-row" data-hero-step style="--step: 5">
+        <a class="btn" href="#start" data-magnetic>Start with a diagnostic <span class="chip-arrow" aria-hidden="true">&rarr;</span></a>
         <a class="link-arrow" href="#rates">See the rate card <span class="a" aria-hidden="true">&rarr;</span></a>
       </div>
+      <p class="hero-certainty" data-hero-step style="--step: 6">You will know by a set date what it costs to fix.</p>
     </div>
   </div>
 
@@ -102,27 +110,27 @@ const description =
         <p class="est-lead">Use your own numbers. Nothing here is my estimate.</p>
 
         <p class="est-static" data-est-static>
-          A worked example: miss 10 calls a week, an average job is worth $400, and 3 in 10 were real work. That is about <b>$5,200 a month</b> going to whoever answers first. Turn on scripts to run your own numbers.
+          A worked example: miss 10 calls a week, an average job is worth $400, and you win 3 of every 10 good leads. That is about <b>$5,200 a month</b> walking to whoever answers first. Turn on scripts to run your own numbers.
         </p>
 
         <div class="est-live" data-est-live hidden>
           <div class="est-inputs">
             <div class="est-field">
-              <label for="est-calls">Calls you miss in a week</label>
+              <label for="est-calls">Missed calls in a typical week</label>
               <input id="est-calls" type="number" inputmode="numeric" min="0" step="1" value="10" />
             </div>
             <div class="est-field">
-              <label for="est-value">What an average job is worth</label>
+              <label for="est-value">What an average job is worth to you</label>
               <input id="est-value" type="number" inputmode="numeric" min="0" step="50" value="400" />
             </div>
             <div class="est-field">
-              <label for="est-real">Of 10 missed calls, how many were real work</label>
+              <label for="est-real">Jobs you win out of ten good leads</label>
               <input id="est-real" type="number" inputmode="numeric" min="0" max="10" step="1" value="3" />
             </div>
           </div>
           <div class="est-out">
             <span class="est-figure" data-est-out aria-live="polite">$5,200</span>
-            <span class="est-caption">a month, walking to whoever picks up first. Your numbers, multiplied. Nothing here is my estimate.</span>
+            <span class="est-caption">a month, walking to whoever picks up first. Your numbers, multiplied. Nothing here is my estimate. Illustrative only; your results will vary.</span>
           </div>
         </div>
       </div>
@@ -133,44 +141,50 @@ const description =
     <div class="wrap">
       <p class="kicker" data-in>The rate card</p>
       <h2 class="sec-title" id="rates-h" data-in>What it costs, in plain sight</h2>
-      <p class="sec-intro" data-in>Published rates, the way your accountant would insist on. The five lines below are the whole list. Start at the top.</p>
+      <p class="sec-intro" data-in>Published rates, the way your accountant would insist on. Start with the diagnostic. Everything after it is scoped from what it finds.</p>
 
       <div class="ledger" data-in>
         {offers.map((o) => (
-          <div class:list={['line-item', { 'is-start': o.startHere }]}>
+          <div class:list={['line-item', { 'is-start': o.startHere, 'is-flagship': o.flagship }]}>
             {o.startHere && <span class="li-flag">Start here</span>}
+            {o.flagship && <span class="li-flag">The full program</span>}
             <div class="li-row">
               <span class="li-name">{o.name}</span>
               <span class="leader" aria-hidden="true"></span>
-              <span class="li-price">{o.from && <small>from</small>}{o.priceLabel}</span>
+              <span class="li-price">{o.priceLabel}</span>
             </div>
             <p class="li-sub">{o.mechanism}</p>
             {o.startHere && (
               <>
                 <p class="li-guarantee">{offerCopy.guaranteeFull}</p>
-                <p class="li-sample">A redacted sample diagnostic is available on request, so you can see exactly what you are buying before you book.</p>
+                <p class="li-sample">{offerCopy.sampleLine}</p>
               </>
             )}
           </div>
         ))}
       </div>
       <p class="ledger-basis" data-in>{offerCopy.pricingBasis}</p>
-      <p class="ledger-note" data-in>{offerCopy.retainerNote}</p>
+      <p class="ledger-basis" data-in>{offerCopy.floorsLow}</p>
+      <p class="ledger-note" data-in>{kit.line}</p>
     </div>
   </section>
 
   <section id="compare" class="sec-blush" aria-labelledby="compare-h">
     <div class="wrap">
       <p class="kicker" data-in>The cheaper options, honestly</p>
-      <h2 class="sec-title" id="compare-h" data-in>What the $20 and the $95 versions leave you holding</h2>
-      <div class="two-up" data-in>
-        <div class="panel" style="border-top-color: var(--hairline)">
-          <h3>Just use ChatGPT</h3>
-          <p>It is genuinely useful for drafting and thinking, and it is cheap. But it can only draft the follow-up text. It cannot notice the missed call at 6:40 and send it, because it is not wired into your phone, your calendar, or your booking system. You stay the one doing it, every time.</p>
+      <h2 class="sec-title" id="compare-h" data-in>What the quick fixes leave you holding</h2>
+      <div class="subs" data-in>
+        <div class="panel">
+          <h3>A chatbot</h3>
+          <p>A chatbot can draft the follow-up text. It cannot notice the missed call and send it. That trigger is the whole job.</p>
         </div>
-        <div class="panel" style="border-top-color: var(--hairline)">
-          <h3>A gig from a marketplace</h3>
-          <p>A freelancer will build the one automation you already know you want, fast and cheap. Nobody first asks what is actually costing you money, nobody is accountable when it breaks three weeks later, and there is no diagnosis. You have to already know the answer.</p>
+        <div class="panel">
+          <h3>A freelancer gig</h3>
+          <p>A freelancer builds the automation you already know you want. The diagnostic is for the owner who does not yet know which fix comes first.</p>
+        </div>
+        <div class="panel">
+          <h3>An answering service</h3>
+          <p>An answering service answers the phone. It does not fix what happens after: the quote that goes cold, the follow-up nobody sends.</p>
         </div>
       </div>
     </div>
@@ -180,18 +194,18 @@ const description =
     <div class="wrap">
       <p class="kicker" data-in>The proof</p>
       <h2 class="sec-title" id="proof-h" data-in>I measure my own work. You can check it.</h2>
-      <p class="sec-intro" data-in>Most of this field sells you round numbers you cannot verify. Here is a system I built, ran, and kept the receipts on, ranked the way it actually matters.</p>
+      <p class="sec-intro" data-in>I run a system in real production and keep the receipts. Here is how it holds up, ranked the way it actually matters.</p>
 
       <div class="totals" data-in>
         <div class="total">
           <div class="total-figure" data-count="0">0</div>
           <p class="total-label">re-score errors on the audited pass</p>
-          <p class="total-bridge">It got the same answer every time it was checked.</p>
+          <p class="total-bridge">Run it twice, get the same answer twice. That is the standard I hold my own system to, and the one I will hold yours to.</p>
         </div>
         <div class="total">
           <div class="total-figure" data-count="616">616</div>
           <p class="total-label">tests keeping the scoring honest</p>
-          <p class="total-bridge">The kind of safety net I would build around your work.</p>
+          <p class="total-bridge">Before it touches real work, 616 separate checks have to pass. Your phone system gets the same discipline.</p>
         </div>
         <div class="total">
           <div class="total-figure" data-count="0" data-prefix="$">$0</div>
@@ -200,13 +214,13 @@ const description =
         </div>
       </div>
 
-      <p class="scope-context" data-in>Scope: <span class="num">14,851</span> job postings scored end to end by that one system, Operation Hired.</p>
+      <p class="scope-context" data-in>That same system, Operation Hired, has scored <span class="num">14,851</span> job postings in total, each one reproducible from its source.</p>
 
       <p class="thesis-line" data-in>The point is not the size of the number. It is that <b>you can open the file and check it.</b></p>
 
       <div class="case-line" data-in>
         <p><strong>Operation Hired.</strong> Real production I designed, built, and ran myself, with real load and kept receipts. I will measure your business the same way.</p>
-        <a class="link-arrow" href="/work/operation-hired">Method and results, open the file <span class="a" aria-hidden="true">&rarr;</span></a>
+        <a class="link-arrow" href="/work/operation-hired/method">Method and results, open the file <span class="a" aria-hidden="true">&rarr;</span></a>
       </div>
 
       <div class="slot-empty" data-in>
@@ -251,7 +265,8 @@ const description =
     <div class="wrap">
       <p class="kicker" data-in>The principal</p>
       <h2 class="sec-title" id="principal-h" data-in>The person who answers is the person who builds it</h2>
-      <p class="principal-body" data-in>I am Ryan Garver. I run this practice to keep my AI work current and measurable, and to do it for businesses that never get a straight answer about what this stuff costs. When I say a tool pays for itself, it is because I <span class="em">built it, ran it, and kept the receipts.</span> You will not get handed to a junior after the sale, because there is no junior. There is me.</p>
+      <p class="principal-body" data-in>I am Ryan Garver. I have spent twenty years in the Treasure Valley teaching non-technical teams to use new tools, at Apple, Intuit, Cradlepoint, and Vacasa. I run this practice to keep that work current and measurable.</p>
+      <p class="principal-body" data-in>You are the expert on your business. I build the follow-up system. When I say a tool pays for itself, it is because I <span class="em">built it, ran it, and kept the receipts.</span></p>
       <p class="signature" data-in>Ryan Garver · Get Smart AI · Boise, Idaho</p>
     </div>
   </section>
@@ -260,7 +275,7 @@ const description =
     <div class="wrap">
       <p class="kicker" data-in>The next line item</p>
       <h2 class="sec-title" id="start-h" data-in>Tell me what is slow.</h2>
-      <p class="close-sub" data-in>I will tell you what it costs to fix. Three fields, no sales call, and the diagnostic is free if it is not worth the fee.</p>
+      <p class="close-sub" data-in>I will tell you what it costs to fix. Three fields, no sales call. You decide if the diagnostic was worth it; if not, the invoice is voided.</p>
 
       <form class="form" name="intake" data-intake data-in>
         <div class="field">
@@ -287,6 +302,11 @@ const description =
 </BaseLayout>
 
 <style>
+  .hero-ledger { margin-top: 18px; font-family: var(--font-slab); font-weight: 600; font-size: var(--fs-small); color: var(--burgundy); letter-spacing: 0.01em; }
+  .hero-certainty { margin-top: 14px; font-size: var(--fs-small); color: var(--muted); }
+  .line-item.is-flagship { border-top: 2px solid var(--burgundy); }
+  .subs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; margin-top: 30px; }
+  @media (max-width: 800px) { .subs { grid-template-columns: 1fr; } }
   .faq { border-top: 1px solid var(--hairline); padding: 4px 0; }
   .faq:last-child { border-bottom: 1px solid var(--hairline); }
   .faq summary { list-style: none; cursor: pointer; padding: 16px 28px 16px 0; font-weight: 600; font-size: 17px; position: relative; }
