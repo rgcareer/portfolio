@@ -7,7 +7,7 @@ import { offers, offerCopy, continuity, dataHandling, kit } from '../config/offe
 const faqs = [
   {
     q: 'How much does this cost?',
-    a: 'Every price is on this page. The diagnostic is $750, an automation build is $2,000, team training is $900, and the full enablement program runs $2,500 to $5,000. Keeping it running is $0 a month, because you own it. There is a $199 starter kit under the rate card, and websites have their own page. Nothing is hidden behind a call.',
+    a: 'Every price is on this page. The diagnostic is a flat $750. Automation builds start at $2,000, team training at $900, and the full enablement program at $2,500, all fixed in writing after the diagnostic scopes the work. Keeping it running is $0 a month, because you own it. There is a $199 starter kit under the rate card, and websites have their own page. Nothing is hidden behind a call.',
   },
   {
     q: 'Do I need to understand AI to work with you?',
@@ -151,7 +151,7 @@ const description =
             <div class="li-row">
               <span class="li-name">{o.name}</span>
               <span class="leader" aria-hidden="true"></span>
-              <span class="li-price">{o.priceLabel}</span>
+              <span class="li-price">{o.startingAt && <small>Starting at</small>}{o.priceLabel}</span>
             </div>
             <p class="li-sub">{o.mechanism}</p>
             {o.startHere && (

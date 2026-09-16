@@ -17,6 +17,7 @@ export interface Offer {
   priceLabel: string;     // display, verbatim from the charter
   startHere?: boolean;    // the explicit funnel entry (the diagnostic)
   flagship?: boolean;     // the top line (the enablement program)
+  startingAt?: boolean;   // "Starting at" prefix on variable build lines (Ryan 2026-09-15, wiggle room). The $750 diagnostic stays a fixed anchor price.
   mechanism: string;      // one concrete sub-line
   href: string;
 }
@@ -39,6 +40,7 @@ export const offers: Offer[] = [
     name: 'Automation build',
     price: 2000,
     priceLabel: '$2,000',
+    startingAt: true,
     mechanism:
       'One fix from your list, built and running in your accounts. One integration. A handoff doc.',
     href: '/#rates',
@@ -48,6 +50,7 @@ export const offers: Offer[] = [
     name: 'Team training',
     price: 900,
     priceLabel: '$900',
+    startingAt: true,
     mechanism:
       'One live session on your real workflow. Your team keeps the SOP and the prompt sheet.',
     href: '/#rates',
@@ -65,8 +68,9 @@ export const offers: Offer[] = [
     key: 'enablement',
     name: 'Enablement program',
     price: 2500,
-    priceLabel: '$2,500 to $5,000',
+    priceLabel: '$2,500',
     flagship: true,
+    startingAt: true,
     mechanism:
       'A 60 to 90 day arc: the builds from your list, about four live sessions, the SOP and prompt library you keep, and office hours. Quoted in the diagnostic.',
     href: '/#rates',
