@@ -33,6 +33,15 @@ export const site = {
   year: '2026',
   location: 'Boise, ID · Remote',
 
+  // Cloudflare Web Analytics beacon token (cookieless, no consent banner). EMPTY until Ryan
+  // (1) enables Web Analytics in the Cloudflare dashboard and pastes the token here, and
+  // (2) confirms the LIVE CSP allows static.cloudflareinsights.com (script-src) +
+  // cloudflareinsights.com (connect-src) — a CSP-blocked beacon fails silently in prod (see
+  // the 2026-07 font-src lesson). Also check the zone is not already auto-injecting a beacon
+  // (`curl -s https://getsmartai.ai/ | grep beacon.min.js`; disable auto-injection if so).
+  // The beacon only emits when this is set; blank = no analytics, and the privacy copy adapts.
+  cfBeaconToken: '',
+
   // legal entity (footer + JSON-LD; brand "Get Smart AI · led by Ryan Garver" leads, LLC is the entity)
   legalEntity: 'Smart Business AI LLC',
   legalLocation: 'Boise, ID',

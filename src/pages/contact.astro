@@ -34,11 +34,22 @@ const description =
         </div>
       </form>
 
-      <p class="contact-alt" data-in>Prefer to reach out directly? Email <a class="link-green" href={`mailto:${site.email}`}>{site.email}</a> or find me on <a class="link-green" href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>.</p>
+      <p class="contact-alt" data-in>Prefer to reach out directly? Email <a class="link-green" href={`mailto:${site.email}`}>{site.email}</a><button type="button" class="copy-email" data-copy={site.email} aria-label={`Copy email address, ${site.email}`}>Copy</button> or find me on <a class="link-green" href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>.</p>
+      <span class="sr-only" role="status" aria-live="polite" data-copy-status></span>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .contact-alt { margin-top: 34px; color: var(--ink-2); font-size: var(--fs-small); max-width: 56ch; }
+  .copy-email {
+    display: none; /* revealed by motion.ts only when the clipboard API is available */
+    margin-left: 8px; padding: 2px 9px; border-radius: 999px;
+    font-family: var(--font-slab); font-size: 12px; font-weight: 600; line-height: 1.4;
+    color: var(--burgundy); background: transparent; border: 1px solid var(--dot); cursor: pointer;
+    transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+  }
+  .copy-email.copy-enabled { display: inline-flex; align-items: center; }
+  .copy-email:hover { border-color: var(--burgundy); }
+  .copy-email:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
 </style>

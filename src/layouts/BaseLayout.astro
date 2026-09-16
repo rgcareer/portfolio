@@ -82,6 +82,7 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ld)} />
   </head>
   <body>
+    <span id="top" tabindex="-1"></span>
     <a href="#main" class="skip">Skip to content</a>
 
     <header class="topbar">
@@ -139,8 +140,20 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
       </div>
     </footer>
 
+    <a class="to-top" href="#top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path d="M5 12l7-7 7 7M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+
     <script>
       import '../scripts/motion.ts';
     </script>
+
+    {/* Cloudflare Web Analytics (cookieless). Emits only when a token is set in site.ts;
+        the live CSP must allow static.cloudflareinsights.com + cloudflareinsights.com. */}
+    {site.cfBeaconToken && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${site.cfBeaconToken}"}`}></script>
+    )}
   </body>
 </html>

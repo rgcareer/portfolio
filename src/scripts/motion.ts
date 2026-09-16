@@ -207,8 +207,65 @@ function intake() {
     const body =
       `Name: ${name.value.trim()}\n` +
       `Email: ${email.value.trim()}\n` +
-      `What is slow: ${(slow && slow.value.trim()) || '(I will explain)'}\n`;
+      `What is slow: ${(slow && slow.value.trim()) || '(I will explain)'}\n` +
+      storedUtmLine();
     btn.setAttribute('href', `${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  });
+}
+
+/* ---- UTM capture: first-party, session-only, no cookie. Reads campaign tags on
+   landing so a lead's own email carries its source; nothing is sent until the
+   visitor sends their message. Cloudflare Web Analytics does not do UTM. */
+const UTM_KEY = 'gsai_utm';
+function captureUtm() {
+  try {
+    const p = new URLSearchParams(location.search);
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    if (!keys.some((k) => p.has(k))) return;
+    const utm: Record<string, string> = {};
+    keys.forEach((k) => { const v = p.get(k); if (v) utm[k] = v; });
+    sessionStorage.setItem(UTM_KEY, JSON.stringify(utm));
+  } catch (e) { /* private mode / storage disabled: skip silently */ }
+}
+function storedUtmLine(): string {
+  try {
+    const utm = JSON.parse(sessionStorage.getItem(UTM_KEY) || '{}') as Record<string, string>;
+    const entries = Object.entries(utm);
+    return entries.length ? `Source: ${entries.map(([k, v]) => `${k}=${v}`).join(', ')}\n` : '';
+  } catch (e) { return ''; }
+}
+
+/* ---- back-to-top: shows only past ~1 viewport (self-gating to long pages).
+   Passive + rAF-throttled boolean toggle, not per-frame animation. The scroll is
+   the native #top anchor, which honors prefers-reduced-motion via scroll-behavior. */
+function backToTop() {
+  const btn = document.querySelector('.to-top') as El | null;
+  if (!btn) return;
+  const top = document.getElementById('top');
+  let ticking = false;
+  const update = () => { ticking = false; btn.classList.toggle('is-in', window.scrollY > window.innerHeight); };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+  btn.addEventListener('click', () => { if (top) requestAnimationFrame(() => (top as HTMLElement).focus()); });
+}
+
+/* ---- copy-to-clipboard: progressive enhancement on [data-copy]. Hidden until we
+   confirm the Clipboard API exists (secure context), so no dead button appears.
+   Success is announced via an aria-live [data-copy-status] region for screen readers. */
+function copyToClipboard() {
+  if (!navigator.clipboard) return;
+  const live = document.querySelector('[data-copy-status]');
+  $('[data-copy]').forEach((el) => {
+    el.classList.add('copy-enabled');
+    el.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(el.getAttribute('data-copy') || '');
+        const prev = el.textContent;
+        el.textContent = 'Copied';
+        if (live) live.textContent = 'Email address copied';
+        setTimeout(() => { el.textContent = prev; if (live) live.textContent = ''; }, 2000);
+      } catch (e) { /* clipboard blocked: the mailto link still works */ }
+    });
   });
 }
 
@@ -227,7 +284,10 @@ function boot() {
   try {
     try { daylight(); } catch (e) { const c = document.querySelector('.daylight'); if (c) c.remove(); }
     estimator();
+    captureUtm();
     intake();
+    backToTop();
+    copyToClipboard();
     if (reduced) { revealAllStatic(); return; }
     magnetic();
     wireTally();

@@ -409,3 +409,45 @@ section { padding: var(--sect-pad) 0; }
 }
 html.js[data-reduce] .leader { clip-path: inset(0 0 0 0); animation: none; }
 html.js[data-reduce] .sun-patch { animation: none; }
+
+/* ---- print: clean, ink-friendly, chrome-free (sitewide baseline) -----------
+   Research 2026-09-16: hide the positioned wrapper (not just its contents),
+   break-inside on blocks, expand only external prose links (never nav/anchors/
+   mailto/own-domain), physical units. /resume ships its own is:global print
+   block with ATS specifics layered on top of this. Verify via print preview. */
+@media print {
+  @page { margin: 1.5cm 1.2cm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  .topbar, .foot, .skip, .sun-patch, .daylight, .estimator, .form, .btn, .to-top,
+  video, iframe, .no-print { display: none !important; }
+  main { padding: 0 !important; }
+  * { box-shadow: none !important; text-shadow: none !important; }
+  body { font-size: 11pt; line-height: 1.45; }
+  h1 { font-size: 20pt; }
+  h2 { font-size: 15pt; }
+  h3 { font-size: 13pt; }
+  h1, h2, h3 { break-after: avoid-page; }
+  p, li { orphans: 3; widows: 3; }
+  .line-item, .cs__metrics, .totals, .notice, figure, pre, blockquote, table { break-inside: avoid; }
+  a { color: #000 !important; text-decoration: underline; }
+  .prose a[href^="http"]:not([href*="getsmartai.ai"])::after {
+    content: " (" attr(href) ")"; font-size: 0.85em; word-break: break-all; color: #333;
+  }
+}
+
+/* ---- back-to-top: JS reveals it past ~1 viewport (see motion.ts). Real <a href="#top">,
+   44px target (WCAG 2.2 SC 2.5.8 floor is 24px), visible focus, reduced-motion safe. */
+.to-top {
+  position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); z-index: var(--z-nav);
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--burgundy); color: var(--on-burgundy); text-decoration: none; border: 1px solid var(--burgundy);
+  opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out), visibility var(--dur-fast);
+}
+.to-top.is-in { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { background: var(--burgundy-deep); transform: translateY(-2px); }
+.to-top:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+.to-top svg { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .to-top, .to-top.is-in, .to-top:hover { transform: none; transition: opacity var(--dur-fast) ease, visibility var(--dur-fast); }
+}

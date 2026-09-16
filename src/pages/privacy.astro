@@ -2,18 +2,30 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
 const title = 'Privacy';
-const description = 'How Get Smart AI handles your information. Short version: no cookies, no tracking, no third-party scripts. You email me, I reply.';
+const description = 'How Get Smart AI handles your information: cookieless and privacy-first, no data selling. You email me, I reply.';
+// Bump only on a real, substantive change to this policy (freshness research 2026-09-16).
+const lastUpdated = '2026-09-16';
+const lastUpdatedLabel = 'September 16, 2026';
+const analytics = site.cfBeaconToken; // truthy => cookieless Cloudflare Web Analytics is live
 ---
 <BaseLayout title={title} description={description} active={undefined}>
   <section aria-labelledby="p-h">
     <div class="wrap" style="max-width: 720px;">
       <p class="kicker" data-in>Privacy</p>
       <h1 class="sec-title" id="p-h" data-in>What I do with your information</h1>
+      <p data-in style="color: var(--muted); font-size: var(--fs-small); margin-top: 8px;">Effective <time datetime={lastUpdated}>{lastUpdatedLabel}</time></p>
       <div class="prose" data-in style="margin-top: 24px;">
-        <p class="lead">Short version: this site sets no cookies, runs no analytics, and loads no third-party scripts. There is nothing tracking you here.</p>
+        <p class="lead">Short version: this site is cookieless and privacy-first. It sets no cookies, it does not sell or share your data, and it adds you to no marketing list.</p>
 
         <h2>What this site collects</h2>
-        <p>Nothing automatically. The site is static and cookieless. It does not use Google Analytics or any tracking pixel, and it embeds no third-party code.</p>
+        {analytics ? (
+          <p>The only analytics is <strong>Cloudflare Web Analytics</strong>, which is cookieless: it sets nothing on your device and does not fingerprint you or track you across other sites. It gives me rough counts (page views, referrers, country) and nothing that identifies you. There is no Google Analytics and no tracking pixel.</p>
+        ) : (
+          <p>Nothing automatically. The site is static and cookieless. It uses no Google Analytics and no tracking pixel, and embeds no third-party code.</p>
+        )}
+
+        <h2>Campaign links</h2>
+        <p>If you arrive through a tagged link (one with a campaign tag in the address), your browser remembers that tag for this visit only, cleared when you close the tab. If you then email me, the tag rides along so I know which link brought you. It is a first-party note to myself: no cookie, no cross-site tracking, and nothing kept after the tab closes.</p>
 
         <h2>When you contact me</h2>
         <p>The contact form opens your own email app with a message addressed to me. When you send it, I receive your name, email, and whatever you chose to write, the same as any email. I use it only to reply and to help you. I do not sell it, share it, or add you to any marketing list.</p>
