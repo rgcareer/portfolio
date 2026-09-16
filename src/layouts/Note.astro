@@ -11,13 +11,27 @@ const next = notes[(idx + 1) % notes.length];
 const dateText = new Date(n.date + 'T00:00:00Z').toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
 });
+// BlogPosting freshness schema (research 2026-09-16): datePublished == dateModified until a
+// note is genuinely edited (then add an `updated` to notes.ts). Visible <time> below matches.
+const noteUrl = new URL(`/notes/${slug}`, site.url).toString();
+const noteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: n.title,
+  description: n.summary,
+  datePublished: n.date,
+  dateModified: n.date,
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  mainEntityOfPage: noteUrl,
+  url: noteUrl,
+};
 ---
-<BaseLayout title={n.title} description={n.summary} active="notes">
+<BaseLayout title={n.title} description={n.summary} active="notes" jsonLd={noteLd}>
   <article class="nt container">
     <a href="/notes" class="nt__back reveal">All notes</a>
 
     <header class="nt__head reveal">
-      <p class="kicker">Note · {dateText} · {n.readingTime}</p>
+      <p class="kicker">Note · <time datetime={n.date}>{dateText}</time> · {n.readingTime}</p>
       <h1 class="nt__title">{n.title}</h1>
       <p class="nt__summary">{n.summary}</p>
     </header>
