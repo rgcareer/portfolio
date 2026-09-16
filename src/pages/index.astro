@@ -151,8 +151,7 @@ const description =
   <!-- 2. THE GUIDE + THE WHY: the belief and the person, up front (the reason to choose us) -->
   <section class="guide" id="why" aria-labelledby="why-h">
     <div class="wrap">
-      <p class="kicker" data-in>Why I do this</p>
-      <p class="guide__belief" data-in>I spent twenty years getting big companies onto new tools. I started this to do the same for the business down the street.</p>
+      <p class="guide__belief" id="why-h" data-in>I spent twenty years getting big companies onto new tools. I started this to do the same for the business down the street.</p>
       <div class="guide__body">
         <p data-in>I am Ryan Garver. For twenty years I helped teams adopt new technology, here in the Treasure Valley, at Apple, Intuit, Cradlepoint, and Vacasa. At Apple I got organizations like St. Luke's and Dutch Bros onto new tools. The job, every time, was making technology make sense to people who do not care how it works.</p>
         <p data-in>The belief behind Get Smart AI is simple: the shop down the street deserves the same competent, measured help those big companies got, without an engineering department and without a leap of faith about what it costs. You are the expert on your business. I build the system, put the price in plain sight, and stand behind the number.</p>
@@ -164,7 +163,6 @@ const description =
   <!-- 3. HOW I WORK: priced accountability, three principles (the How that is also the proof) -->
   <section class="how sec-blush" id="how" aria-labelledby="how-h">
     <div class="wrap">
-      <p class="kicker" data-in>How I work</p>
       <h2 class="sec-title" id="how-h" data-in>Three promises, before you spend a dollar.</h2>
       <ol class="principles" data-in>
         {principles.map((p, i) => (
@@ -223,7 +221,6 @@ const description =
   <!-- 5. WHAT IT COSTS: now that trust is built. Your number (estimator), then the menu -->
   <section id="estimate" aria-labelledby="estimate-h">
     <div class="wrap">
-      <p class="kicker" data-in>Your number</p>
       <h2 class="sec-title" id="estimate-h" data-in>What is a missed call actually costing you?</h2>
       <div class="estimator" data-estimator data-in>
         <p class="est-lead">Use your own numbers.</p>
@@ -289,7 +286,6 @@ const description =
   <!-- 6. STRAIGHT ANSWERS: the cheaper options + the questions, consolidated -->
   <section id="answers" aria-labelledby="answers-h">
     <div class="wrap">
-      <p class="kicker" data-in>The cheaper options, honestly</p>
       <h2 class="sec-title" id="answers-h" data-in>What the quick fixes leave you holding</h2>
       <div class="subs" data-in>
         <div class="panel">
@@ -320,7 +316,6 @@ const description =
   <!-- 7. ACT: the close -->
   <section class="close-cta sec-blush" id="start" aria-labelledby="start-h">
     <div class="wrap">
-      <p class="kicker" data-in>The next line item</p>
       <h2 class="sec-title" id="start-h" data-in>Tell me what is slow.</h2>
       <p class="close-sub" data-in>I will tell you what it costs to fix. Three fields, no sales call. You decide if the diagnostic was worth it; if not, the invoice is voided.</p>
 
@@ -350,6 +345,54 @@ const description =
 
 <style>
   .hero-certainty { margin-top: 16px; font-size: var(--fs-small); color: var(--muted); }
+
+  /* ---- Composition surgery: seam-crossing overlaps + one diagonal edge --------
+     All BASE (ungated): present with motion OFF, no-JS, and in every engine, since
+     this is the half of the fix that must break the "stacked rectangles" read even
+     when nothing moves. Offsets are vertical-only, so no horizontal overflow is
+     possible. Each section overlap pairs a negative margin with a compensating
+     padding-top, so content position and total page height are preserved (only the
+     colored background box extends upward into its neighbor). #why is the one
+     deliberate rhythm change, tightening the belief up toward the hero. */
+
+  /* The signature move: the burgundy proof band is cut into a hard-edged PARALLELOGRAM
+     from the sun-patch polygon family (same right-lean), so BOTH its color seams are
+     angled, never stacked-rectangle edges. Top-left triangle shows the blush of #how
+     above; bottom-right triangle shows the warm daylight of #estimate below. clip-path
+     only removes area, so the band rises into #how's bottom padding but never intrudes
+     on #estimate's content (which starts a full section-pad below); content clears both
+     slopes (padding-top >= notch above, padding-bottom 84 > notch below). */
+  #proof {
+    --notch: clamp(28px, 5vw, 64px);
+    margin-top: calc(var(--notch) * -1);
+    padding-top: calc(var(--sect-pad) + var(--notch));
+    clip-path: polygon(0 var(--notch), 100% 0, 100% calc(100% - var(--notch)), 0 100%);
+  }
+
+  /* The rate card's panel tucks up under the estimator: your computed number leads
+     straight into the priced menu. #estimate paints above (z-2) so its figure sits
+     over the rising blush; its bottom padding is trimmed so the box, not empty
+     space, meets the seam. */
+  #estimate { z-index: 2; padding-bottom: clamp(24px, 4vw, 44px); }
+  #rates {
+    --cross: clamp(36px, 5vw, 64px);
+    margin-top: calc(var(--cross) * -1);
+    padding-top: calc(var(--sect-pad) + var(--cross));
+  }
+
+  /* The close climbs into the answers above it (the blush panel rises; the culled
+     kicker used to be the crossing element, the panel edge now carries it). */
+  #start {
+    --cross: clamp(36px, 5vw, 64px);
+    z-index: 2;
+    margin-top: calc(var(--cross) * -1);
+    padding-top: calc(var(--sect-pad) + var(--cross));
+  }
+
+  /* The belief tightens up toward the hero's missed-call scene (problem -> why),
+     breaking the metronomic inter-section gap. Stays inside the hero's bottom
+     padding at every width (desktop 96px, mobile 68px). */
+  #why { margin-top: clamp(-64px, -4.5vw, -32px); }
 
   /* 2. Guide + Why: a warm, spacious break from the ledger rhythm. The belief is the one
      large pull-quote on the page; the body sits in a narrow, readable measure. */
