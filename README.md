@@ -4,15 +4,15 @@ Personal portfolio for **Ryan Garver** (AI Enablement & Adoption). Live at
 [getsmartai.ai](https://getsmartai.ai). Custom-built, not a template.
 
 ## Stack
-- **[Astro 6](https://astro.build)** — static output (SSG), MPA with `<ClientRouter />` View Transitions for SPA-feel page wipes. Node >= 22.12.
-- **Design system** — "v3 IMMERSION": deep ink (`#0F0F11`), ivory type, one orange signal (`#E84B0C`). Hand-rolled CSS tokens in `src/styles/`, no CSS framework.
-- **Fonts** — self-hosted variable woff2, latin subset: Anybody (display, animated `wdth` axis), Bricolage Grotesque (body), Martian Mono (labels). In `public/fonts/`.
-- **Motion** — GSAP + ScrollTrigger (entrance choreography, scroll reveals), Lenis (smooth scroll), a lazy code-split OGL/WebGL flowmap hero. All bundled first-party; no CDN.
-- **Chrome** — ⌘K command palette, section HUD, branded preloader, custom cursor, page-transition wipe. Full `prefers-reduced-motion` / no-JS / touch fallbacks (content is never gated on JS).
+- **[Astro 6](https://astro.build)** — static output (SSG), MPA with native cross-document View Transitions (`@view-transition` in CSS, no router component) for SPA-feel page wipes. Node >= 22.12.
+- **Design system** — "Open Book": warm near-white ground, banker's burgundy accent, one hard-edged sun patch, ledger geometry; a single warm light theme (no dark mode). Hand-rolled CSS tokens in `src/styles/`, no CSS framework.
+- **Fonts** — self-hosted latin-subset woff2: Familjen Grotesk (display + body) and Zilla Slab (slab labels + figures). In `public/fonts/`.
+- **Motion** — zero-library `src/scripts/motion.ts`: rAF count-up (tally), IntersectionObserver + CSS `animation-timeline` reveals, a vanilla WebGL2 daylight field, magnetic CTAs. The home carries a desktop-only level-2 scroll immersion (gated). No third-party motion libs (the CSP blocks CDNs).
+- **Chrome** — chapter rail (home), back-to-top, magnetic CTAs, copy-to-clipboard email, on-brand 404, native page-transition wipe. Full `prefers-reduced-motion` / no-JS / touch fallbacks (content is never gated on JS).
 
 ## Architecture
 - `src/config/site.ts` — single source of truth for identity, email, links, domain.
-- `src/config/work.ts` — typed `CaseStudy[]` registry driving the `/work` index, homepage panels, `/consulting` proof cards, per-page meta, and "next project" cycling. Adding a case study = one array entry + one `src/pages/work/<slug>.astro` file rendered through `src/layouts/CaseStudy.astro`.
+- `src/config/work.ts` — typed `CaseStudy[]` registry driving the `/work` index, per-page meta, and "next project" cycling. Adding a case study = one array entry + one `src/pages/work/<slug>.astro` file rendered through `src/layouts/CaseStudy.astro`.
 
 ## Develop
 ```bash
