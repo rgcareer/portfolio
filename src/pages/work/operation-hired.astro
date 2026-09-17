@@ -24,7 +24,7 @@ if (econ.some((r) => /TBD|XX+|placeholder|\?\?\?|\bN\/A\b|\bX (ms|tokens|per|in)
   <p class="reveal">Postings land in a local <code>SQLite</code> database and every one runs through a scoring model before I ever see it. So far it has scored <strong>14,851</strong> of them, and each score can be reproduced from the source data. What surfaces is a ranked board carrying the signals I actually decide on:</p>
   <ul class="reveal">
     <li><strong>Tier.</strong> Postings get bucketed by fit: role, seniority, pay signal. An early version was too generous with the top bucket, so I tightened it. Tier 1 dropped from a few thousand to about a hundred, which is what real fit should look like.</li>
-    <li><strong>Fraud.</strong> A set of heuristics flags the patterns ghost and scam listings share. That cut the flagged-fraud noise by roughly 80% in early runs (an approximate figure, not a precise metric), so the board stays honest.</li>
+    <li><strong>Fraud.</strong> A set of heuristics flags the patterns ghost and scam listings share. That cut the flagged-fraud noise by roughly 80% in early runs, so the board stays honest.</li>
     <li><strong>Freshness.</strong> A sweep re-checks live postings against the source job board and is deliberately conservative: only a hard <code>404</code> or <code>410</code> retires a listing, while a timeout or a redirect is left alone so a real job is never dropped by mistake. The first sweep pulled 12 dead postings out of the pool, so I never spend a morning chasing a role that closed last week.</li>
   </ul>
 
