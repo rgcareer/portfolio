@@ -5,8 +5,8 @@
    origins). Single light theme by design ("no black boxes / daylight" is the
    positioning made literal). Design authority: docs/design/open-book-handoff.md
    (+ the 2026-09-15 council addendum, s0). Supersedes the Ember/Overvolt system.
-   The alias block at the end keeps not-yet-reskinned inner pages (about, work/*,
-   notes/*, consulting, resume) legible in daylight until their rebuild slice.
+   The alias block at the end keeps any not-yet-reskinned inner surfaces legible
+   in daylight; aliases are retired per token as pages move onto Open Book.
    ============================================================================ */
 
 /* ---- self-hosted fonts (latin subset) ------------------------------------
@@ -108,8 +108,8 @@
 
   /* ============================================================================
      Backward-compat aliases (Ember/v3 token names -> Open Book).
-     Keep not-yet-reskinned inner pages readable in daylight. Removed as each
-     inner page is rebuilt (slices 2-3).
+     Keep any not-yet-reskinned surfaces readable in daylight; retired per token
+     as pages move onto Open Book (the --gold* aliases were unused and removed).
      ========================================================================== */
   --bg: var(--ground);
   --ground-2: var(--blush);
@@ -137,9 +137,6 @@
   --accent-line: color-mix(in srgb, var(--burgundy) 38%, transparent);
   --accent-text: var(--on-burgundy);
   --accent-up: var(--burgundy);
-  --gold: var(--burgundy);
-  --gold-bright: var(--burgundy);
-  --gold-deep: var(--burgundy-deep);
   --btn-ink: var(--on-burgundy);
   --num: var(--burgundy);
   --go: var(--burgundy);

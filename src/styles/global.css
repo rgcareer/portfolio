@@ -381,8 +381,7 @@ section { padding: var(--sect-pad) 0; }
 .prose .cs-shot img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--hairline); }
 .prose .cs-shot figcaption { font-family: var(--font-display); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 1rem; }
 .specimen { font-family: var(--font-mono); font-size: clamp(0.62rem, 1vw, 0.74rem); line-height: 2; color: var(--ink-2); white-space: pre; overflow: auto; }
-/* .zap / .mark: v3 emphasis - now a burgundy underline / burgundy weight (no gold, no box) */
-.zap { color: var(--ink); box-shadow: inset 0 -0.5em 0 color-mix(in srgb, var(--sun) 60%, transparent); }
+/* .mark: burgundy-weight emphasis (Open Book; no gold, no box) */
 .mark { color: var(--burgundy); font-weight: 700; }
 .head-clip { overflow: hidden; }
 
