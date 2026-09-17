@@ -25,7 +25,7 @@ export interface CaseStudy {
   year: string;
   status: string;
   stack: string[];
-  metrics: { label: string; value: string }[];
+  metrics: { label: string; value: string; note?: string }[];
   tags: string[];
   accent?: boolean; // featured (homepage hero)
   home?: boolean; // render as a homepage scroll panel (reserved for projects with public proof links)
@@ -44,9 +44,9 @@ export const work: CaseStudy[] = [
     status: '616 tests passing',
     stack: ['Node', 'SQLite', 'Scoring heuristics', 'Vitest'],
     metrics: [
-      { label: 'Postings scored', value: '14,851' },
+      { label: 'Postings scored', value: '14,851', note: 'running total, as of July 2026' },
       { label: 'Signals', value: 'fraud · geo · tier' },
-      { label: 'Re-score errors', value: '0' },
+      { label: 'Re-score errors', value: '0', note: 'on the 5,905-row re-score pass, June 2026' },
     ],
     tags: ['Data pipeline', 'Scoring', 'Automation'],
     accent: true,
