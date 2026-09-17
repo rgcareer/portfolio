@@ -1,6 +1,6 @@
 // Single source of truth for the priced menu. AUTHORITY: the business-OS charter
 // (smart-business-ai/business-os/00-positioning-and-brand-charter.md §3), reached via
-// WEBSITE-SYNC.md (v1, 2026-09-15). The charter governs SUBSTANCE (prices, guarantee,
+// WEBSITE-SYNC.md (v2.1, 2026-09-16). The charter governs SUBSTANCE (prices, guarantee,
 // what may be claimed); Open Book governs LOOK. Copy adopted verbatim from the
 // marketing seat's site-copy-drafts.md §3/§4/§10; prices are the charter's, not reworded.
 //
@@ -61,7 +61,7 @@ export const offers: Offer[] = [
     price: 0,
     priceLabel: '$0/mo',
     mechanism:
-      'You own it outright: code, credentials, and documents live in your accounts. A written handoff and a named backup contractor. If you want me on call, office hours are from $1,500/mo, scoped in your SOW.',
+      'You own it outright: code, credentials, and documents live in your accounts, running on the tools you already pay for. You get a written handoff and a 30-day transition, and if I am ever unavailable long-term I help you move everything to anyone you choose, or refund unearned fees. If you want me on call, office hours are from $1,500/mo, scoped in your SOW.',
     href: '/#rates',
   },
   {
@@ -116,7 +116,7 @@ export const offerCopy = {
 // Continuity + cost-of-ownership (charter §6.3; site-copy-drafts §10) - the bus-factor answer.
 export const continuity: { k: string; v: string }[] = [
   { k: 'Where the code and logins live', v: 'Your accounts' },
-  { k: 'If I am ever unreachable', v: 'Written handoff, named backup' },
+  { k: 'If I am ever unreachable', v: 'Written handoff, 30-day transition' },
   { k: 'To move on, whenever you want', v: 'No lock-in' },
   { k: 'Monthly cost to keep it running', v: '$0, you own it' },
 ];
@@ -124,5 +124,8 @@ export const continuity: { k: string; v: string }[] = [
 // Data-handling line (charter §6.5; site-copy-drafts §10). NOTE: the phrasing is "ask
 // me about a BAA," NOT "BAA available" - Legal has not confirmed a BAA can be offered.
 // Do not change to "available" without Legal + Ryan.
+// Reworded 2026-09-17 (clarity pass) - substance preserved 1:1 (own accounts / paid
+// no-training tiers / up-front touch disclosure / entity + "my company" gloss / BAA
+// phrasing verbatim). Deviates from site-copy-drafts wording; Ryan relays to business-OS.
 export const dataHandling =
-  'What I connect to, I connect to with your accounts and paid, commercial tiers that do not train on your data. What I never touch, I will tell you up front. The contract is with Smart Business AI LLC. Ask me about a BAA.';
+  'I work inside your own accounts, on paid business tiers that do not train on your data. Before anything starts, I tell you exactly what I will connect to and what I stay out of. Your contract is with my company, Smart Business AI LLC. Handling health information? Ask me about a BAA.';
