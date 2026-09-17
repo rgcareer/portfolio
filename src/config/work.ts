@@ -34,7 +34,7 @@ export const work: CaseStudy[] = [
   {
     slug: 'operation-hired',
     title: 'Operation Hired',
-    tagline: 'A tool I built to score thousands of job postings and weed out the fakes.',
+    tagline: 'A job-search intelligence system: it scores thousands of postings and weeds out the fakes.',
     role: 'Design + build',
     year: '2026',
     status: '616 tests passing',
