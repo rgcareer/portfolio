@@ -105,8 +105,10 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
             ))}
           </ul>
         </nav>
-        <a class="topmail" href={`mailto:${site.email}`}>Email Ryan</a>
-        <a class="hire" href="/work">Hiring?</a>
+        <div class="topbar__cta">
+          <a class="topmail" href={`mailto:${site.email}`}>Email Ryan</a>
+          <a class="hire" href="/work">Hiring?</a>
+        </div>
       </div>
     </header>
 

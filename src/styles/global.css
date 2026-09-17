@@ -112,7 +112,20 @@ section { padding: var(--sect-pad) 0; }
   white-space: nowrap; transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 .topmail:hover { color: var(--burgundy-deep); border-color: var(--burgundy-deep); }
+.topbar__cta { display: inline-flex; align-items: center; gap: 22px; }
 @media (pointer: coarse) { .nav__link { min-height: 44px; display: inline-flex; align-items: center; } }
+/* Mobile: a clean deterministic stack - brand row, nav row, then the two CTAs
+   as one grouped action row (rather than an orphaned wrap crammed left). */
+@media (max-width: 640px) {
+  .topbar__in { row-gap: 10px; padding-block: 14px; }
+  .brand { flex-basis: 100%; margin-right: 0; }
+  .topbar__in > nav { flex-basis: 100%; }
+  .nav__links { gap: 2px 20px; }
+  .topbar__cta {
+    flex-basis: 100%; gap: 26px; padding-top: 11px;
+    border-top: 1px solid var(--hairline);
+  }
+}
 
 /* ---- footer --------------------------------------------------------------- */
 .foot { border-top: 1px solid var(--hairline); margin-top: 40px; position: relative; z-index: 1; background: var(--ground); }
