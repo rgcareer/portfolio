@@ -210,7 +210,7 @@ export const work: CaseStudy[] = [
       src: '/figures/cs-prompt-field-kit.webp',
       alt: 'CS Prompt Field Kit index: filterable cards, each with a five-element prompt teardown',
       width: 1280, height: 2681,
-      caption: 'A kit a CS team opens on the job. Each prompt is torn down into its five moving parts, so people learn the shape, not just the copy.',
+      caption: 'A kit a CS team opens on the job. Each prompt is torn down into its five moving parts, so people learn the shape underneath the copy.',
     },
   },
   {
