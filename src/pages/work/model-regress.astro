@@ -1,0 +1,18 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="model-regress">
+  <p class="lead reveal">When a team swaps models or edits a prompt, how do they know whether a pass-rate change is a real regression or just the model disagreeing with itself run to run? Most comparisons run each condition once and report the delta as if it were noise-free. This harness measures the noise first, then decides against it.</p>
+
+  <h2 class="reveal">What it found</h2>
+  <p class="reveal">On a frozen 40-item extraction set (September 2026), Claude Sonnet 5 passed 38 of 40 and Claude Haiku 4.5 passed 8 of 40: a 75-point paired difference (95% CI 57.5 to 85.8), against a same-model repeat disagreement of only 4 of 40. That is a real regression, not noise. Cost per item was $0.0026 versus $0.00076, and the whole run cost $0.24 of real API calls.</p>
+
+  <h2 class="reveal">How it separates signal from noise</h2>
+  <p class="reveal">It runs three conditions over one frozen golden set: the current model, the candidate model, and the current model a second time. That third run, the model against itself on identical input, is the noise ceiling, measured in the same units as the effect. The decision rule was frozen before any data was collected: call it a regression only if the paired-difference confidence interval excludes zero and the effect exceeds the model's own run-to-run disagreement. A cost increase past a set threshold fails the gate regardless of pass rate, so a quality win cannot quietly ship a cost regression.</p>
+
+  <h2 class="reveal">What it will not claim</h2>
+  <p class="reveal">The write-up publishes a power analysis: at this sample size the smallest reliably detectable effect is about 20 points, and catching a 5-point regression would need roughly 628 items, not 40. So the tool reports "no detectable regression at n=40" rather than a false "no regression" whenever an effect sits below what the sample can see. A $0.12 pilot run that surfaced an underspecified prompt is disclosed and withdrawn, dated before the real run, rather than buried.</p>
+
+  <h2 class="reveal">How it is checked</h2>
+  <p class="reveal">74 tests pass and the type-check is clean. The result sentence is rendered from the committed run data, never hand-typed, and a reproduce command re-derives it bit for bit offline. The source, protocol, and data are public: <a href="https://github.com/rgcareer/portfolio-builds/tree/main/packages/model-regress">read it and run it yourself</a>.</p>
+</CaseStudy>

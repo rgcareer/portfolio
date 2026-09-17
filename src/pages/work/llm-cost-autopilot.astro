@@ -1,0 +1,20 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy slug="llm-cost-autopilot">
+  <p class="lead reveal">Every LLM bill mixes a few different things: what got billed at the full rate, what got a cache discount, and what could have been cheaper another way. Vendors publish the discount multipliers, but nothing turns that table into "here is what your own traffic actually saved." This tool does, in dollars, with a confidence interval instead of a single suspicious-looking number.</p>
+
+  <h2 class="reveal">What it measured</h2>
+  <p class="reveal">Run against 10,703 real Claude API calls from 85 of my own Claude Code sessions (August to September 2026), it priced the traffic against a hand-verified rate table, then computed the counterfactual: the same calls with every input token billed at the fresh rate. Prompt caching cut the bill from $25,863.40 to $3,959.81 actually billed, a saving of 84.7% (session-level bootstrap 95% CI 83.2 to 86.0). 10,669 of the 10,703 calls read from cache.</p>
+  <p class="reveal">The saving is Anthropic's prompt caching doing its job. What this tool adds is pricing and auditing that saving honestly, on real traffic, so the number is measured rather than promised.</p>
+
+  <h2 class="reveal">Why the number is trustworthy</h2>
+  <ul class="reveal">
+    <li>The percent-saved interval comes from a session-level cluster bootstrap, not a call-level one, because calls inside one session are not independent draws and resampling them individually would understate the interval.</li>
+    <li>Only caching goes in the headline. Two other savings, batching and cheaper-model routing, are computed but kept out: one needs a latency tolerance this traffic does not have on record, and the other assumes a cheaper model would have answered acceptably, which nothing here verifies. Routing is labelled quality-unverified in the tool's own output.</li>
+    <li>The headline command refuses to print anything when no run exists, rather than fall back to a plausible-looking placeholder. Every exclusion is tallied and disclosed, not dropped silently.</li>
+  </ul>
+
+  <h2 class="reveal">How it is checked</h2>
+  <p class="reveal">83 tests pass and the type-check is clean. The headline sentence is rendered from the committed run data, never hand-typed, and a reproduce command re-derives the committed output from the traffic snapshot, offline, byte for byte. The source, data, and tests are public: <a href="https://github.com/rgcareer/portfolio-builds/tree/main/packages/llm-cost-autopilot">read it and run it yourself</a>.</p>
+</CaseStudy>

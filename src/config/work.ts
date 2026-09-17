@@ -270,6 +270,96 @@ export const work: CaseStudy[] = [
       caption: 'The router that decides how much process a task earns. Everything below ran under these rules.',
     },
   },
+
+  // ---- Reliability, cost, and evaluation (2026): public tools that each ship their raw data + a one-command, offline re-derivation of every number ----
+  {
+    slug: 'llm-cost-autopilot',
+    title: 'LLM Cost Autopilot',
+    tagline: 'A cost auditor that prices real Claude traffic against the vendor rate table and reports, in dollars with a confidence interval, what prompt caching actually saved.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · 83 tests · reproducible',
+    stack: ['TypeScript', 'Node', 'citty', 'Vitest', 'Built with Claude Code'],
+    metrics: [
+      { label: 'bill saved by caching', value: '84.7%', note: 'audited over 10,703 real Claude API calls, 85 of my own sessions, Aug to Sep 2026; the saving is Anthropic\'s prompt caching, priced and measured here (95% CI 83.2 to 86.0)' },
+      { label: 'actually billed', value: '$3,959.81', note: 'against a $25,863.40 no-cache counterfactual: the same traffic with every input token at the fresh rate' },
+      { label: 'real API calls priced', value: '10,703', note: '10,669 of them (99.7%) read from cache' },
+    ],
+    tags: ['LLM', 'FinOps', 'Cost', 'Prompt caching'],
+    links: [
+      { label: 'Source', href: 'https://github.com/rgcareer/portfolio-builds/tree/main/packages/llm-cost-autopilot' },
+    ],
+    figure: {
+      specimen: [
+        '$ llm-cost headline',
+        'Across 10703 real Claude API calls in 85 of my own Claude',
+        'Code sessions (2026-08-16 to 2026-09-15), prompt caching cut',
+        'the bill from $25863.40 to $3959.81 actually billed: 84.7%',
+        'saved (session-level bootstrap 95% CI 83.2-86.0%); 10669 of',
+        '10703 calls (99.7%) read from cache.',
+      ],
+      caption: 'The tool\'s own headline command against my Claude Code traffic (numbers verbatim, trimmed to fit). It refuses to print a number when no run exists, rather than fall back to a placeholder.',
+    },
+  },
+  {
+    slug: 'model-regress',
+    title: 'model-regress',
+    tagline: 'An eval harness that tells you whether a model swap is a real regression or just the model disagreeing with itself, with the statistics to back the call.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · 74 tests · reproducible',
+    stack: ['TypeScript', 'Node', 'Claude API (Anthropic SDK)', 'Vitest', 'Built with Claude Code'],
+    metrics: [
+      { label: 'pass-rate gap, measured', value: '75 pts', note: 'Sonnet 5 (38/40) vs Haiku 4.5 (8/40) on a frozen 40-item golden set, Sep 2026; paired 95% CI 57.5 to 85.8, against a same-model repeat disagreement of 4/40' },
+      { label: 'run API spend', value: '$0.24', note: 'the paired run; a separate $0.12 pilot that surfaced an underspecified prompt is disclosed and withdrawn, not hidden' },
+      { label: 'min detectable effect', value: '~20 pts', note: 'the published power analysis: at n=40, catching a 5-point regression would need about 628 items, and the protocol says so out loud' },
+    ],
+    tags: ['LLM eval', 'MLOps', 'Statistics', 'Regression testing'],
+    links: [
+      { label: 'Source', href: 'https://github.com/rgcareer/portfolio-builds/tree/main/packages/model-regress' },
+    ],
+    figure: {
+      specimen: [
+        '$ model-regress estimate --all',
+        'A (claude-sonnet-5):  expected $0.0869, 40 calls',
+        'B (claude-haiku-4-5): expected $0.0434, 40 calls',
+        'A-repeat (sonnet-5):  expected $0.0869, 40 calls  # noise ceiling',
+        '',
+        '$ model-regress power --n 40 --discordant 0.2',
+        'MDE at n=40, power 0.8: 19.81 pp  (5 pp -> need n=628)',
+      ],
+      caption: 'Cost and statistical power computed before any model is called. The A-vs-A-repeat run measures how much the model disagrees with itself, so a real regression can be told apart from run-to-run noise.',
+    },
+  },
+  {
+    slug: 'agent-forensics',
+    title: 'Agent Forensics',
+    tagline: 'Post-mortem tooling that turns a Claude Code transcript into a redacted record and points at the exact turn where a run broke.',
+    role: 'Design + build',
+    year: '2026',
+    status: 'public · 68 tests · reproducible',
+    stack: ['TypeScript', 'Node', 'citty', 'Vitest', 'Built with Claude Code'],
+    metrics: [
+      { label: 'sessions with a breakdown', value: '50.8%', note: '96 of 189 of my own Claude Code sessions, 36,480 tool calls, Jul to Sep 2026; 95% Wilson CI 43.7 to 57.8' },
+      { label: 'sessions analyzed', value: '189', note: 'the most frequent signature was TIMEOUT, in 62 of them' },
+      { label: 'tool-call error rate', value: '2.5%', note: '896 of 36,480 calls; 95% Wilson CI 2.3 to 2.6' },
+    ],
+    tags: ['Agent tooling', 'Observability', 'Forensics'],
+    links: [
+      { label: 'Source', href: 'https://github.com/rgcareer/portfolio-builds/tree/main/packages/agent-forensics' },
+    ],
+    figure: {
+      specimen: [
+        '$ agent-forensics headline',
+        'Across 189 of my own Claude Code sessions (2026-07-20 to',
+        '2026-09-16; 36480 tool calls), 96 (50.8%, 95% Wilson CI',
+        '43.7-57.8%) contain at least one pre-registered breakdown',
+        'signature; the most frequent is TIMEOUT (62 sessions);',
+        '896 tool calls (2.5%) returned an error.',
+      ],
+      caption: 'The record holds only counts, durations, and HMAC hashes; no prompt, tool output, or file path can enter it by construction. The redaction is verifiable in the committed data, not asserted.',
+    },
+  },
 ];
 
 export const getCase = (slug: string) => work.find((w) => w.slug === slug);

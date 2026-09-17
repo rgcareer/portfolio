@@ -4,13 +4,19 @@ import { getCase } from '../../config/work';
 
 // /work = the recruiter proof surface (reached via the quiet "Hiring?" link, and
 // indexable). Open Book ledger casebook. Order per the flagship-signal memory:
-// ENABLEMENT LEADS (public, verifiable tools first), then the systems I ran. The
-// role claim and the flight-risk answer live here ONCE, never on the buyer hero.
+// ENABLEMENT LEADS, then the reliability/cost/eval tools (also public + checkable),
+// then the systems I ran. The role claim and the flight-risk answer live here ONCE,
+// never on the buyer hero.
 const lanes = [
   {
     label: 'Enablement and adoption',
     note: 'Tools that help people actually use AI, shipped in public so you can check them yourself: install them, read the source, run the tests.',
     slugs: ['should-i-automate-this', 'evalcard', 'sop-mcp', 'cs-prompt-field-kit'],
+  },
+  {
+    label: 'Reliability, cost, and evaluation',
+    note: 'Public tools that keep AI honest and affordable once it is running. Each ships its raw data and a one-command check that re-derives every number offline, so you can verify the headline yourself.',
+    slugs: ['llm-cost-autopilot', 'model-regress', 'agent-forensics'],
   },
   {
     label: 'Systems I built and ran',
@@ -66,7 +72,7 @@ const description =
       </div>
     ))}
 
-    <p class="slot-empty" data-in>More is in progress: a sprint of small AI tools (caching, docs integrity, cost control, agent forensics). Each one lands here only when it is finished and independently verified, with numbers you can check. Nothing goes on this page without a real result behind it.</p>
+    <p class="slot-empty" data-in>More is in progress: a semantic cache that publishes its own false-hit rate, and a docs-drift auditor that only proposes a fix it can re-verify. Each lands here the same way the tools above did, finished and independently verified, with numbers you can check. Nothing goes on this page without a real result behind it.</p>
 
     <div class="wk-foot" data-in>
       <p class="wk-foot__lead">Want the version wired into your own business, with the price next to each line?</p>
