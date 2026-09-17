@@ -1,9 +1,6 @@
-// Case-study registry. Drives the /work index, the homepage plates, and each
-// detail page's meta. Content curation rule: feature the engineering capability,
-// never the faceless product storefronts (KDP/Etsy listings stay unlinked).
-// Homepage curation: `home: true` is reserved for projects a recruiter can verify
-// independently (a live demo, a public repo, an npm package) so the homepage scroll
-// leads with clickable proof. Everything still appears on /work regardless.
+// Case-study registry. Drives the /work index and each detail page's meta.
+// Content curation rule: feature the engineering capability, never the faceless
+// product storefronts (KDP/Etsy listings stay unlinked).
 
 export interface CaseFigure {
   /** Screenshot plate (path under /public). */
@@ -28,7 +25,6 @@ export interface CaseStudy {
   metrics: { label: string; value: string; note?: string }[];
   tags: string[];
   accent?: boolean; // featured (homepage hero)
-  home?: boolean; // render as a homepage scroll panel (reserved for projects with public proof links)
   links?: { label: string; href: string }[]; // external links (live demo / source / npm)
   flip?: { before: string; after: string }; // before/after "the default way" vs "the built way" (home casebook + /work). <= 140 chars each, no em/en dashes. Migrated from proto/_data.ts at B2'.
   figure: CaseFigure;
@@ -150,9 +146,7 @@ export const work: CaseStudy[] = [
       { label: 'Judge honesty', value: 'capped at 0.80' },
       { label: 'Output', value: 'report card + brief' },
     ],
-    tags: ['LLM eval', 'AI testing', 'No-code'],
-    home: true,
-    links: [
+    tags: ['LLM eval', 'AI testing', 'No-code'],    links: [
       { label: 'npm', href: 'https://www.npmjs.com/package/evalcard' },
       { label: 'Source', href: 'https://github.com/rgcareer/evalcard' },
     ],
@@ -180,9 +174,7 @@ export const work: CaseStudy[] = [
       { label: 'Calibration goldens', value: '10 / 10' },
       { label: 'Output', value: 'tiered verdict' },
     ],
-    tags: ['AI adoption', 'Decision tool', 'Enablement'],
-    home: true,
-    links: [
+    tags: ['AI adoption', 'Decision tool', 'Enablement'],    links: [
       { label: 'Live demo', href: 'https://should-i-automate-this.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/should-i-automate-this' },
     ],
@@ -210,9 +202,7 @@ export const work: CaseStudy[] = [
       { label: 'Each card', value: '5-element teardown' },
       { label: 'Filter by', value: 'CS job to be done' },
     ],
-    tags: ['Customer success', 'Prompts', 'Enablement'],
-    home: true,
-    links: [
+    tags: ['Customer success', 'Prompts', 'Enablement'],    links: [
       { label: 'Live demo', href: 'https://cs-prompt-field-kit.smartbusinessaillc.workers.dev' },
       { label: 'Source', href: 'https://github.com/rgcareer/cs-prompt-field-kit' },
     ],
@@ -236,9 +226,7 @@ export const work: CaseStudy[] = [
       { label: 'Install', value: 'two minutes' },
       { label: 'Tools', value: 'search · get · list' },
     ],
-    tags: ['MCP', 'Enablement', 'No-code'],
-    home: true,
-    links: [
+    tags: ['MCP', 'Enablement', 'No-code'],    links: [
       { label: 'npm', href: 'https://www.npmjs.com/package/sop-mcp' },
       { label: 'Source', href: 'https://github.com/rgcareer/sop-mcp' },
     ],
