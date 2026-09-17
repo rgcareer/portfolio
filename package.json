@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "resume:pdf": "node scripts/generate-resume-pdf.mjs",
-    "figures:webp": "node scripts/optimize-figures.mjs"
+    "figures:webp": "node scripts/optimize-figures.mjs",
+    "copy:lint": "node scripts/copy-lint.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
