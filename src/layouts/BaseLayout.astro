@@ -92,7 +92,8 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
           <small>led by Ryan Garver · Boise, Idaho</small>
           <span class="sr-only">Get Smart AI, led by Ryan Garver</span>
         </a>
-        <nav aria-label="Primary">
+        <button type="button" class="topbar__toggle" aria-expanded="false" aria-controls="topbar-nav topbar-cta">Menu</button>
+        <nav id="topbar-nav" aria-label="Primary">
           <ul class="nav__links">
             {site.nav.map((n) => (
               <li>
@@ -105,7 +106,7 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview
             ))}
           </ul>
         </nav>
-        <div class="topbar__cta">
+        <div class="topbar__cta" id="topbar-cta">
           <a class="topmail" href={`mailto:${site.email}`}>Email Ryan</a>
           <a class="hire" href="/work">Hiring?</a>
         </div>

@@ -250,6 +250,19 @@ origins. (The artifact used Google CDN; the site must not.)
   Garver" (12.5px muted) stacked; right nav links 14.5px 500 muted → hover burgundy.
   ≤680px: nav collapses per the site's existing mobile-nav pattern (no hamburger; wrap rule
   from the program plan holds — resolve layout at /proto, flag if it fights).
+  - **AMENDMENT 2026-09-17 (owner-sanctioned) — mobile condensed header.** The at-rest /
+    top-of-page / no-JS header stays exactly the above wrap pattern (no hamburger). But the
+    full mobile stack measured ~219px (a third of an iPhone SE), so past ~96px of scroll a
+    JS-added `.topbar.is-condensed` collapses it to a slim ~51px row (wordmark + a plain-text
+    **"Menu"** toggle — a word, not a hamburger glyph, honoring §11's no-icon-set rule).
+    Tapping "Menu" (→ "Close") drops the nav + CTAs back as full-width rows (`aria-expanded`);
+    scrolling or returning near the top restores/collapses. It is a scrolled-state usability
+    affordance (same class as `.to-top`), not new decorative motion: a boolean class snap, no
+    per-frame scroll-scrub (iOS lesson), CSS-gated to `html.js` + ≤640 so no-JS keeps the full
+    header. Also added this pass: `--header-h` + `html { scroll-padding-top }` (in-page anchors
+    used to land UNDER the sticky bar), and the two header CTAs got a 44px `::before` hit-area.
+    NB: the shipped mobile breakpoint is **640px**, not the 680 quoted above/in §5 — a known
+    doc/impl mismatch, left as-is (640 has been the shipped value since the Open Book build).
 - **Footer** — top hairline; LLC line + legal links, 13.5px muted → hover burgundy.
 
 ## 5. Responsive matrix

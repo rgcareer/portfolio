@@ -270,6 +270,42 @@ function backToTop() {
   btn.addEventListener('click', () => { if (top) requestAnimationFrame(() => (top as HTMLElement).focus()); });
 }
 
+/* ---- condensed header (mobile): past ~96px the sticky header collapses to a slim
+   brand + "Menu" bar so it stops eating a third of the screen; tapping Menu drops the
+   nav + CTAs back in, scrolling dismisses it, and returning near the top restores the
+   full header. Same contract as backToTop: passive + rAF-throttled boolean class toggle,
+   never a per-frame scroll-scrub (the iOS momentum-scroll lesson). All show/hide is CSS
+   (<=640 + html.js), so this runs fine under reduced motion, and no-JS simply never
+   condenses (the full header stays). Hysteresis (96 enter / 24 exit) kills top-edge flicker. */
+function condenseHeader() {
+  const bar = document.querySelector('.topbar') as El | null;
+  if (!bar) return;
+  const toggle = bar.querySelector('.topbar__toggle') as El | null;
+  const ENTER = 96, EXIT = 24;
+  let ticking = false;
+  const close = () => {
+    if (!bar.classList.contains('is-open')) return;
+    bar.classList.remove('is-open');
+    if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.textContent = 'Menu'; }
+  };
+  const update = () => {
+    ticking = false;
+    const y = window.scrollY;
+    if (!bar.classList.contains('is-condensed')) { if (y > ENTER) bar.classList.add('is-condensed'); }
+    else if (y < EXIT) { bar.classList.remove('is-condensed'); close(); }
+  };
+  window.addEventListener('scroll', () => {
+    close(); // scrolling dismisses an open menu
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  if (toggle) toggle.addEventListener('click', () => {
+    const open = bar.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.textContent = open ? 'Close' : 'Menu';
+  });
+  update();
+}
+
 /* ---- copy-to-clipboard: progressive enhancement on [data-copy]. Hidden until we
    confirm the Clipboard API exists (secure context), so no dead button appears.
    Success is announced via an aria-live [data-copy-status] region for screen readers. */
@@ -342,6 +378,7 @@ function boot() {
     captureUtm();
     intake();
     backToTop();
+    condenseHeader();
     copyToClipboard();
     chapterRail();
     if (reduced) { revealAllStatic(); return; }
